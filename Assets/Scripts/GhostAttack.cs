@@ -30,6 +30,8 @@ public class GhostAttack : MonoBehaviour
 
     private bool shouldAttack = false;
     private bool shouldRunTowardPlayer = false;
+    private bool hasTeleportedLeft = false;
+    private bool hasTeleportedRight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -83,6 +85,8 @@ public class GhostAttack : MonoBehaviour
                     runTowardPlayer.Stop();
                     runTowardPlayer.loop = false;
                     shouldRunTowardPlayer = false;
+                    hasTeleportedRight = false;
+                    hasTeleportedLeft = false;
                     Debug.Log("Stopped moving! Close enough to the player.");
                 }
             }
@@ -102,6 +106,18 @@ public class GhostAttack : MonoBehaviour
             transform.position = newPosition;
 
             attackStarted.Play();
+            hasTeleportedRight = true;
+
+            // CHeck if already tp to left, if not tp to left. Otherwise start run toward player.
+            if (!hasTeleportedLeft)
+            {
+                Invoke("TeleportToLeft", 2);
+
+            }
+            else
+            {
+                Invoke("RunTowardPlayer", 3);
+            }
         }
     }
     void TeleportToLeft()
@@ -115,17 +131,44 @@ public class GhostAttack : MonoBehaviour
             transform.position = newPosition;
 
             attackStarted.Play();
+            hasTeleportedLeft = true;
 
-            Invoke("RunTowardPlayer", 3);
+            // CHeck if already tp to right, if not tp to right. Otherwise start run toward player.
+            if (!hasTeleportedRight)
+            {
+                Invoke("TeleportToRight", 2);
+            }
+            else
+            {
+                Invoke("RunTowardPlayer", 3);
+            }
         }
+
+        
     }
 
     void HandleAttack()
     {
-        TeleportToRight();
-        //increasingSound.PlayDelayed(2);
+        
+        int randomChoice = Random.Range(0, 2);
+        switch (randomChoice)
+        {
+            case 0:
+                TeleportToRight();
+                break;
+            case 1:
+                TeleportToLeft();
+                break;
 
-        Invoke("TeleportToLeft", 2);
+            default:
+                TeleportToRight();
+                break;
+        }
+        
+
+        //TeleportToRight();
+
+        //Invoke("TeleportToLeft", 2);
     }
 
     void RunTowardPlayer()
