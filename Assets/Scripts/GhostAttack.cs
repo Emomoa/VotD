@@ -6,9 +6,12 @@ public class GhostAttack : MonoBehaviour
 {
 
     public GameObject player;
-    public AudioSource audioSource;
-    public AudioClip attackStartedSound;
-    public AudioClip increasingSound;
+    public AudioSource attackStarted;
+    public AudioSource runTowardPlayer;
+
+    [Tooltip("How fast the ghost runs toward the player")]
+    [SerializeField]
+    private float speed = 10;
 
     [Tooltip("Every ** seconds the ghost attacks.")]
     [SerializeField]
@@ -16,6 +19,9 @@ public class GhostAttack : MonoBehaviour
 
     private float TimerCounter = 0;
     private float TimerIncreaseRate = 1;
+
+    private bool shouldAttack = false;
+    private bool shouldRunTowardPlayer = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +35,7 @@ public class GhostAttack : MonoBehaviour
         // Debug
         if (Input.GetKeyDown(KeyCode.T))
         {
-            TeleportToRight();
+            shouldAttack = true;
         }
 
         //Debug.Log(TimerCounter);
@@ -39,11 +45,23 @@ public class GhostAttack : MonoBehaviour
         // If timer reaches attackinterval, attack.
         if(TimerCounter >= AttackInterval)
         {
-            //Debug.LogWarning("Attacking");
+            
+        }
+
+        if (shouldAttack)
+        {
+            Debug.LogWarning("Attacking");
             TimerCounter = 0;
-            TeleportToRight();
-            attackStartedSound.Play();
-            //increasingSound.PlayDelayed(2);
+            HandleAttack();
+            shouldAttack = false;
+        }
+
+        if (shouldRunTowardPlayer)
+        {
+            if (player != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            }
         }
         
     }
@@ -57,7 +75,38 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition + player.transform.right * 10;
             transform.position = newPosition;
-            
+
+            attackStarted.Play();
         }
+    }
+    void TeleportToLeft()
+    {
+        // Move to left of player
+        if (player != null)
+        {
+            //Debug.Log("Teleporting...");
+            Vector3 playerPosition = player.transform.position;
+            Vector3 newPosition = playerPosition + player.transform.right * -10;
+            transform.position = newPosition;
+
+            attackStarted.Play();
+
+            Invoke("RunTowardPlayer", 3);
+        }
+    }
+
+    void HandleAttack()
+    {
+        TeleportToRight();
+        //increasingSound.PlayDelayed(2);
+
+        Invoke("TeleportToLeft", 2);
+    }
+
+    void RunTowardPlayer()
+    {
+        runTowardPlayer.Play();
+        shouldRunTowardPlayer = true;
+        
     }
 }
