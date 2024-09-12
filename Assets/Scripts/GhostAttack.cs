@@ -13,6 +13,10 @@ public class GhostAttack : MonoBehaviour
     [SerializeField]
     private float speed = 10;
 
+    [Tooltip("How far the ghost is from the player before attacking")]
+    [SerializeField]
+    private float offset = 10;
+
     [Tooltip("Every ** seconds the ghost attacks.")]
     [SerializeField]
     private float AttackInterval = 10;
@@ -73,7 +77,7 @@ public class GhostAttack : MonoBehaviour
         {
             //Debug.Log("Teleporting...");
             Vector3 playerPosition = player.transform.position;
-            Vector3 newPosition = playerPosition + player.transform.right * 10;
+            Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
 
             attackStarted.Play();
@@ -86,7 +90,7 @@ public class GhostAttack : MonoBehaviour
         {
             //Debug.Log("Teleporting...");
             Vector3 playerPosition = player.transform.position;
-            Vector3 newPosition = playerPosition + player.transform.right * -10;
+            Vector3 newPosition = playerPosition + player.transform.right * -offset;
             transform.position = newPosition;
 
             attackStarted.Play();

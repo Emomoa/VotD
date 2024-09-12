@@ -264,7 +264,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.1968594
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -422,7 +422,7 @@ Transform:
   m_GameObject: {fileID: 1400352007}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.74, y: 1.66, z: -0.1}
+  m_LocalPosition: {x: -9.71, y: 1.66, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -438,11 +438,11 @@ AudioReverbFilter:
   m_Enabled: 1
   m_DryLevel: 0
   m_Room: -1000
-  m_RoomHF: -300
+  m_RoomHF: -100
   m_DecayTime: 1.49
-  m_DecayHFRatio: 0.59
-  m_ReflectionsLevel: -1219
-  m_ReverbLevel: 441
+  m_DecayHFRatio: 0.83
+  m_ReflectionsLevel: -2602
+  m_ReverbLevel: 200
   m_ReverbDelay: 0.011
   m_Diffusion: 100
   m_Density: 100
@@ -450,7 +450,7 @@ AudioReverbFilter:
   m_RoomLF: 0
   m_LFReference: 250
   m_ReflectionsDelay: 0
-  m_ReverbPreset: 13
+  m_ReverbPreset: 1
 --- !u!114 &1400352015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +467,7 @@ MonoBehaviour:
   attackStarted: {fileID: 1400352008}
   runTowardPlayer: {fileID: 1400352016}
   speed: 10
+  offset: 20
   AttackInterval: 10
 --- !u!82 &1400352016
 AudioSource:
@@ -480,7 +481,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: db34ae32df1c7fd44abf8ec166afb14a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.207
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -488,7 +489,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 6.5174546
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
