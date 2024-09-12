@@ -37,16 +37,8 @@ public class PlayerMovement : MonoBehaviour
         // Om vi har någon rörelseinput, uppdatera spelarens rotation och position
         if (move != Vector3.zero)
         {
-            // Rotera spelaren mot rörelseriktningen
-            Quaternion targetRotation = Quaternion.LookRotation(move, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Smidig rotation
-
             // Flytta spelaren
             controller.Move(move.normalized * speed * Time.deltaTime); // Normaliserar rörelsevektorn för jämn hastighet
-
-            // Skriv ut spelarens tittariktning till konsolen
-            Vector3 lookDirection = transform.forward;
-            Debug.Log("Spelaren tittar åt: " + lookDirection);
         }
 
         // Skjut en raycast från spelaren i blickriktningen
