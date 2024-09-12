@@ -80,10 +80,11 @@ public class PlayerMovement : MonoBehaviour
         {
             // Raycast downward to check the ground surface
             RaycastHit groundHit;
-            Vector3 rayOrigin = transform.position + Vector3.up; // Start ray a little above the player to avoid collisions with itself
+            Vector3 rayOrigin = transform.position; // Start ray a little above the player to avoid collisions with itself
             if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, 2f))
             {
                 string groundTag = groundHit.collider.tag;
+                Debug.Log("Ground hit " + groundTag);
 
                 // Select the appropriate footstep sound based on the tag of the ground
                 AudioClip[] selectedFootsteps = carpetFootsteps; // Default footsteps
