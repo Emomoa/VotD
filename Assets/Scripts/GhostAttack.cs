@@ -6,8 +6,9 @@ public class GhostAttack : MonoBehaviour
 {
 
     public GameObject player;
-    public AudioSource attackStartedSound;
-    public AudioSource increasingSound;
+    public AudioSource audioSource;
+    public AudioClip attackStartedSound;
+    public AudioClip increasingSound;
 
     [Tooltip("Every ** seconds the ghost attacks.")]
     [SerializeField]
@@ -40,8 +41,8 @@ public class GhostAttack : MonoBehaviour
         {
             //Debug.LogWarning("Attacking");
             TimerCounter = 0;
-            //TeleportToRight();
-            //attackStartedSound.Play();
+            TeleportToRight();
+            attackStartedSound.Play();
             //increasingSound.PlayDelayed(2);
         }
         
