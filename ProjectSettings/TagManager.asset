@@ -7,14 +7,15 @@ TagManager:
   - Carpet
   - Wood
   - Tile
+  - WeakPlank
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Carpet
   - 
   - 
   - 
