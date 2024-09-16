@@ -3,91 +3,163 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;
-    public bool IsSneaking = false;
-    public float rayDistance = 10f; // Distance for forward raycast
+    [Header("Movement Settings")]
+    public float walkSpeed = 5f;
+    public float sneakSpeed = 2.5f;
+    private float currentSpeed;
+    public float gravity = -9.81f;
+    public float acceleration = 10f;
 
-    [SerializeField]
+    private bool isSneaking;
+
+    [Header("Physics Settings")]
+    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 velocity;
+    private bool isGrounded;
+
+    [Header("Raycast Settings")]
+    public float rayDistance = 10f; // Avstånd för framåtriktad raycast
+
+    [Header("Audio Settings")]
+    public AudioSource audioSource;
+    public AudioClip[] carpetFootsteps;
+    public AudioClip[] woodFootsteps;
+    public AudioClip[] tileFootsteps;
+    public float footstepDelay = 0.5f; // Fördröjning mellan fotstegsljud
+    private float footstepTimer = 0f;
+
+    [Header("Torch Settings")]
+    public Light torchLight; // Tilldela denna i Inspektorn
+
+    [Header("References")]
     private CharacterController controller;
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private AudioClip[] carpetFootsteps;
-    [SerializeField]
-    private AudioClip[] woodFootsteps;
-    [SerializeField]
-    private AudioClip[] tileFootsteps;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
     }
 
-    void Update()
+    private void Update()
     {
-        // Handle sneaking
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Sneak();
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            StopSneaking();
-        }
+        HandleMovement();
+        HandleRaycasting();
+        HandleTorch();
+    }
 
-        // Get input from keyboard
-        float moveX = Input.GetAxis("Horizontal"); // Left and right
-        float moveZ = Input.GetAxis("Vertical");   // Forward and backward
+    private void HandleMovement()
+    {
+        // Kontrollera om spelaren är på marken
+        isGrounded = controller.isGrounded;
 
-        // Create a movement vector in world space
-        Vector3 move = new Vector3(moveX, 0, moveZ);
-
-        // If there is movement input, update player's rotation and position
-        if (move != Vector3.zero)
+        if (isGrounded && velocity.y < 0)
         {
-            // Move player
-            controller.Move(move.normalized * speed * Time.deltaTime); // Normalize movement vector for consistent speed
-            PlayFoley();
+            velocity.y = -1f; // Håll spelaren på marken
         }
 
-        // Shoot a raycast from the player in the look direction
+        // Hämta inmatning från tangentbordet
+        float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? sneakSpeed : walkSpeed;
+        isSneaking = Input.GetKey(KeyCode.LeftShift);
+        float moveX = Input.GetAxisRaw("Horizontal"); // Omedelbar inmatning för responsivitet
+        float moveZ = Input.GetAxisRaw("Vertical");
+
+        // Beräkna önskad rörelseriktning i lokalt rumskoordinatsystem
+        Vector3 desiredMove = transform.right * moveX + transform.forward * moveZ;
+        desiredMove = desiredMove.normalized * targetSpeed;
+
+        // Smidigt accelerera mot önskad hastighet
+        moveDirection = Vector3.Lerp(moveDirection, desiredMove, acceleration * Time.deltaTime);
+
+        // Applicera rörelse
+        controller.Move(moveDirection * Time.deltaTime);
+
+        // Applicera gravitation
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+
+        // Spela fotstegsljud
+        if (isGrounded && moveDirection.magnitude > 0.1f)
+        {
+            footstepTimer -= Time.deltaTime;
+            if (footstepTimer <= 0f)
+            {
+                PlayFootsteps();
+                footstepTimer = footstepDelay / (targetSpeed / walkSpeed); // Justera fördröjning baserat på hastighet
+            }
+        }
+        else
+        {
+            footstepTimer = 0f; // Återställ timer när spelaren inte rör sig
+        }
+    }
+
+    private void HandleRaycasting()
+    {
+        // Skjut en raycast från spelaren i blickriktningen
         RaycastHit hit;
-        Vector3 rayDirection = transform.forward; // Shoot the ray forward
+        Vector3 rayDirection = transform.forward;
         if (Physics.Raycast(transform.position, rayDirection, out hit, rayDistance))
         {
-            Debug.Log("Looking at: " + hit.collider.name); // Debug to see what we hit
+            Debug.Log("Tittar på: " + hit.collider.name);
         }
 
-        // Draw a raycast to show the direction
+        // Visa raycasten för debugging
         Debug.DrawRay(transform.position, rayDirection * rayDistance, Color.red);
     }
 
-    void Sneak()
+    private string GetGroundTag()
     {
-        IsSneaking = true;
-        speed = 2.5f;
+        // Raycast nedåt för att kontrollera underlaget
+        RaycastHit groundHit;
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f; // Starta rayen strax ovanför spelarens fötter
+
+        // Skapa en LayerMask som exkluderar "Player"-lagret
+        int layerMask = ~LayerMask.GetMask("Player"); // Invertera masken för att exkludera "Player"-lagret
+
+        if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, 2f, layerMask))
+        {
+            return groundHit.collider.tag;
+        }
+        else
+        {
+            Debug.LogWarning("Inget underlag detekterades under spelaren!");
+            return null;
+        }
     }
 
-    void StopSneaking()
+    private void HandleTorch()
     {
-        IsSneaking = false;
-        speed = 5f; // Reset speed to normal
+        string groundTag = GetGroundTag();
+
+        if (groundTag == "Carpet")
+        {
+            if (!torchLight.enabled)
+            {
+                torchLight.enabled = true;
+                Debug.Log("Fackla aktiverad");
+            }
+        }
+        else
+        {
+            if (torchLight.enabled)
+            {
+                torchLight.enabled = false;
+                Debug.Log("Fackla deaktiverad");
+            }
+        }
     }
 
-    void PlayFoley()
+    private void PlayFootsteps()
     {
         if (!audioSource.isPlaying)
         {
-            // Raycast downward to check the ground surface
-            RaycastHit groundHit;
-            Vector3 rayOrigin = transform.position; // Start ray a little above the player to avoid collisions with itself
-            if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, 2f))
-            {
-                string groundTag = groundHit.collider.tag;
-                Debug.Log("Ground hit " + groundTag);
+            string groundTag = GetGroundTag();
 
-                // Select the appropriate footstep sound based on the tag of the ground
-                AudioClip[] selectedFootsteps = carpetFootsteps; // Default footsteps
+            if (groundTag != null)
+            {
+                Debug.Log("Underlag: " + groundTag);
+
+                // Välj lämpliga fotstegsljud baserat på underlagets tagg
+                AudioClip[] selectedFootsteps = carpetFootsteps; // Standardfotsteg
 
                 if (groundTag == "Wood")
                 {
@@ -102,14 +174,21 @@ public class PlayerMovement : MonoBehaviour
                     selectedFootsteps = carpetFootsteps;
                 }
 
-                // Play the selected footstep sound
-                int clip = Random.Range(0, selectedFootsteps.Length);
-                audioSource.clip = selectedFootsteps[clip];
+                // Spela det valda fotstegsljudet
+                int clipIndex = Random.Range(0, selectedFootsteps.Length);
+                audioSource.clip = selectedFootsteps[clipIndex];
 
-                // Adjust pitch for sneaking
-                audioSource.pitch = IsSneaking ? 0.5f : 1f;
+                // Justera tonhöjd för smygläge
+                audioSource.pitch = isSneaking ? 0.9f : 1f;
                 audioSource.Play();
             }
         }
+    }
+
+    public void Die()
+    {
+        // Hantera spelarens död och återupplivning
+        Debug.Log("Spelaren har dött.");
+        // Implementera återupplivningslogik här
     }
 }
