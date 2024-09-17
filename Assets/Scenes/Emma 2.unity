@@ -1331,6 +1331,7 @@ MonoBehaviour:
   - {fileID: 1643362712}
   wayPointsAudio:
   - {fileID: 8300000, guid: 791257f72060ecd4a8307b4903b7b219, type: 3}
+  - {fileID: 8300000, guid: 439a40667b6b0d14ebba7f6232246409, type: 3}
 --- !u!1 &1531427323
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,9 +31,12 @@ public class WayPointManager : MonoBehaviour
     public void NextPoint()
     {
         currentPoint += 1;
-        if (currentPoint != wayPoints.Length) {
+        if (currentPoint < wayPoints.Length) {
             source = wayPoints[currentPoint].GetComponent<AudioSource>();
             source.clip = wayPointsAudio[0];
+        } else
+        {
+            //spela vinn-ljud
         }
         
 
