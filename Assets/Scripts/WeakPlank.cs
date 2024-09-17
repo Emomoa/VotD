@@ -1,13 +1,20 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class WeakPlank : MonoBehaviour
 {
     private bool isBroken = false;
-    [SerializeField]
+    public GameObject player;
+    private Rigidbody playerRB;
     private PlayerMovement playerMove;
     public AudioSource audioSource;
     public AudioClip[] plankBreak;
+    private void Start()
+    {
+        playerMove = player.GetComponent<PlayerMovement>();
+    }
 
     void Update()
     {
@@ -34,8 +41,19 @@ public class WeakPlank : MonoBehaviour
                     // Play sound and animation for broken plank
                     if (audioSource.isPlaying == false)
                     {
+                        playerMove.isDead = true;
                         audioSource.Play();
-                        Debug.Log("The plank has broken!");
+                        await Task.Delay(1500);
+                        if (!playerMove.isDead)
+                        {
+                            Debug.Log("The plank has broken!");
+                            Scene currentScene = SceneManager.GetActiveScene();
+                            playerMove.isDead = false;
+                            SceneManager.LoadScene(currentScene.name);
+                            //playerMove.Die();
+                        }
+
+                        //gameObject.SetActive(false);
                     }
 
 

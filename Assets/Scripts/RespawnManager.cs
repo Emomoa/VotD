@@ -5,7 +5,7 @@ public class RespawnManager : MonoBehaviour
 {
     public Transform respawnPoint;
     public GameObject player;
-    public float respawnDelay = 2f;
+    public float respawnDelay = 0f;
 
     private PlayerMovement playerMovement;
     private CharacterController characterController;
@@ -63,6 +63,8 @@ public class RespawnManager : MonoBehaviour
         // Återaktivera CharacterController och PlayerMovement
         characterController.enabled = true;
         playerMovement.enabled = true;
+        playerMovement.isDead = false;
+
 
         // Eventuellt återställa hälsa eller andra statusvärden
         Debug.Log("Spelaren har respawnat.");
