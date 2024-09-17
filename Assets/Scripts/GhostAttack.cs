@@ -108,44 +108,32 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
-    void StartAttack()
+    async void StartAttack()
     {
-        // Randomly choose where to teleport around the player.
-        int randomChoice = Random.Range(0, 4);
-        switch (randomChoice)
-        {
-            case 0:
-                TeleportToRight();
-                break;
-            case 1:
-                TeleportToLeft();
-                break;
-            case 2:
-                TeleportToFront();
-                break;
-            case 3:
-                TeleportToBehind();
-                break;
-            default:
-                TeleportToRight();
-                break;
-        }
-
         CancelInvoke();
+        // Randomly choose where to teleport around the player.
+        RandomlySelectWhereToTeleport(true);
+
+        await Task.Delay(2500);
+
+        RandomlySelectWhereToTeleport(true);
+
         // Run toward player after ? seconds.
-        Invoke("RunTowardPlayer", 2f);
+        Invoke("RunTowardPlayer", 3f);
 
     }
 
     void RunTowardPlayer()
     {
         CancelInvoke();
+        RandomlySelectWhereToTeleport(false);
+
         PlayLongRunSound();
         shouldRunTowardPlayer = true;
 
     }
 
-    void TeleportToRight()
+    void TeleportToRight(bool playSound)
     {
         // Move to right of player
         if (player != null)
@@ -155,16 +143,18 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
-
+            if(playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
         }
         else
         {
             Debug.LogWarning("Player is null");
         }
     }
-    void TeleportToLeft()
+    void TeleportToLeft(bool playSound)
     {
         // Move to left of player
         if (player != null)
@@ -174,8 +164,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition - player.transform.right * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
 
         }
         else
@@ -186,7 +179,7 @@ public class GhostAttack : MonoBehaviour
 
     }
 
-    void TeleportToFront()
+    void TeleportToFront(bool playSound)
     {
         if (player != null)
         {
@@ -194,8 +187,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition + player.transform.forward * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
 
         }
         else
@@ -204,7 +200,7 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
-    void TeleportToBehind()
+    void TeleportToBehind(bool playSound)
     {
         if (player != null)
         {
@@ -212,8 +208,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition - player.transform.forward * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
         }
         else
         {
@@ -241,7 +240,7 @@ public class GhostAttack : MonoBehaviour
         {
             deflectWindowTimer += Time.deltaTime;
 
-            Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
             await Task.Delay(500);
 
             // Test deflect
@@ -268,5 +267,27 @@ public class GhostAttack : MonoBehaviour
         isDeflecting = false;       // End the deflect window
         deflectWindowTimer = 0f;    // Reset the timer
         shouldQTE = false;          // End QTE.
+    }
+
+    // Helpmethod
+    void RandomlySelectWhereToTeleport(bool playSound)
+    {
+        CancelInvoke();
+        int randomChoice = Random.Range(0, 4);
+        switch (randomChoice)
+        {
+            case 0:
+                TeleportToRight(playSound);
+                break;
+            case 1:
+                TeleportToLeft(playSound);
+                break;
+            case 2:
+                TeleportToFront(playSound);
+                break;
+            case 3:
+                TeleportToBehind(playSound);
+                break;
+        }
     }
 }
