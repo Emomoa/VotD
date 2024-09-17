@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4457947861897505840}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6327888, y: -0, z: -0, w: 0.77432454}
-  m_LocalPosition: {x: 9.91, y: 22.12, z: -3.6317754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.071, y: 0.847, z: 0.494}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5302442507716862080}
-  m_LocalEulerAnglesHint: {x: 78.512, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &5612810589017554334
 Camera:
   m_ObjectHideFlags: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   sneakSpeed: 2.5
   gravity: -9.81
   acceleration: 10
+  isSneaking: 0
   rayDistance: 10
   audioSource: {fileID: 3484382652727263501}
   carpetFootsteps:
@@ -284,6 +285,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 04d3bca215e95ca45906d133ba22b31a, type: 3}
   footstepDelay: 0.5
   torchLight: {fileID: 0}
+  mouseSensitivity: 150
+  cameraTransform: {fileID: 7472546241404300069}
 --- !u!81 &1618498098903913678
 AudioListener:
   m_ObjectHideFlags: 0
