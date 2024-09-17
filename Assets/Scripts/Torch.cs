@@ -5,12 +5,20 @@ using UnityEngine;
 public class Torch : MonoBehaviour
 {
     [SerializeField] bool isLit;
-    [SerializeField] AudioSource torchSound;
+    [SerializeField] AudioClip torchSound;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        isLit = true;
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if(audioSource == null) {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.clip = torchSound;
+        audioSource.playOnAwake = true;
+        audioSource.loop = true;
     }
 
     // Update is called once per frame
@@ -19,11 +27,11 @@ public class Torch : MonoBehaviour
         
     }
 
-    private void Hit() {
-        //när QTE triggas ska spelaren slå i riktningen spöket kommer ifrån
+    private void PlayHitSound() {
+        //nï¿½r QTE triggas ska spelaren slï¿½ i riktningen spï¿½ket kommer ifrï¿½n
     }
 
     private void LightWaypoint() {
-        //när spelaren går förbi otänd fackla på vägg tänds den och ger ljudclue
+        //nï¿½r spelaren gï¿½r fï¿½rbi otï¿½nd fackla pï¿½ vï¿½gg tï¿½nds den och ger ljudclue
     }
 }
