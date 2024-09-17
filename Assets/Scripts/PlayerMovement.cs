@@ -31,19 +31,42 @@ public class PlayerMovement : MonoBehaviour
     [Header("Torch Settings")]
     public Light torchLight; // Tilldela denna i Inspektorn
 
+    [Header("Mouse Look Settings")]
+    public float mouseSensitivity = 100f; // Musens känslighet
+    private float xRotation = 0f;
+
     [Header("References")]
     private CharacterController controller;
+    public Transform cameraTransform; // Tilldela spelarens kamera här
+
+    public delegate void PlayerDeathHandler();
+    public static event PlayerDeathHandler OnPlayerDeath;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+
+        // Göm och lås muspekaren
+        Cursor.lockState = CursorLockMode.Locked;
+
+        // Återställ rotationen så att spelaren tittar rakt fram
+        xRotation = 0f;
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0f, 0f, 0f); // Återställ spelarens rotation
     }
 
     private void Update()
     {
         HandleMovement();
+        HandleMouseLook();
         HandleRaycasting();
         HandleTorch();
+
+        // Lägg till kontroll för spelarens död vid tryck på "R"
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Die();
+        }
     }
 
     private void HandleMovement()
@@ -92,18 +115,35 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void HandleMouseLook()
+    {
+        // Hämta musens rörelse
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        // Justera rotationen i X-led (upp och ner)
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        // Rotera kameran upp och ner
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        // Rotera spelaren i Y-led (vänster och höger)
+        transform.Rotate(Vector3.up * mouseX);
+    }
+
     private void HandleRaycasting()
     {
-        // Skjut en raycast från spelaren i blickriktningen
+        // Skjut en raycast från kameran i blickriktningen
         RaycastHit hit;
-        Vector3 rayDirection = transform.forward;
-        if (Physics.Raycast(transform.position, rayDirection, out hit, rayDistance))
+        Vector3 rayDirection = cameraTransform.forward;
+        if (Physics.Raycast(cameraTransform.position, rayDirection, out hit, rayDistance))
         {
-            Debug.Log("Tittar på: " + hit.collider.name);
+            //Debug.Log("Tittar på: " + hit.collider.name);
         }
 
         // Visa raycasten för debugging
-        Debug.DrawRay(transform.position, rayDirection * rayDistance, Color.red);
+        Debug.DrawRay(cameraTransform.position, rayDirection * rayDistance, Color.red);
     }
 
     public string GetGroundTag()
@@ -189,6 +229,8 @@ public class PlayerMovement : MonoBehaviour
     {
         // Hantera spelarens död och återupplivning
         Debug.Log("Spelaren har dött.");
+        OnPlayerDeath?.Invoke(); // Skicka ut ett event om att spelaren har dött
+
         // Implementera återupplivningslogik här
     }
 }
