@@ -122,7 +122,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLit: 0
-  torchSound: {fileID: 0}
+  torchSound: {fileID: 8300000, guid: a2d14334b0c1cc84998ad6da0dd8902f, type: 3}
+  lightTorchSound: {fileID: 8300000, guid: 20b8ae3d7c53a414993b34bed3c53cdd, type: 3}
+  putOutTorchSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  audioSource: {fileID: 0}
 --- !u!82 &7768973108177351050
 AudioSource:
   m_ObjectHideFlags: 0
