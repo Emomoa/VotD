@@ -5,13 +5,18 @@ using UnityEngine;
 public class Torch : MonoBehaviour
 {
     [SerializeField] bool isLit;
-    [SerializeField] AudioClip torchSound;
 
-    // Start is called before the first frame update
+    [SerializeField] AudioClip torchSound;
+    [SerializeField] AudioClip lightTorchSound;
+    [SerializeField] AudioClip putOutTorchSound;
+    [SerializeField] AudioClip hitSound;
+
+    [SerializeField] AudioSource audioSource;
+
     void Start()
     {
-        isLit = true;
-        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
+
         if(audioSource == null) {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
@@ -19,19 +24,31 @@ public class Torch : MonoBehaviour
         audioSource.clip = torchSound;
         audioSource.playOnAwake = true;
         audioSource.loop = true;
+
+        if(isLit) {
+            audioSource.Play();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
-    private void PlayHitSound() {
-        //n�r QTE triggas ska spelaren sl� i riktningen sp�ket kommer ifr�n
+    public void ToggleIsLit(bool state) {
+        isLit = state;
+        if(isLit && !audioSource.isPlaying) {
+            audioSource.Play();
+        }
+    }
+
+    public void PlayHitSound() {
+        if(hitSound != null  && audioSource != null) {
+            audioSource.PlayOneShot(hitSound);
+        }
     }
 
     private void LightWaypoint() {
-        //n�r spelaren g�r f�rbi ot�nd fackla p� v�gg t�nds den och ger ljudclue
+        //när spelaren går förbi otänd fackla på vägg tänds den och ger ljudclue
     }
 }
