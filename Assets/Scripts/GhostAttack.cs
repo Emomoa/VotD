@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class GhostAttack : MonoBehaviour
 {
+    // PUBLIC STUFF
     public AudioClip runningShort;
     public AudioClip runningLong;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
 
+    public bool shouldAttack = false;
+
+
+    // PRIVATE STUFF
+    private GameObject player;
+    private AudioSource audioSource;
 
     [Tooltip("How fast the ghost runs toward the player")]
     [SerializeField]
@@ -25,15 +32,12 @@ public class GhostAttack : MonoBehaviour
 
     [SerializeField]
     private float deflectWindowTime = 10f;
+
     private float deflectWindowTimer = 0f;
-
-    private GameObject player;
-    private AudioSource audioSource;
-
-    private bool shouldAttack = false;
     private bool shouldRunTowardPlayer = false;
     private bool isDeflecting = false;
     private bool shouldQTE = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +54,7 @@ public class GhostAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug
+        // For testing, press T to have the ghost attack.
         if (Input.GetKeyDown(KeyCode.T))
         {
             shouldAttack = true;
