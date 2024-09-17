@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
     public float acceleration = 10f;
 
-    private bool isSneaking;
+    public bool isSneaking;
 
     [Header("Physics Settings")]
     private Vector3 moveDirection = Vector3.zero;
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, rayDirection * rayDistance, Color.red);
     }
 
-    private string GetGroundTag()
+    public string GetGroundTag()
     {
         // Raycast nedåt för att kontrollera underlaget
         RaycastHit groundHit;
