@@ -243,6 +243,7 @@ public class GhostAttack : MonoBehaviour
             {
                 Debug.Log("Deflected ghost!");
                 audioSource.clip = deflectedSound;
+                audioSource.Play();
                 EndDeflectWindow();
 
 
