@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -234,13 +235,14 @@ public class GhostAttack : MonoBehaviour
         audioSource.Play();
     }
     
-    void HandleQTE()
+    async void HandleQTE()
     {
         if (isDeflecting)
         {
             deflectWindowTimer += Time.deltaTime;
 
             Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+            await Task.Delay(500);
 
             // Test deflect
             if (Input.GetKeyDown(KeyCode.Space))
