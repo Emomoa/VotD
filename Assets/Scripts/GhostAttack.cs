@@ -12,11 +12,15 @@ public class GhostAttack : MonoBehaviour
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
 
+    public AudioClip swingTorchSound;
+
     public bool shouldAttack = false;
 
 
     // PRIVATE STUFF
     private GameObject player;
+
+    private Torch torch;
     private AudioSource audioSource;
 
     [Tooltip("How fast the ghost runs toward the player")]
@@ -44,6 +48,7 @@ public class GhostAttack : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        torch = player.GetComponent<Torch>();
         if(player == null)
         {
             Debug.LogWarning("Could not find gameobject with tag player.");
@@ -244,13 +249,16 @@ public class GhostAttack : MonoBehaviour
             await Task.Delay(500);
 
             // Test deflect
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Deflected ghost!");
-                audioSource.clip = deflectedSound;
-                audioSource.Play();
+                torch.ToggleIsLit(false);
+                audioSource.PlayOneShot(swingTorchSound);
+                
+                
+                audioSource.PlayOneShot(deflectedSound);
                 EndDeflectWindow();
-
+                torch.ToggleIsLit(true);
 
             }
             else if (deflectWindowTimer >= deflectWindowTime)

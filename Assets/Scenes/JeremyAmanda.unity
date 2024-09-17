@@ -690,7 +690,7 @@ GameObject:
   - component: {fileID: 1304175603}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1337,6 +1337,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1645744651757557377, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: torchDelay
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: torchLight
       value: 
@@ -1472,29 +1476,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: speed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: runningLong
-      value: 
-      objectReference: {fileID: 8300000, guid: 11665ce14c8d03240b5d0fea19d21143, type: 3}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: runningShort
-      value: 
-      objectReference: {fileID: 8300000, guid: a3751b9bc031b4a4f95628f665649932, type: 3}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: deflectWindowTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: MinDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: DopplerLevel
-      value: 4.9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x

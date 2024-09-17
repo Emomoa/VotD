@@ -5,6 +5,7 @@ using UnityEngine;
 public class Torch : MonoBehaviour
 {
     [SerializeField] bool isLit;
+    [SerializeField] float torchLitDelay = 1f;
 
     [SerializeField] AudioClip torchSound;
     [SerializeField] AudioClip lightTorchSound;
@@ -17,11 +18,12 @@ public class Torch : MonoBehaviour
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
+        playerMovement = GetComponent<PlayerMovement>();
+        //audioSource = GetComponent<AudioSource>();
+        /*
         if(audioSource == null) {
             audioSource = gameObject.AddComponent<AudioSource>();
-        }
+        }*/
 
         audioSource.clip = torchSound;
         audioSource.playOnAwake = true;
@@ -42,6 +44,7 @@ public class Torch : MonoBehaviour
         {
             if (!isLit)
             {
+                
                 ToggleIsLit(true);
                 Debug.Log("Fackla aktiverad");
             }
@@ -57,11 +60,23 @@ public class Torch : MonoBehaviour
         
     }
 
+    public bool GetIsLit(){
+        return isLit;
+    }
+
     public void ToggleIsLit(bool state) {
         isLit = state;
-        if(isLit && !audioSource.isPlaying) {
-            audioSource.Play();
+        if(!isLit){
+            audioSource.Stop();
+            // spela släck fackla ljud
         }
+        
+        if(isLit && !audioSource.isPlaying) {
+            audioSource.PlayOneShot(lightTorchSound);
+            audioSource.PlayDelayed(torchLitDelay);
+            Debug.Log("tänd fackla");
+        }
+        
     }
 
     public void PlayHitSound() {
