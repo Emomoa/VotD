@@ -13,6 +13,8 @@ public class Torch : MonoBehaviour
 
     [SerializeField] AudioSource audioSource;
 
+    private PlayerMovement playerMovement;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -32,6 +34,26 @@ public class Torch : MonoBehaviour
 
     void Update()
     {
+        // Hämtar in golvet spelaren står på.
+        
+        string groundTag = playerMovement.GetGroundTag();
+
+        if (groundTag == "Carpet")
+        {
+            if (!isLit)
+            {
+                ToggleIsLit(true);
+                Debug.Log("Fackla aktiverad");
+            }
+        }
+        else if (groundTag == "Tile")
+        {
+            if (isLit)
+            {
+                ToggleIsLit(false);
+                Debug.Log("Fackla deaktiverad");
+            }
+        }
         
     }
 
