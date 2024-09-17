@@ -15,7 +15,7 @@ public class GhostAttack : MonoBehaviour
 
     [Tooltip("How close the ghost gets to the player")]
     [SerializeField]
-    private float stopDistance = 2f;
+    private float stopDistance = 10f;
 
     [Tooltip("How far the ghost is from the player before attacking")]
     [SerializeField]
@@ -63,7 +63,7 @@ public class GhostAttack : MonoBehaviour
         {
             Debug.LogWarning("Attacking");
             TimerCounter = 0;
-            HandleAttack();
+            StartAttack();
             shouldAttack = false;
         }
 
@@ -77,8 +77,10 @@ public class GhostAttack : MonoBehaviour
                 // Only move towards the player if the object is farther than the stop distance
                 if (distanceToPlayer > stopDistance)
                 {
-                    // Move the object towards the player's position
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                    // Move our position a step closer to the target.
+                    var step = speed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
+                    Debug.Log(distanceToPlayer + " " + stopDistance);
                 }
                 else
                 {
@@ -147,7 +149,7 @@ public class GhostAttack : MonoBehaviour
         
     }
 
-    void HandleAttack()
+    void StartAttack()
     {
         
         int randomChoice = Random.Range(0, 2);
