@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostAttack : MonoBehaviour
 {
+    public AudioClip runningShort;
+    public AudioClip runningLong;
+    public AudioClip quickTimeEventQue;
+    public AudioClip deflectedSound;
 
-    public GameObject player;
-    public AudioSource attackStarted;
-    public AudioSource runTowardPlayer;
 
     [Tooltip("How fast the ghost runs toward the player")]
     [SerializeField]
@@ -17,26 +19,32 @@ public class GhostAttack : MonoBehaviour
     [SerializeField]
     private float stopDistance = 10f;
 
-    [Tooltip("How far the ghost is from the player before attacking")]
+    [Tooltip("How far away the ghost teleports around the player")]
     [SerializeField]
     private float offset = 10;
 
-    [Tooltip("Every ** seconds the ghost attacks.")]
     [SerializeField]
-    private float AttackInterval = 10;
+    private float deflectWindowTime = 10f;
+    private float deflectWindowTimer = 0f;
 
-    private float TimerCounter = 0;
-    private float TimerIncreaseRate = 1;
+    private GameObject player;
+    private AudioSource audioSource;
 
     private bool shouldAttack = false;
     private bool shouldRunTowardPlayer = false;
-    private bool hasTeleportedLeft = false;
-    private bool hasTeleportedRight = false;
+    private bool isDeflecting = false;
+    private bool shouldQTE = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player == null)
+        {
+            Debug.LogWarning("Could not find gameobject with tag player.");
+        }
 
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -48,21 +56,9 @@ public class GhostAttack : MonoBehaviour
             shouldAttack = true;
         }
 
-        //Debug.Log(TimerCounter);
-        // Increase/update timer.
-        TimerCounter += TimerIncreaseRate * Time.fixedDeltaTime;
-
-        // If timer reaches attackinterval, attack.
-        if(TimerCounter >= AttackInterval)
-        {
-            
-        }
-
         // Attacks player
         if (shouldAttack)
         {
-            Debug.LogWarning("Attacking");
-            TimerCounter = 0;
             StartAttack();
             shouldAttack = false;
         }
@@ -80,21 +76,68 @@ public class GhostAttack : MonoBehaviour
                     // Move our position a step closer to the target.
                     var step = speed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
-                    Debug.Log(distanceToPlayer + " " + stopDistance);
                 }
                 else
                 {
-                    runTowardPlayer.Stop();
-                    runTowardPlayer.loop = false;
+                    // Has reached the player
+                    audioSource.Stop();
+                    audioSource.loop = false;
                     shouldRunTowardPlayer = false;
-                    hasTeleportedRight = false;
-                    hasTeleportedLeft = false;
-                    Debug.Log("Stopped moving! Close enough to the player.");
+
+                    // QTE sound
+                    audioSource.clip = quickTimeEventQue;
+                    audioSource.loop = false;
+                    audioSource.Play();
+
+                    // Handle QTE
+                    shouldQTE = true;
+
                 }
             }
 
         }
-        
+        if (shouldQTE)
+        {
+            isDeflecting = true;
+            HandleQTE();
+        }
+    }
+
+    void StartAttack()
+    {
+        // Randomly choose where to teleport around the player.
+        int randomChoice = Random.Range(0, 4);
+        switch (randomChoice)
+        {
+            case 0:
+                TeleportToRight();
+                break;
+            case 1:
+                TeleportToLeft();
+                break;
+            case 2:
+                TeleportToFront();
+                break;
+            case 3:
+                TeleportToBehind();
+                break;
+            default:
+                TeleportToRight();
+                break;
+        }
+
+        CancelInvoke();
+        // Run toward player after ? seconds.
+        Invoke("RunTowardPlayer", 2f);
+
+    }
+
+    void RunTowardPlayer()
+    {
+        CancelInvoke();
+        PlayLongRunSound();
+        shouldRunTowardPlayer = true;
+
     }
 
     void TeleportToRight()
@@ -107,19 +150,13 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
 
-            attackStarted.Play();
-            hasTeleportedRight = true;
+            // Handle sound
+            PlayShortRunSound();
 
-            // CHeck if already tp to left, if not tp to left. Otherwise start run toward player.
-            if (!hasTeleportedLeft)
-            {
-                Invoke("TeleportToLeft", 2);
-
-            }
-            else
-            {
-                Invoke("RunTowardPlayer", 3);
-            }
+        }
+        else
+        {
+            Debug.LogWarning("Player is null");
         }
     }
     void TeleportToLeft()
@@ -129,54 +166,100 @@ public class GhostAttack : MonoBehaviour
         {
             //Debug.Log("Teleporting...");
             Vector3 playerPosition = player.transform.position;
-            Vector3 newPosition = playerPosition + player.transform.right * -offset;
+            Vector3 newPosition = playerPosition - player.transform.right * offset;
             transform.position = newPosition;
 
-            attackStarted.Play();
-            hasTeleportedLeft = true;
+            // Handle sound
+            PlayShortRunSound();
 
-            // CHeck if already tp to right, if not tp to right. Otherwise start run toward player.
-            if (!hasTeleportedRight)
-            {
-                Invoke("TeleportToRight", 2);
-            }
-            else
-            {
-                Invoke("RunTowardPlayer", 3);
-            }
         }
-
-        
-    }
-
-    void StartAttack()
-    {
-        
-        int randomChoice = Random.Range(0, 2);
-        switch (randomChoice)
+        else
         {
-            case 0:
-                TeleportToRight();
-                break;
-            case 1:
-                TeleportToLeft();
-                break;
-
-            default:
-                TeleportToRight();
-                break;
+            Debug.LogWarning("Player is null");
         }
-        
 
-        //TeleportToRight();
 
-        //Invoke("TeleportToLeft", 2);
     }
 
-    void RunTowardPlayer()
+    void TeleportToFront()
     {
-        runTowardPlayer.Play();
-        shouldRunTowardPlayer = true;
+        if (player != null)
+        {
+            Vector3 playerPosition = player.transform.position;
+            Vector3 newPosition = playerPosition + player.transform.forward * offset;
+            transform.position = newPosition;
 
+            // Handle sound
+            PlayShortRunSound();
+
+        }
+        else
+        {
+            Debug.LogWarning("Player is null");
+        }
+    }
+
+    void TeleportToBehind()
+    {
+        if (player != null)
+        {
+            Vector3 playerPosition = player.transform.position;
+            Vector3 newPosition = playerPosition - player.transform.forward * offset;
+            transform.position = newPosition;
+
+            // Handle sound
+            PlayShortRunSound();
+        }
+        else
+        {
+            Debug.LogWarning("Player is null");
+        }
+    }
+
+    void PlayShortRunSound()
+    {
+        audioSource.clip = runningShort;
+        audioSource.loop = false;
+        audioSource.Play();
+    }
+
+    void PlayLongRunSound()
+    {
+        audioSource.clip = runningLong;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    
+    void HandleQTE()
+    {
+        if (isDeflecting)
+        {
+            deflectWindowTimer += Time.deltaTime;
+
+            Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+
+            // Test deflect
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Deflected ghost!");
+                audioSource.clip = deflectedSound;
+                EndDeflectWindow();
+
+
+            }
+            else if (deflectWindowTimer >= deflectWindowTime)
+            {
+                // Time is up, end the deflect window
+                Debug.Log("Deflect window expired!");
+                EndDeflectWindow();
+            }
+        }
+    }
+
+    void EndDeflectWindow()
+    {
+        isDeflecting = false;       // End the deflect window
+        deflectWindowTimer = 0f;    // Reset the timer
+        shouldQTE = false;          // End QTE.
     }
 }
