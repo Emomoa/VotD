@@ -14,7 +14,7 @@ public class GhostAttack : MonoBehaviour
 
     public AudioClip swingTorchSound;
 
-    public bool shouldAttack = false;
+    public bool canAttack = true;
 
 
     // PRIVATE STUFF
@@ -37,12 +37,28 @@ public class GhostAttack : MonoBehaviour
 
     [SerializeField]
     private float deflectWindowTime = 10f;
+    [SerializeField] 
+    private float attackInterval = 5f;
 
     private float deflectWindowTimer = 0f;
     private bool shouldRunTowardPlayer = false;
     private bool isDeflecting = false;
     private bool shouldQTE = false;
 
+    // For testing
+    private float timer = 0f;
+
+    private PlayerMovement playerMovement;
+
+    private void OnEnable()
+    {
+        PlayerMovement.OnPlayerDeath += ResetAttack;
+    }
+
+    private void OnDisable()
+    {
+        PlayerMovement.OnPlayerDeath -= ResetAttack;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -55,11 +71,25 @@ public class GhostAttack : MonoBehaviour
         }
 
         audioSource = GetComponent<AudioSource>();
+        playerMovement = player.GetComponent<PlayerMovement>();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        
+        Debug.Log("Timer: " + timer);
+
+        if (canAttack && timer > attackInterval)
+        {
+            StartAttack();
+            canAttack = false;
+        }
+
+        /*
         // For testing, press T to have the ghost attack.
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -71,7 +101,7 @@ public class GhostAttack : MonoBehaviour
         {
             StartAttack();
             shouldAttack = false;
-        }
+        }*/
 
         // Runs toward player
         if (shouldRunTowardPlayer)
@@ -113,9 +143,11 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
+
     async void StartAttack()
     {
-        CancelInvoke();
+        Debug.LogWarning("Attack starting");
+        //CancelInvoke();
         // Randomly choose where to teleport around the player.
         RandomlySelectWhereToTeleport(true);
 
@@ -246,19 +278,20 @@ public class GhostAttack : MonoBehaviour
             deflectWindowTimer += Time.deltaTime;
 
             //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
-            await Task.Delay(500);
+            await Task.Delay(250);
 
-            // Test deflect
+            // Player deflected
             if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Deflected ghost!");
                 torch.ToggleIsLit(false);
+                audioSource.Stop();
                 audioSource.PlayOneShot(swingTorchSound);
-                
                 
                 audioSource.PlayOneShot(deflectedSound);
                 EndDeflectWindow();
                 torch.ToggleIsLit(true);
+                ResetAttack();
 
             }
             else if (deflectWindowTimer >= deflectWindowTime)
@@ -266,8 +299,14 @@ public class GhostAttack : MonoBehaviour
                 // Time is up, end the deflect window
                 Debug.Log("Deflect window expired!");
                 EndDeflectWindow();
+                ResetAttack();
             }
         }
+    }
+    void ResetAttack()
+    {
+        canAttack = true;
+        timer = 0f;
     }
 
     void EndDeflectWindow()
@@ -280,7 +319,7 @@ public class GhostAttack : MonoBehaviour
     // Helpmethod
     void RandomlySelectWhereToTeleport(bool playSound)
     {
-        CancelInvoke();
+        //CancelInvoke();
         int randomChoice = Random.Range(0, 4);
         switch (randomChoice)
         {
