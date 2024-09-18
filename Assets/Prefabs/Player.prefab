@@ -100,6 +100,9 @@ GameObject:
   - component: {fileID: 1861037898080914417}
   - component: {fileID: 1618498098903913678}
   - component: {fileID: 3484382652727263501}
+  - component: {fileID: 1645744651757557377}
+  - component: {fileID: 3499944618624240050}
+  - component: {fileID: 641638974193264876}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -304,7 +307,7 @@ AudioSource:
   m_GameObject: {fileID: 5580772261995091284}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: db5f19fac9017cb4d83179377fa4af6b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -391,3 +394,135 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1645744651757557377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580772261995091284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52df198fbd3125f42aafe0ace55660c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLit: 0
+  torchLitDelay: 0.5
+  torchSound: {fileID: 8300000, guid: a2d14334b0c1cc84998ad6da0dd8902f, type: 3}
+  lightTorchSound: {fileID: 8300000, guid: 20b8ae3d7c53a414993b34bed3c53cdd, type: 3}
+  putOutTorchSound: {fileID: 0}
+  hitSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  audioSource: {fileID: 3499944618624240050}
+--- !u!82 &3499944618624240050
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580772261995091284}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 863972ed63097d044bd4bf990f4abb7f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &641638974193264876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580772261995091284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc003827be3d714caaf16aa3319f947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
+  deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
+  swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  audioSource: {fileID: 3484382652727263501}
+  deflectWindowTime: 2

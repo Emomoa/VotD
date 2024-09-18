@@ -8,6 +8,7 @@ TagManager:
   - Wood
   - Tile
   - WeakPlank
+  - Wall
   layers:
   - Default
   - TransparentFX

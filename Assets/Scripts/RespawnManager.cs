@@ -5,7 +5,7 @@ public class RespawnManager : MonoBehaviour
 {
     public Transform respawnPoint;
     public GameObject player;
-    public float respawnDelay = 2f;
+    public float respawnDelay = 0.5f;
 
     private PlayerMovement playerMovement;
     private CharacterController characterController;
