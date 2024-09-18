@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     public delegate void PlayerDeathHandler();
     public static event PlayerDeathHandler OnPlayerDeath;
 
+    public bool isDead = false;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -69,8 +71,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
+    public void HandleMovement()
     {
+        if (isDead) { return; }
         // Kontrollera om spelaren är på marken
         isGrounded = controller.isGrounded;
 
@@ -236,7 +239,7 @@ public class PlayerMovement : MonoBehaviour
         // Hantera spelarens död och återupplivning
         Debug.Log("Spelaren har dött.");
         OnPlayerDeath?.Invoke(); // Skicka ut ett event om att spelaren har dött
-
+        isDead = true;
         // Implementera återupplivningslogik här
     }
 }
