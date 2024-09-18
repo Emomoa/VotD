@@ -199,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (groundTag != null)
             {
-                Debug.Log("Underlag: " + groundTag);
+                //Debug.Log("Underlag: " + groundTag);
 
                 // Välj lämpliga fotstegsljud baserat på underlagets tagg
                 AudioClip[] selectedFootsteps = carpetFootsteps; // Standardfotsteg

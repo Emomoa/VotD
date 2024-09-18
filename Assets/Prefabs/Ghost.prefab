@@ -101,9 +101,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -219,11 +219,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runningShort: {fileID: 8300000, guid: a3751b9bc031b4a4f95628f665649932, type: 3}
   runningLong: {fileID: 8300000, guid: 11665ce14c8d03240b5d0fea19d21143, type: 3}
-  quickTimeEventQue: {fileID: 8300000, guid: 7557610bd112aaa49886806d06ad3bd2, type: 3}
+  quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
   deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
-  shouldAttack: 0
+  canAttack: 1
   speed: 10
   stopDistance: 2
   offset: 20
-  deflectWindowTime: 1
+  deflectWindowTime: 2
+  attackInterval: 20
