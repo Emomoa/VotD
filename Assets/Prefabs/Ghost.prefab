@@ -118,7 +118,7 @@ AudioSource:
   m_GameObject: {fileID: 2170497307171643357}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 62dff81efa3e3c74c890e40aa69db00b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -128,8 +128,8 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1.5
+  DopplerLevel: 4.9
+  MinDistance: 5
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -217,11 +217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f29b127d9d846b42eeb9b1df448c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runningShort: {fileID: 8300000, guid: 32e3c65945f5297418b34e359286a6d6, type: 3}
-  runningLong: {fileID: 8300000, guid: db34ae32df1c7fd44abf8ec166afb14a, type: 3}
+  runningShort: {fileID: 8300000, guid: a3751b9bc031b4a4f95628f665649932, type: 3}
+  runningLong: {fileID: 8300000, guid: 11665ce14c8d03240b5d0fea19d21143, type: 3}
   quickTimeEventQue: {fileID: 8300000, guid: 7557610bd112aaa49886806d06ad3bd2, type: 3}
   deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
-  speed: 8
+  swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  shouldAttack: 0
+  speed: 10
   stopDistance: 2
   offset: 20
-  deflectWindowTime: 2
+  deflectWindowTime: 1

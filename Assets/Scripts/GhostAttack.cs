@@ -1,15 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostAttack : MonoBehaviour
 {
+    // PUBLIC STUFF
     public AudioClip runningShort;
     public AudioClip runningLong;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
 
+    public AudioClip swingTorchSound;
+
+    public bool shouldAttack = false;
+
+
+    // PRIVATE STUFF
+    private GameObject player;
+
+    private Torch torch;
+    private AudioSource audioSource;
 
     [Tooltip("How fast the ghost runs toward the player")]
     [SerializeField]
@@ -25,20 +37,18 @@ public class GhostAttack : MonoBehaviour
 
     [SerializeField]
     private float deflectWindowTime = 10f;
+
     private float deflectWindowTimer = 0f;
-
-    private GameObject player;
-    private AudioSource audioSource;
-
-    private bool shouldAttack = false;
     private bool shouldRunTowardPlayer = false;
     private bool isDeflecting = false;
     private bool shouldQTE = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        torch = player.GetComponent<Torch>();
         if(player == null)
         {
             Debug.LogWarning("Could not find gameobject with tag player.");
@@ -50,7 +60,7 @@ public class GhostAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Debug
+        // For testing, press T to have the ghost attack.
         if (Input.GetKeyDown(KeyCode.T))
         {
             shouldAttack = true;
@@ -103,44 +113,32 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
-    void StartAttack()
+    async void StartAttack()
     {
-        // Randomly choose where to teleport around the player.
-        int randomChoice = Random.Range(0, 4);
-        switch (randomChoice)
-        {
-            case 0:
-                TeleportToRight();
-                break;
-            case 1:
-                TeleportToLeft();
-                break;
-            case 2:
-                TeleportToFront();
-                break;
-            case 3:
-                TeleportToBehind();
-                break;
-            default:
-                TeleportToRight();
-                break;
-        }
-
         CancelInvoke();
+        // Randomly choose where to teleport around the player.
+        RandomlySelectWhereToTeleport(true);
+
+        await Task.Delay(2500);
+
+        RandomlySelectWhereToTeleport(true);
+
         // Run toward player after ? seconds.
-        Invoke("RunTowardPlayer", 2f);
+        Invoke("RunTowardPlayer", 3f);
 
     }
 
     void RunTowardPlayer()
     {
         CancelInvoke();
+        RandomlySelectWhereToTeleport(false);
+
         PlayLongRunSound();
         shouldRunTowardPlayer = true;
 
     }
 
-    void TeleportToRight()
+    void TeleportToRight(bool playSound)
     {
         // Move to right of player
         if (player != null)
@@ -150,16 +148,18 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
-
+            if(playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
         }
         else
         {
             Debug.LogWarning("Player is null");
         }
     }
-    void TeleportToLeft()
+    void TeleportToLeft(bool playSound)
     {
         // Move to left of player
         if (player != null)
@@ -169,8 +169,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition - player.transform.right * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
 
         }
         else
@@ -181,7 +184,7 @@ public class GhostAttack : MonoBehaviour
 
     }
 
-    void TeleportToFront()
+    void TeleportToFront(bool playSound)
     {
         if (player != null)
         {
@@ -189,8 +192,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition + player.transform.forward * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
 
         }
         else
@@ -199,7 +205,7 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
-    void TeleportToBehind()
+    void TeleportToBehind(bool playSound)
     {
         if (player != null)
         {
@@ -207,8 +213,11 @@ public class GhostAttack : MonoBehaviour
             Vector3 newPosition = playerPosition - player.transform.forward * offset;
             transform.position = newPosition;
 
-            // Handle sound
-            PlayShortRunSound();
+            if (playSound)
+            {
+                // Handle sound
+                PlayShortRunSound();
+            }
         }
         else
         {
@@ -230,21 +239,26 @@ public class GhostAttack : MonoBehaviour
         audioSource.Play();
     }
     
-    void HandleQTE()
+    async void HandleQTE()
     {
         if (isDeflecting)
         {
             deflectWindowTimer += Time.deltaTime;
 
-            Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+            await Task.Delay(500);
 
             // Test deflect
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Deflected ghost!");
-                audioSource.clip = deflectedSound;
+                torch.ToggleIsLit(false);
+                audioSource.PlayOneShot(swingTorchSound);
+                
+                
+                audioSource.PlayOneShot(deflectedSound);
                 EndDeflectWindow();
-
+                torch.ToggleIsLit(true);
 
             }
             else if (deflectWindowTimer >= deflectWindowTime)
@@ -261,5 +275,27 @@ public class GhostAttack : MonoBehaviour
         isDeflecting = false;       // End the deflect window
         deflectWindowTimer = 0f;    // Reset the timer
         shouldQTE = false;          // End QTE.
+    }
+
+    // Helpmethod
+    void RandomlySelectWhereToTeleport(bool playSound)
+    {
+        CancelInvoke();
+        int randomChoice = Random.Range(0, 4);
+        switch (randomChoice)
+        {
+            case 0:
+                TeleportToRight(playSound);
+                break;
+            case 1:
+                TeleportToLeft(playSound);
+                break;
+            case 2:
+                TeleportToFront(playSound);
+                break;
+            case 3:
+                TeleportToBehind(playSound);
+                break;
+        }
     }
 }

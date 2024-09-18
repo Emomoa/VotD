@@ -1,64 +1,100 @@
-using System.Threading.Tasks;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 
 public class WeakPlank : MonoBehaviour
 {
-    private bool isBroken = false;
-    public GameObject player;
-    private Rigidbody playerRB;
+    [SerializeField]
     private PlayerMovement playerMove;
     public AudioSource audioSource;
-    public AudioClip[] plankBreak;
-    private void Start()
+    public AudioClip creakingSound;
+    public AudioClip plankBreakSound;
+    public float breakTimer = 3f; // Duration before the plank breaks
+
+    [SerializeField]
+    private GameObject parentGO;
+
+    private Coroutine breakCoroutine;
+    private bool isPlayerOnPlank = false;
+    private bool isBreaking = false;
+
+    void OnTriggerEnter(Collider other)
     {
-        playerMove = player.GetComponent<PlayerMovement>();
+        if (other.CompareTag("Player"))
+        {
+            isPlayerOnPlank = true;
+            if (!playerMove.isSneaking)
+            {
+                StartBreaking();
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerOnPlank = false;
+            StopBreaking();
+        }
     }
 
     void Update()
     {
-        BreakPlank();
-    }
-
-    // Checks if player is sneaking and allows the player to walk a little while before breaking plank.
-    private async void BreakPlank()
-    {
-        string groundTag = playerMove.GetGroundTag();
-        if (groundTag == "WeakPlank")
+        if (isPlayerOnPlank)
         {
-            if (!playerMove.isSneaking)
+            if (playerMove.isSneaking && isBreaking)
             {
-                await Task.Delay(1500);
-
-                if (playerMove.isSneaking)
-                {
-                    return;
-                }
-                else
-                {
-                    isBroken = true;
-                    // Play sound and animation for broken plank
-                    if (audioSource.isPlaying == false)
-                    {
-                        playerMove.isDead = true;
-                        audioSource.Play();
-                        await Task.Delay(1500);
-                        if (!playerMove.isDead)
-                        {
-                            Debug.Log("The plank has broken!");
-                            Scene currentScene = SceneManager.GetActiveScene();
-                            playerMove.isDead = false;
-                            SceneManager.LoadScene(currentScene.name);
-                            //playerMove.Die();
-                        }
-
-                        //gameObject.SetActive(false);
-                    }
-
-
-                }
+                // Player started sneaking while on the plank
+                StopBreaking();
+            }
+            else if (!playerMove.isSneaking && !isBreaking)
+            {
+                // Player stopped sneaking while on the plank
+                StartBreaking();
             }
         }
+    }
+
+    private void StartBreaking()
+    {
+        if (isBreaking) return;
+        isBreaking = true;
+        // Play creaking sound
+        audioSource.clip = creakingSound;
+        audioSource.loop = true;
+        audioSource.Play();
+        // Start the break timer
+        breakCoroutine = StartCoroutine(BreakPlank());
+    }
+
+    private void StopBreaking()
+    {
+        if (!isBreaking) return;
+        isBreaking = false;
+        // Stop creaking sound
+        audioSource.Stop();
+        // Stop the break timer
+        if (breakCoroutine != null)
+        {
+            StopCoroutine(breakCoroutine);
+            breakCoroutine = null;
+        }
+    }
+
+    private IEnumerator BreakPlank()
+    {
+        yield return new WaitForSeconds(breakTimer);
+        // Break the plank
+        isBreaking = false;
+        audioSource.Stop();
+        audioSource.loop = false;
+        audioSource.clip = plankBreakSound;
+        audioSource.Play();
+        Debug.Log("The plank has broken!");
+        // Kill the player
+        playerMove.Die();
+        parentGO.SetActive(false);
+        parentGO.SetActive(true);
     }
 }
