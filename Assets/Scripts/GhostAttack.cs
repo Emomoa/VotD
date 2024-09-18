@@ -6,44 +6,33 @@ using UnityEngine;
 
 public class GhostAttack : MonoBehaviour
 {
-    // PUBLIC STUFF
+    [Header("Audio")]
     public AudioClip runningShort;
     public AudioClip runningLong;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
-
     public AudioClip swingTorchSound;
 
-    public bool canAttack = true;
-
-
-    // PRIVATE STUFF
     private GameObject player;
-
-    private Torch torch;
     private AudioSource audioSource;
 
+    [Header("Variables")]
     [Tooltip("How fast the ghost runs toward the player")]
-    [SerializeField]
-    private float speed = 10f;
+    [SerializeField] private float speed = 10f;
 
     [Tooltip("How close the ghost gets to the player")]
-    [SerializeField]
-    private float stopDistance = 10f;
+    [SerializeField] private float stopDistance = 10f;
 
     [Tooltip("How far away the ghost teleports around the player")]
-    [SerializeField]
-    private float offset = 10;
+    [SerializeField] private float offset = 10;
 
-    [SerializeField]
-    private float deflectWindowTime = 10f;
-    [SerializeField] 
-    private float attackInterval = 5f;
+    [SerializeField] private float attackInterval = 5f;
+    public bool canAttack = true;
 
-    private float deflectWindowTimer = 0f;
-    private bool shouldRunTowardPlayer = false;
-    private bool isDeflecting = false;
     private bool shouldQTE = false;
+    private bool shouldRunTowardPlayer = false;
+    
+
 
     // For testing
     private float timer = 0f;
@@ -64,7 +53,6 @@ public class GhostAttack : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        torch = player.GetComponent<Torch>();
         if(player == null)
         {
             Debug.LogWarning("Could not find gameobject with tag player.");
@@ -80,8 +68,6 @@ public class GhostAttack : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        
-        Debug.Log("Timer: " + timer);
 
         if (canAttack && timer > attackInterval)
         {
@@ -89,19 +75,6 @@ public class GhostAttack : MonoBehaviour
             canAttack = false;
         }
 
-        /*
-        // For testing, press T to have the ghost attack.
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            shouldAttack = true;
-        }
-
-        // Attacks player
-        if (shouldAttack)
-        {
-            StartAttack();
-            shouldAttack = false;
-        }*/
 
         // Runs toward player
         if (shouldRunTowardPlayer)
@@ -125,9 +98,8 @@ public class GhostAttack : MonoBehaviour
                     shouldRunTowardPlayer = false;
 
                     // QTE sound
-                    audioSource.clip = quickTimeEventQue;
-                    audioSource.loop = false;
-                    audioSource.Play();
+                    audioSource.Stop();
+                    audioSource.PlayOneShot(quickTimeEventQue);
 
                     // Handle QTE
                     shouldQTE = true;
@@ -136,18 +108,56 @@ public class GhostAttack : MonoBehaviour
             }
 
         }
+        /*
         if (shouldQTE)
         {
             isDeflecting = true;
             HandleQTE();
-        }
+        }*/
     }
 
+    /*
+    async void HandleQTE()
+    {
+        if (isDeflecting)
+        {
+            deflectWindowTimer += Time.deltaTime;
+
+            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+            await Task.Delay(250);
+
+            // Player deflected
+            if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Deflected ghost!");
+                torch.ToggleIsLit(false);
+                audioSource.Stop();
+                audioSource.PlayOneShot(swingTorchSound);
+
+                audioSource.PlayOneShot(deflectedSound);
+                EndDeflectWindow();
+                torch.ToggleIsLit(true);
+                ResetAttack();
+
+            }
+            else if (deflectWindowTimer >= deflectWindowTime)
+            {
+                // Time is up, end the deflect window
+                Debug.Log("Deflect window expired!");
+                EndDeflectWindow();
+                ResetAttack();
+            }
+        }
+    }*/
 
     async void StartAttack()
     {
-        Debug.LogWarning("Attack starting");
+        //Debug.LogWarning("Attack starting");
         //CancelInvoke();
+
+        // Activate collision
+        GetComponent<CapsuleCollider>().enabled = true;
+
         // Randomly choose where to teleport around the player.
         RandomlySelectWhereToTeleport(true);
 
@@ -271,50 +281,19 @@ public class GhostAttack : MonoBehaviour
         audioSource.Play();
     }
     
-    async void HandleQTE()
-    {
-        if (isDeflecting)
-        {
-            deflectWindowTimer += Time.deltaTime;
-
-            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
-            await Task.Delay(250);
-
-            // Player deflected
-            if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("Deflected ghost!");
-                torch.ToggleIsLit(false);
-                audioSource.Stop();
-                audioSource.PlayOneShot(swingTorchSound);
-                
-                audioSource.PlayOneShot(deflectedSound);
-                EndDeflectWindow();
-                torch.ToggleIsLit(true);
-                ResetAttack();
-
-            }
-            else if (deflectWindowTimer >= deflectWindowTime)
-            {
-                // Time is up, end the deflect window
-                Debug.Log("Deflect window expired!");
-                EndDeflectWindow();
-                ResetAttack();
-            }
-        }
-    }
-    void ResetAttack()
+    
+    public void ResetAttack()
     {
         canAttack = true;
         timer = 0f;
     }
-
+    /*
     void EndDeflectWindow()
     {
         isDeflecting = false;       // End the deflect window
         deflectWindowTimer = 0f;    // Reset the timer
         shouldQTE = false;          // End QTE.
-    }
+    }*/
 
     // Helpmethod
     void RandomlySelectWhereToTeleport(bool playSound)
@@ -336,5 +315,15 @@ public class GhostAttack : MonoBehaviour
                 TeleportToBehind(playSound);
                 break;
         }
+    }
+
+    public bool GetShouldQTE()
+    {
+        return shouldQTE;
+    }
+
+    public void SetShouldQTE(bool value)
+    {
+        shouldQTE = value;
     }
 }

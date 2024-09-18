@@ -135,20 +135,26 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    private void HandleRaycasting()
+    private RaycastHit HandleRaycasting()
     {
         // Skjut en raycast från kameran i blickriktningen
         RaycastHit hit;
         Vector3 rayDirection = cameraTransform.forward;
         if (Physics.Raycast(cameraTransform.position, rayDirection, out hit, rayDistance))
         {
-            //Debug.Log("Tittar på: " + hit.collider.name);
+            return hit;
         }
+
+        return hit;
 
         // Visa raycasten för debugging
         Debug.DrawRay(cameraTransform.position, rayDirection * rayDistance, Color.red);
     }
 
+    public RaycastHit GetRaycasting()
+    {
+        return HandleRaycasting();
+    }
     public string GetGroundTag()
     {
         // Raycast nedåt för att kontrollera underlaget
