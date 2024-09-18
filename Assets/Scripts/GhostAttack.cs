@@ -286,6 +286,7 @@ public class GhostAttack : MonoBehaviour
     {
         canAttack = true;
         timer = 0f;
+        attackInterval = Random.Range(20, 31);
     }
     /*
     void EndDeflectWindow()
