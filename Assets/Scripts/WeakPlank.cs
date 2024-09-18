@@ -9,14 +9,21 @@ public class WeakPlank : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip creakingSound;
     public AudioClip plankBreakSound;
-    public float breakTimer = 3f; // Duration before the plank breaks
+    public float breakTimer = 0.5f; // Duration before the plank breaks
 
     [SerializeField]
     private GameObject parentGO;
 
+    [SerializeField]
+    private GameObject weakPlankPrefab;
+
     private Coroutine breakCoroutine;
     private bool isPlayerOnPlank = false;
     private bool isBreaking = false;
+
+
+    public delegate void PlankBreakHandler();
+    public static event PlankBreakHandler OnPlankDestroy;
 
     void OnTriggerEnter(Collider other)
     {
@@ -85,16 +92,17 @@ public class WeakPlank : MonoBehaviour
     private IEnumerator BreakPlank()
     {
         yield return new WaitForSeconds(breakTimer);
-        // Break the plank
-        isBreaking = false;
         audioSource.Stop();
         audioSource.loop = false;
         audioSource.clip = plankBreakSound;
         audioSource.Play();
+        // Break the plank
+        isBreaking = false;
         Debug.Log("The plank has broken!");
         // Kill the player
         playerMove.Die();
-        parentGO.SetActive(false);
-        parentGO.SetActive(true);
+        OnPlankDestroy?.Invoke();
+        // Destroy the plank
+        Destroy(parentGO);
     }
 }
