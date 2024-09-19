@@ -236,6 +236,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5343725645249904166, guid: 6e44399e7dc2d0f43a5af098b324571a, type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 2088170973}
     - target: {fileID: 5549746129559083306, guid: 6e44399e7dc2d0f43a5af098b324571a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.458849
@@ -988,7 +992,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: nextSceneName
-      value: PuzzelRoom1
+      value: PuzzleRoom1
       objectReference: {fileID: 0}
     - target: {fileID: 6740295245259727107, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: m_LocalScale.x
@@ -1055,7 +1059,6 @@ GameObject:
   - component: {fileID: 1057984848}
   - component: {fileID: 1057984847}
   - component: {fileID: 1057984846}
-  - component: {fileID: 1057984850}
   - component: {fileID: 1057984851}
   m_Layer: 0
   m_Name: Wall
@@ -1150,21 +1153,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 45077942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1057984850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057984845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43cd11eb6de5b9e4d80d32d07bcab9a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 1057984851}
-  clip: {fileID: 8300000, guid: f948122b9834b064faf1d56d9cad0eaf, type: 3}
-  sounds: []
 --- !u!82 &1057984851
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1411,7 +1399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147385818999341232, guid: ccbeb19c17fb8d942a86d00b413cb789, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.4999962
+      value: 0.34
       objectReference: {fileID: 0}
     - target: {fileID: 8147385818999341232, guid: ccbeb19c17fb8d942a86d00b413cb789, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1800,6 +1788,10 @@ PrefabInstance:
     - target: {fileID: 3499944618624240050, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_Volume
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4962302757605180587, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4962302757605180587, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_ProvidesContacts
@@ -3154,6 +3146,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2088170973 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8147385818999341232, guid: ccbeb19c17fb8d942a86d00b413cb789, type: 3}
+  m_PrefabInstance: {fileID: 1233319534}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2121993444
 PrefabInstance:
   m_ObjectHideFlags: 0

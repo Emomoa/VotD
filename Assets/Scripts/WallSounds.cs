@@ -31,7 +31,7 @@ public class WallSounds : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if (bumpNoice == true && collision.gameObject.tag == "Player")
         {
@@ -45,5 +45,5 @@ public class WallSounds : MonoBehaviour
         {
             bumpNoice = false;
         }
-    }
+    }*/
 }

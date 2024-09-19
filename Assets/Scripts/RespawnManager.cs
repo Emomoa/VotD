@@ -64,6 +64,8 @@ public class RespawnManager : MonoBehaviour
         characterController.enabled = true;
         playerMovement.enabled = true;
 
+        playerMovement.isDead = false;
+
         // Eventuellt återställa hälsa eller andra statusvärden
         Debug.Log("Spelaren har respawnat.");
     }
