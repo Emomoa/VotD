@@ -526,4 +526,4 @@ MonoBehaviour:
   deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
   audioSource: {fileID: 3484382652727263501}
-  deflectWindowTime: 2
+  deflectWindowTime: 1.5
