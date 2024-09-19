@@ -222,7 +222,7 @@ MonoBehaviour:
   quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
   deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
-  speed: 10
+  speed: 7
   stopDistance: 3
   offset: 20
   attackInterval: 5
