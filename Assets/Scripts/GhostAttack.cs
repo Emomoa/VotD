@@ -7,8 +7,9 @@ using UnityEngine;
 public class GhostAttack : MonoBehaviour
 {
     [Header("Audio")]
+    public AudioClip[] footstepSounds;
+    public float footstepDelay = 0.5f;
     public AudioClip runningShort;
-    public AudioClip runningLong;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
     public AudioClip swingTorchSound;
@@ -31,6 +32,7 @@ public class GhostAttack : MonoBehaviour
 
     private bool shouldQTE = false;
     private bool shouldRunTowardPlayer = false;
+    private float stepTimer;
     
 
 
@@ -61,7 +63,7 @@ public class GhostAttack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerMovement = player.GetComponent<PlayerMovement>();
 
-
+        stepTimer = footstepDelay;
     }
 
     // Update is called once per frame
@@ -89,6 +91,21 @@ public class GhostAttack : MonoBehaviour
                     // Move our position a step closer to the target.
                     var step = speed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
+
+                    /*
+                    // Checks if a footstep sound is already playing, if not play next footstep sound.
+                    if (!audioSource.isPlaying){
+                        PlayFootstep();
+                    }
+                    */                  
+                    // Reduce step timer as time passes
+                    stepTimer -= Time.deltaTime;
+
+                    // If the timer reaches zero, play a footstep sound
+                    if (stepTimer <= 0){
+                        PlayFootstep();
+                        stepTimer = footstepDelay; // Reset timer
+                    }
                 }
                 else
                 {
@@ -108,47 +125,16 @@ public class GhostAttack : MonoBehaviour
             }
 
         }
-        /*
-        if (shouldQTE)
-        {
-            isDeflecting = true;
-            HandleQTE();
-        }*/
     }
 
-    /*
-    async void HandleQTE()
-    {
-        if (isDeflecting)
-        {
-            deflectWindowTimer += Time.deltaTime;
-
-            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
-            await Task.Delay(250);
-
-            // Player deflected
-            if (torch.GetIsLit() && Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("Deflected ghost!");
-                torch.ToggleIsLit(false);
-                audioSource.Stop();
-                audioSource.PlayOneShot(swingTorchSound);
-
-                audioSource.PlayOneShot(deflectedSound);
-                EndDeflectWindow();
-                torch.ToggleIsLit(true);
-                ResetAttack();
-
-            }
-            else if (deflectWindowTimer >= deflectWindowTime)
-            {
-                // Time is up, end the deflect window
-                Debug.Log("Deflect window expired!");
-                EndDeflectWindow();
-                ResetAttack();
-            }
+    void PlayFootstep(){
+        if(footstepSounds.Length> 0){
+            // pick random.
+            int randomIndex = Random.Range(0, footstepSounds.Length);
+            audioSource.clip = footstepSounds[randomIndex];
+            audioSource.Play();
         }
-    }*/
+    }
 
     async void StartAttack()
     {
@@ -174,8 +160,6 @@ public class GhostAttack : MonoBehaviour
     {
         CancelInvoke();
         //RandomlySelectWhereToTeleport(false);
-
-        PlayLongRunSound();
         shouldRunTowardPlayer = true;
 
     }
@@ -273,14 +257,6 @@ public class GhostAttack : MonoBehaviour
         audioSource.loop = false;
         audioSource.Play();
     }
-
-    void PlayLongRunSound()
-    {
-        audioSource.clip = runningLong;
-        audioSource.loop = true;
-        audioSource.Play();
-    }
-    
     
     public void ResetAttack()
     {
