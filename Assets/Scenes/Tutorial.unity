@@ -2881,26 +2881,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: speed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: stopDistance
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: attackInterval
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: MinDistance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: DopplerLevel
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.83257866
