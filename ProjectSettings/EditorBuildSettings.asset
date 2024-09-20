@@ -5,13 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Victor&Emma.unity
     guid: 778025bb25b0ae745b2e7f9b68c84b66
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Emma&Victor.unity
     guid: 74d0280eef58fbf44bd4e9e31adb6bf9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Emma 2.unity
     guid: 906966b2a1361a448b62980a4c4261b6
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: f432451a690cce24bb2afe7ca570c649
+  - enabled: 1
+    path: Assets/Scenes/PuzzleRoom1.unity
+    guid: 6803996e764b8e446bc72f98af1f23fb
   m_configObjects: {}

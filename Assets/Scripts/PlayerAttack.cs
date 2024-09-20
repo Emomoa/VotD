@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
             if (torch.GetIsLit() && isLookingAtGhost && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Deflected ghost!");
-                torch.ToggleIsLit(false);
+                //torch.ToggleIsLit(false);
                 audioSource.Stop();
                 audioSource.PlayOneShot(swingTorchSound);
 
@@ -81,7 +81,7 @@ public class PlayerAttack : MonoBehaviour
                 ghost.GetComponent<AudioSource>().Stop();
                 audioSource.PlayOneShot(deflectedSound);
                 EndDeflectWindow();
-                torch.ToggleIsLit(true);
+                //torch.ToggleIsLit(true);
                 ghost.ResetAttack();
 
             }
@@ -91,6 +91,7 @@ public class PlayerAttack : MonoBehaviour
                 Debug.Log("Deflect window expired!");
                 EndDeflectWindow();
                 ghost.ResetAttack();
+                playerMovement.Die();
             }
         }
     }

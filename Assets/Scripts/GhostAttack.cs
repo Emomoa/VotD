@@ -163,7 +163,7 @@ public class GhostAttack : MonoBehaviour
 
         await Task.Delay(2500);
 
-        RandomlySelectWhereToTeleport(true);
+        //RandomlySelectWhereToTeleport(true);
 
         // Run toward player after ? seconds.
         Invoke("RunTowardPlayer", 3f);
@@ -173,7 +173,7 @@ public class GhostAttack : MonoBehaviour
     void RunTowardPlayer()
     {
         CancelInvoke();
-        RandomlySelectWhereToTeleport(false);
+        //RandomlySelectWhereToTeleport(false);
 
         PlayLongRunSound();
         shouldRunTowardPlayer = true;

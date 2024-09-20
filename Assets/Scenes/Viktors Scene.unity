@@ -1770,11 +1770,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7552631200548310995, guid: b61f897a790e5a44ba77fa653914455f, type: 3}
   m_PrefabInstance: {fileID: 1821834907}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1834814280 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5580772261995091284, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
-  m_PrefabInstance: {fileID: 1064585947}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1905371715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1862,10 +1857,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d76bd2a2d8aa2d45853223f5c0f0b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1834814280}
+  playerMove: {fileID: 0}
   audioSource: {fileID: 2029744116}
-  plankBreak:
-  - {fileID: 8300000, guid: a42eb43e855614d4597e016ac6244b3e, type: 3}
+  creakingSound: {fileID: 0}
+  plankBreakSound: {fileID: 0}
+  breakTimer: 0.5
+  parentGO: {fileID: 0}
+  weakPlankPrefab: {fileID: 0}
 --- !u!82 &2029744116
 AudioSource:
   m_ObjectHideFlags: 0

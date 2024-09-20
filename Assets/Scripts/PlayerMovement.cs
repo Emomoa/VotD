@@ -129,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
         // Rotera kameran upp och ner
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        //cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         // Rotera spelaren i Y-led (vänster och höger)
         transform.Rotate(Vector3.up * mouseX);
