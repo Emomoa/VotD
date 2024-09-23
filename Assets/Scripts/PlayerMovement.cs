@@ -69,6 +69,13 @@ public class PlayerMovement : MonoBehaviour
         {
             Die();
         }
+
+        // Aktiverera kompassen vid tryck på "F"
+        // Skicka ut ett event som andra klasser kan prenumerera på
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            EventManager.TriggerCompassEvent();
+        }
     }
 
     public void HandleMovement()
