@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WallSound : MonoBehaviour
-{
+{/*
     private AudioClip sound;
     public AudioSource source;
 
@@ -24,5 +24,5 @@ public class WallSound : MonoBehaviour
     void Update()
     {
         
-    }
+    }*/
 }

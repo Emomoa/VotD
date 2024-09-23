@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isSneaking;
 
     [Header("Physics Settings")]
-    private Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
     private Vector3 velocity;
     private bool isGrounded;
 
