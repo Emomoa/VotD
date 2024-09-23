@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1645744651757557377}
   - component: {fileID: 3499944618624240050}
   - component: {fileID: 641638974193264876}
+  - component: {fileID: 6962288357658172737}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -222,7 +223,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6808478284025990997
@@ -254,6 +255,7 @@ MonoBehaviour:
   gravity: -9.81
   acceleration: 10
   isSneaking: 0
+  moveDirection: {x: 0, y: 0, z: 0}
   rayDistance: 10
   audioSource: {fileID: 3484382652727263501}
   carpetFootsteps:
@@ -527,3 +529,30 @@ MonoBehaviour:
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
   audioSource: {fileID: 3484382652727263501}
   deflectWindowTime: 1.5
+--- !u!54 &6962288357658172737
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580772261995091284}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0

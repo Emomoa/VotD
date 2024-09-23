@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isSneaking;
 
     [Header("Physics Settings")]
-    private Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
     private Vector3 velocity;
     private bool isGrounded;
 
@@ -68,6 +68,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Die();
+        }
+
+        // Aktiverera kompassen vid tryck på "F"
+        // Skicka ut ett event som andra klasser kan prenumerera på
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            EventManager.TriggerCompassEvent();
         }
     }
 

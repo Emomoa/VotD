@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WallSounds : MonoBehaviour
-{
+{/*
     public AudioSource source;
     public AudioClip clip;
     public AudioClip[] sounds;
@@ -28,7 +28,7 @@ public class WallSounds : MonoBehaviour
         {
             return;
         }
-    }
+    }*/
 
     // Update is called once per frame
     /*void Update()
