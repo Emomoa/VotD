@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Crossroads : MonoBehaviour
 {
-
+    public AudioSource MainSource;
     public AudioSource RightSource;
     public AudioSource LeftSource;
     public AudioSource StraightSource;
@@ -13,7 +13,10 @@ public class Crossroads : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        MainSource = GetComponent<AudioSource>();
+        MainSource.Play();
+     
+    
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -42,6 +45,9 @@ public class Crossroads : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (MainSource.isPlaying == null)
+        {
+            MainSource.Play();
+        }
     }
 }
