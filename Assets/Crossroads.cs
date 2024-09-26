@@ -15,31 +15,38 @@ public class Crossroads : MonoBehaviour
     {
         MainSource = GetComponent<AudioSource>();
         MainSource.Play();
-     
-    
+
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            if (RightSource != null)
-            {
-                RightSource.Play();
-            }
+            PlaySounds();
 
-            if (StraightSource != null)
-            {
-                StraightSource.PlayDelayed(1);
-            }
-            if (LeftSource != null)
-            {
-                LeftSource.PlayDelayed(2);
-            }
-
-
-
-
+            
         }
+            
+    }
+
+    void PlaySounds()
+    {
+
+        if (RightSource != null)
+        {
+            RightSource.Play();
+        }
+
+        if (StraightSource != null)
+        {
+            StraightSource.PlayDelayed(1);
+        }
+        if (LeftSource != null)
+        {
+            LeftSource.PlayDelayed(2);
+        }
+        
+
     }
 
     // Update is called once per frame
