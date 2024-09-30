@@ -16,12 +16,15 @@ public class PuzzleController : MonoBehaviour
     [SerializeField]
     private AudioClip puzzleSolvedSound;
 
+    private AudioSource puzzleSolvedSource;
+
     [Header("Events")]
     public UnityEvent OnPuzzleSolved;
     public UnityEvent OnIncorrectActivation;
 
     void Start()
     {
+        puzzleSolvedSource = GetComponent<AudioSource>();
         // Initialize activation objects and assign this controller
         foreach (var obj in activationSequence)
         {
@@ -39,6 +42,7 @@ public class PuzzleController : MonoBehaviour
         {
             // Correct object activated
             currentActivationIndex++;
+            puzzleSolvedSource.PlayOneShot(correctActivationSound);
 
 
             if (currentActivationIndex >= activationSequence.Count)
@@ -46,6 +50,7 @@ public class PuzzleController : MonoBehaviour
                 // Puzzle solved
                 puzzleSolved = true;
                 OnPuzzleSolved.Invoke();
+                puzzleSolvedSource.PlayOneShot(puzzleSolvedSound);
                 Debug.Log("Puzzle Solved!");
             }
         }
@@ -53,6 +58,7 @@ public class PuzzleController : MonoBehaviour
         {
             // Incorrect object activated
             OnIncorrectActivation.Invoke();
+            puzzleSolvedSource?.PlayOneShot(incorrectActivationSound);
             Debug.Log("Incorrect activation. Resetting puzzle.");
             ResetPuzzle();
         }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Crossroads : MonoBehaviour
@@ -9,43 +8,69 @@ public class Crossroads : MonoBehaviour
     public AudioSource LeftSource;
     public AudioSource StraightSource;
 
+    private Coroutine soundCoroutine; // To keep track of the coroutine
+    private bool playerInTrigger = false; // Flag to check if player is in the trigger
 
-    // Start is called before the first frame update
     void Start()
     {
         MainSource = GetComponent<AudioSource>();
         MainSource.Play();
-     
-    
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player") && !playerInTrigger)
+        {
+            playerInTrigger = true;
+            soundCoroutine = StartCoroutine(PlaySoundSequence());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && playerInTrigger)
+        {
+            playerInTrigger = false;
+
+            if (soundCoroutine != null)
+            {
+                StopCoroutine(soundCoroutine);
+                soundCoroutine = null;
+            }
+        }
+    }
+
+    IEnumerator PlaySoundSequence()
+    {
+        while (playerInTrigger)
         {
             if (RightSource != null)
             {
                 RightSource.Play();
             }
 
+            yield return new WaitForSeconds(1f); // Wait for 1 second
+
             if (StraightSource != null)
             {
-                StraightSource.PlayDelayed(1);
+                StraightSource.Play();
             }
+
+            yield return new WaitForSeconds(1f); // Wait for 1 second
+
             if (LeftSource != null)
             {
-                LeftSource.PlayDelayed(2);
+                LeftSource.Play();
             }
 
-
-
+            yield return new WaitForSeconds(1f); // Wait for 1 second
 
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (MainSource.isPlaying == null)
+        if (!MainSource.isPlaying)
         {
             MainSource.Play();
         }
