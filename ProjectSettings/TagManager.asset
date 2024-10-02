@@ -9,6 +9,7 @@ TagManager:
   - Tile
   - WeakPlank
   - Wall
+  - TutSound
   layers:
   - Default
   - TransparentFX
