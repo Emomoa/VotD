@@ -43,6 +43,7 @@ public class PuzzleController : MonoBehaviour
             // Correct object activated
             currentActivationIndex++;
             puzzleSolvedSource.PlayOneShot(correctActivationSound);
+            activatedObject.GetComponent<AudioSource>().Stop();
 
 
             if (currentActivationIndex >= activationSequence.Count)
@@ -70,6 +71,7 @@ public class PuzzleController : MonoBehaviour
         foreach (var obj in activationSequence)
         {
             obj.ResetActivation();
+            obj.GetComponent<AudioSource>().Play();
         }
     }
 }
