@@ -6,7 +6,7 @@ using UnityEngine;
 public class LabyrinthCreator : MonoBehaviour
 {
     public Transform firstLabyrinthModuleStartPosition; // Koppla en empty till den här där första labyrinten ska börja. 
-    public Transform door;
+    public GameObject door;
     [Header("Labyrinth Modules: ")]
     public GameObject[] room1Modules; // tutorial labyrint modulerna
     public GameObject[] room2Modules;
@@ -50,12 +50,14 @@ public class LabyrinthCreator : MonoBehaviour
         }
         if( (roomModulesToPickFrom[module1Index] != null) && (roomModulesToPickFrom[module2Index] != null) )
         {
-            Instantiate(roomModulesToPickFrom[module1Index],firstLabyrinthModuleStartPosition.position,firstLabyrinthModuleStartPosition.rotation);
-            Instantiate(roomModulesToPickFrom[module2Index],roomModulesToPickFrom[module1Index].GetComponent<Module>().endPoint.position,roomModulesToPickFrom[module1Index].GetComponent<Module>().endPoint.rotation);
+            GameObject mod1 = Instantiate(roomModulesToPickFrom[module1Index],firstLabyrinthModuleStartPosition.position,firstLabyrinthModuleStartPosition.rotation);
+            GameObject mod2 = Instantiate(roomModulesToPickFrom[module2Index],mod1.GetComponent<Module>().endPoint.position,mod1.GetComponent<Module>().endPoint.rotation);
 
-            door.position = roomModulesToPickFrom[module2Index].GetComponent<Module>().endPoint.position;
-            door.rotation = roomModulesToPickFrom[module2Index].GetComponent<Module>().endPoint.rotation;
-            // sen ska även waypoints placeras ut, fast waypoints ska kanske redan vara placerade på modulerna?
+            Instantiate(door,mod2.GetComponent<Module>().endPoint.position, roomModulesToPickFrom[module2Index].GetComponent<Module>().endPoint.rotation);
+
+
+            // sen ska även waypoints placeras ut, fast waypoints ska kanske redan vara placerade i modulerna?
+
         }
         else
         {
