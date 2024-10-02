@@ -100,8 +100,8 @@ GameObject:
   - component: {fileID: 1861037898080914417}
   - component: {fileID: 1618498098903913678}
   - component: {fileID: 3484382652727263501}
-  - component: {fileID: 1645744651757557377}
   - component: {fileID: 3499944618624240050}
+  - component: {fileID: 1645744651757557377}
   - component: {fileID: 641638974193264876}
   - component: {fileID: 6962288357658172737}
   m_Layer: 3
@@ -397,25 +397,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1645744651757557377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580772261995091284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52df198fbd3125f42aafe0ace55660c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isLit: 0
-  torchLitDelay: 0.5
-  torchSound: {fileID: 8300000, guid: a2d14334b0c1cc84998ad6da0dd8902f, type: 3}
-  lightTorchSound: {fileID: 8300000, guid: 20b8ae3d7c53a414993b34bed3c53cdd, type: 3}
-  putOutTorchSound: {fileID: 0}
-  hitSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
-  audioSource: {fileID: 3499944618624240050}
 --- !u!82 &3499944618624240050
 AudioSource:
   m_ObjectHideFlags: 0
@@ -512,6 +493,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1645744651757557377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580772261995091284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52df198fbd3125f42aafe0ace55660c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLit: 0
+  torchLitDelay: 0.5
+  torchSound: {fileID: 8300000, guid: a2d14334b0c1cc84998ad6da0dd8902f, type: 3}
+  lightTorchSound: {fileID: 8300000, guid: 20b8ae3d7c53a414993b34bed3c53cdd, type: 3}
+  putOutTorchSound: {fileID: 8300000, guid: e186d3e07d2d9f849a9cbbea5bfb7d4d, type: 3}
+  hitSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  audioSource: {fileID: 3499944618624240050}
 --- !u!114 &641638974193264876
 MonoBehaviour:
   m_ObjectHideFlags: 0

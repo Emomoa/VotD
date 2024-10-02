@@ -7,9 +7,8 @@ using UnityEngine;
 public class GhostAttack : MonoBehaviour
 {
     [Header("Audio")]
-    public AudioClip[] footstepSounds;
-    public float footstepDelay = 0.5f;
-    public AudioClip runningShort;
+    public AudioClip runningSound;
+    public AudioClip initializeAttack;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
     public AudioClip swingTorchSound;
@@ -32,7 +31,6 @@ public class GhostAttack : MonoBehaviour
 
     private bool shouldQTE = false;
     private bool shouldRunTowardPlayer = false;
-    private float stepTimer;
     
 
 
@@ -63,7 +61,6 @@ public class GhostAttack : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerMovement = player.GetComponent<PlayerMovement>();
 
-        stepTimer = footstepDelay;
     }
 
     // Update is called once per frame
@@ -91,20 +88,9 @@ public class GhostAttack : MonoBehaviour
                     // Move our position a step closer to the target.
                     var step = speed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
-
-                    /*
-                    // Checks if a footstep sound is already playing, if not play next footstep sound.
-                    if (!audioSource.isPlaying){
-                        PlayFootstep();
-                    }
-                    */                  
-                    // Reduce step timer as time passes
-                    stepTimer -= Time.deltaTime;
-
-                    // If the timer reaches zero, play a footstep sound
-                    if (stepTimer <= 0){
-                        PlayFootstep();
-                        stepTimer = footstepDelay; // Reset timer
+                    if(!audioSource.isPlaying)
+                    {
+                        audioSource.PlayOneShot(runningSound);
                     }
                 }
                 else
@@ -124,15 +110,6 @@ public class GhostAttack : MonoBehaviour
                 }
             }
 
-        }
-    }
-
-    void PlayFootstep(){
-        if(footstepSounds.Length> 0){
-            // pick random.
-            int randomIndex = Random.Range(0, footstepSounds.Length);
-            audioSource.clip = footstepSounds[randomIndex];
-            audioSource.Play();
         }
     }
 
@@ -253,7 +230,7 @@ public class GhostAttack : MonoBehaviour
 
     void PlayShortRunSound()
     {
-        audioSource.clip = runningShort;
+        audioSource.clip = initializeAttack;
         audioSource.loop = false;
         audioSource.Play();
     }

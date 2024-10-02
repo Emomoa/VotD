@@ -7,9 +7,9 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Audio")]
     public AudioClip quickTimeEventQue;
-    public AudioClip deflectedSound;
     public AudioClip swingTorchSound;
     public AudioSource audioSource;
+    private AudioClip ghostDeflectedSound;
 
     [Header("Variables")]
     [SerializeField] private float deflectWindowTime = 10f;
@@ -28,6 +28,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
         ghost = FindObjectOfType<GhostAttack>();
+        ghostDeflectedSound = ghost.deflectedSound;
         
     }
 
@@ -79,7 +80,7 @@ public class PlayerAttack : MonoBehaviour
 
                 // Play ghost scream sound
                 ghost.GetComponent<AudioSource>().Stop();
-                audioSource.PlayOneShot(deflectedSound);
+                audioSource.PlayOneShot(ghostDeflectedSound);
                 EndDeflectWindow();
                 //torch.ToggleIsLit(true);
                 ghost.ResetAttack();

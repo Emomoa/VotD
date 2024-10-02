@@ -129,9 +129,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 0
-  DopplerLevel: 4
-  MinDistance: 3
-  MaxDistance: 1000
+  DopplerLevel: 0
+  MinDistance: 5
+  MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -181,7 +181,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.1388889
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -218,24 +218,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f29b127d9d846b42eeb9b1df448c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSounds:
-  - {fileID: 8300000, guid: b0e17ad550850434496ebd2a4b3debae, type: 3}
-  - {fileID: 8300000, guid: 8af9ebecc1326f84893211178db3e89b, type: 3}
-  - {fileID: 8300000, guid: 461d2cdecdaf6424e9bd9d0aaa62a5e8, type: 3}
-  - {fileID: 8300000, guid: 45de2dd2a95fd234f948bd4542a61920, type: 3}
-  - {fileID: 8300000, guid: e18c9c99cff97cc49ab0c651cb8473f4, type: 3}
-  - {fileID: 8300000, guid: bda2f1a8caa91ef409840fa2ea467fee, type: 3}
-  - {fileID: 8300000, guid: bfa03767baad83c4b94fd2853d2b7ad9, type: 3}
-  - {fileID: 8300000, guid: 1a7f2172b26ec2b4fafcd4eb5f9581bb, type: 3}
-  footstepDelay: 0.2
-  runningShort: {fileID: 8300000, guid: a3751b9bc031b4a4f95628f665649932, type: 3}
-  quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
+  runningSound: {fileID: 8300000, guid: 45802664f21b8954d83ccf400ac3616f, type: 3}
+  initializeAttack: {fileID: 8300000, guid: 37febc802c2b58a4b83edc3d10722892, type: 3}
+  quickTimeEventQue: {fileID: 8300000, guid: 225574452fe85604fbbc88e88c808bfa, type: 3}
   deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
-  speed: 7
+  speed: 4
   stopDistance: 2.5
   offset: 20
-  attackInterval: 10
+  attackInterval: 2
   canAttack: 1
 --- !u!1001 &7102145887165004769
 PrefabInstance:
