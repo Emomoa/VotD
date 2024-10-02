@@ -1608,30 +1608,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: runningSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 16580a43972cdde43af00d96bd7d92a7, type: 3}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: stopDistance
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: deflectedSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 18d86ed5b0a8e0c45a294bf8e2d1e8d2, type: 3}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: MinDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: DopplerLevel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4440798938901046592, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
-      value: 0.1388889
-      objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.47
