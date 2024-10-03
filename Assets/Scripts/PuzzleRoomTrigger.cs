@@ -10,9 +10,13 @@ public class PuzzleRoomTrigger : MonoBehaviour
     private AudioClip audioClip;
 
     [SerializeField]
+    private AudioClip puzzleHintSound;
+
+    [SerializeField]
     private AudioClip emmaTutorial;
 
     private bool emmaBool = false;
+    private bool emmaBool2 = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +26,7 @@ public class PuzzleRoomTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && SceneManager.GetActiveScene().name == "PuzzleRoomElements" && emmaBool)
+        if (Input.GetKeyDown(KeyCode.F) && SceneManager.GetActiveScene().name == "PuzzleRoomElements" && emmaBool && !AudioSource.isPlaying)
         {
             AudioSource.clip = audioClip;
             AudioSource.Play();
@@ -31,8 +35,9 @@ public class PuzzleRoomTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Player" && !emmaBool2)
         {
+            emmaBool2 = true;
             StartCoroutine(PuzzleRoomRiddle());
         }
     }
@@ -44,7 +49,10 @@ public class PuzzleRoomTrigger : MonoBehaviour
         yield return new WaitForSeconds(AudioSource.clip.length);
         AudioSource.clip = audioClip;
         AudioSource.Play();
-        yield return new WaitForSeconds(AudioSource.clip.length);
+        yield return new WaitForSeconds(AudioSource.clip.length + .5f);
+        AudioSource.clip = puzzleHintSound;
+        AudioSource.Play();
+        yield return new WaitForSeconds(AudioSource.clip.length + .5f);
         AudioSource.clip = emmaTutorial;
         AudioSource.Play();
         yield return new WaitForSeconds(AudioSource.clip.length);
