@@ -14,10 +14,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Emma 2.unity
     guid: 906966b2a1361a448b62980a4c4261b6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: f432451a690cce24bb2afe7ca570c649
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PuzzleRoom1.unity
     guid: 6803996e764b8e446bc72f98af1f23fb
+  - enabled: 1
+    path: Assets/Scenes/Jeremy&Amanda.unity
+    guid: b298a39460c4e0e48aeb261b654d265f
   m_configObjects: {}

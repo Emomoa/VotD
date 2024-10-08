@@ -325,7 +325,7 @@ MonoBehaviour:
   speed: 2
   stopDistance: 2.5
   offset: 15
-  attackInterval: 2
+  attackInterval: 15
   canAttack: 1
 --- !u!1001 &7102145887165004769
 PrefabInstance:
