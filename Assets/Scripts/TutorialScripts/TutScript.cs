@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TutScript : MonoBehaviour
@@ -23,10 +24,16 @@ public class TutScript : MonoBehaviour
 
     }
 
-    async void PlaySounds()
+    private void OnTriggerEnter(Collider other)
     {
-        
-        await Task.Delay(timer);
+        if(other.tag == "Tutorial")
+        {
+            PlaySounds();
+            other.gameObject.SetActive(false);
+        }
+    }
+     void PlaySounds()
+    {
         source.PlayOneShot(clips[lol]);
         lol++;
 
