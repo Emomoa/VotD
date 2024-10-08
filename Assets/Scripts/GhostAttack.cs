@@ -7,6 +7,8 @@ using UnityEngine;
 public class GhostAttack : MonoBehaviour
 {
     [Header("Audio")]
+    public AudioSource heartbeatAudioSource;
+    public AudioSource audioSource;
     public AudioClip runningSound;
     public AudioClip initializeAttack;
     public AudioClip quickTimeEventQue;
@@ -14,7 +16,7 @@ public class GhostAttack : MonoBehaviour
     public AudioClip swingTorchSound;
 
     private GameObject player;
-    private AudioSource audioSource;
+    
 
     [Header("Variables")]
     [Tooltip("How fast the ghost runs toward the player")]
@@ -57,8 +59,6 @@ public class GhostAttack : MonoBehaviour
         {
             Debug.LogWarning("Could not find gameobject with tag player.");
         }
-
-        audioSource = GetComponent<AudioSource>();
         playerMovement = player.GetComponent<PlayerMovement>();
 
     }
@@ -90,12 +90,24 @@ public class GhostAttack : MonoBehaviour
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
                     if(!audioSource.isPlaying)
                     {
+                        /*
+                        audioSource.clip = runningSound;
+                        audioSource.loop = true;
+                        audioSource.Play();
+                        */
                         audioSource.PlayOneShot(runningSound);
+                    }
+
+                    if (!heartbeatAudioSource.isPlaying)
+                    {
+                        heartbeatAudioSource.Play();
+                        //audioSource.PlayOneShot(runningSound);
                     }
                 }
                 else
                 {
                     // Has reached the player
+                    heartbeatAudioSource.Stop();
                     audioSource.Stop();
                     audioSource.loop = false;
                     shouldRunTowardPlayer = false;

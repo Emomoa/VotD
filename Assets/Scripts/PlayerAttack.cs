@@ -61,7 +61,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    async void HandleQTE()
+    void HandleQTE()
     {
         if (isDeflecting)
         {
@@ -79,7 +79,8 @@ public class PlayerAttack : MonoBehaviour
                 audioSource.PlayOneShot(swingTorchSound);
 
                 // Play ghost scream sound
-                ghost.GetComponent<AudioSource>().Stop();
+                ghost.audioSource.Stop();
+                ghost.heartbeatAudioSource.Stop();
                 audioSource.PlayOneShot(ghostDeflectedSound);
                 EndDeflectWindow();
                 //torch.ToggleIsLit(true);
