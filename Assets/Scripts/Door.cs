@@ -10,7 +10,32 @@ public class Door : MonoBehaviour
     public AudioClip doorLocked;
     public AudioClip doorOpen;
 
-    public string nextSceneName; // Ändra från Scene till string
+    public string nextSceneName; // ï¿½ndra frï¿½n Scene till string
+
+    public AudioSource[] pings;
+    public int pingAmount = 3;
+    void Update()
+    {
+        if(Input.GetKeyDown("q"))
+        {
+            PingDoor();
+        }
+    }
+
+    private void PingDoor()
+    {
+        int pingToPlay = Random.Range(0,pings.Length);
+        if(pingAmount>0)
+        {
+            if(pingAmount==1)
+            {
+                pings[pingToPlay].pitch *= 2;
+            }
+            pings[pingToPlay].Play();
+            pingAmount--;
+        }
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,15 +44,15 @@ public class Door : MonoBehaviour
         {
             if (isOpen)
             {
-                // Spela upp ljudet för öppnad dörr
+                // Spela upp ljudet fï¿½r ï¿½ppnad dï¿½rr
                 audioSource.PlayOneShot(doorOpen);
 
-                // Ladda nästa scen med namn
+                // Ladda nï¿½sta scen med namn
                 SceneManager.LoadScene(nextSceneName);
             }
             else if (isClosed)
             {
-                // Spela upp ljudet för låst dörr
+                // Spela upp ljudet fï¿½r lï¿½st dï¿½rr
                 audioSource.PlayOneShot(doorLocked);
             }
         }
