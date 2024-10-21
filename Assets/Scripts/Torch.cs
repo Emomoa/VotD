@@ -19,11 +19,6 @@ public class Torch : MonoBehaviour
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        //audioSource = GetComponent<AudioSource>();
-        /*
-        if(audioSource == null) {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }*/
 
         audioSource.clip = torchSound;
         audioSource.playOnAwake = true;
@@ -68,10 +63,10 @@ public class Torch : MonoBehaviour
         isLit = state;
         if(!isLit){
             audioSource.Stop();
-            // spela släck fackla ljud
+            audioSource.PlayOneShot(putOutTorchSound);
         }
         
-        if(isLit && !audioSource.isPlaying) {
+        if(isLit) {
             audioSource.PlayOneShot(lightTorchSound);
             audioSource.PlayDelayed(torchLitDelay);
             Debug.Log("tänd fackla");
@@ -85,7 +80,4 @@ public class Torch : MonoBehaviour
         }
     }
 
-    private void LightWaypoint() {
-        //när spelaren går förbi otänd fackla på vägg tänds den och ger ljudclue
-    }
 }
