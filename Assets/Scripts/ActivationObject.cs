@@ -11,11 +11,15 @@ public class ActivationObject : MonoBehaviour
     // Reference to the Puzzle Controller
     public PuzzleController puzzleController;
 
+    public UnityEvent onTriggerEnter;
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isActivated)
         {
             playerInRange = true;
+            onTriggerEnter.Invoke();
+
             // Optionally, display UI prompt to press "E"
         }
     }
