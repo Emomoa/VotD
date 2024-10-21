@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
         ghost = FindObjectOfType<GhostAttack>();
-        ghostDeflectedSound = ghost.deflectedSound;
+        //ghostDeflectedSound = ghost.deflectedSound;
         
     }
 
@@ -36,29 +36,9 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         // Check if player is looking at ghost.
-        RaycastHit hit = playerMovement.GetRaycasting();
-        if(hit.collider != null)
-        {
-            if (hit.collider.name == "Ghost")
-            {
-                isLookingAtGhost = true;
-                Debug.Log(isLookingAtGhost);
-            }
-            else
-            {
-                isLookingAtGhost = false;
-            }
-        }
 
         // check if ghost should activate QTE.
-        if (ghost != null)
-        {
-            if (ghost.GetShouldQTE())
-            {
-                isDeflecting = true;
-                HandleQTE();
-            }
-        }
+        
     }
 
     async void HandleQTE()

@@ -21,7 +21,7 @@ public class Wall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isColliding && playerMovement.moveDirection.magnitude > 0.1f)
+        /*if (isColliding && playerMovement.moveDirection.magnitude > 0.1f)
         {
             if (!scrape.isPlaying)
             {
@@ -29,7 +29,7 @@ public class Wall : MonoBehaviour
                 //audioSource.pitch = playerMovement.moveDirection.magnitude/5;
                 scrape.Play();
             }
-        } /*else
+        }*/ /*else
         {
             scrape.Stop();
         }*/
