@@ -7,6 +7,7 @@ public class Crossroads : MonoBehaviour
     public AudioSource RightSource;
     public AudioSource LeftSource;
     public AudioSource StraightSource;
+    public AudioSource BackSource;
 
     private Coroutine soundCoroutine; // To keep track of the coroutine
     private bool playerInTrigger = false; // Flag to check if player is in the trigger
@@ -64,6 +65,13 @@ public class Crossroads : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1f); // Wait for 1 second
+
+            if (BackSource != null)
+            {
+                BackSource.Play();
+            }
+
+            yield return new WaitForSeconds(1f);
 
         }
     }
