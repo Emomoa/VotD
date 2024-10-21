@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -6,247 +8,182 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float sneakSpeed = 2.5f;
-    private float currentSpeed;
-    public float gravity = -9.81f;
     public float acceleration = 10f;
+    public float gravity = -9.81f;
+    public bool isDead = false;
+    public bool isSneaking = false;
 
-    public bool isSneaking;
-
-    [Header("Physics Settings")]
-    public Vector3 moveDirection = Vector3.zero;
-    private Vector3 velocity;
+    private Vector3 moveDirection = Vector3.zero;
+    private Vector3 desiredMoveDirection = Vector3.zero;
+    private float velocityY = 0f;
     private bool isGrounded;
+    public bool isMoving;
 
-    [Header("Raycast Settings")]
-    public float rayDistance = 10f; // Avstånd för framåtriktad raycast
+    [Header("Mouse Look Settings")]
+    public float mouseSensitivity = 100f;
+    private float xRotation = 0f;
 
-    [Header("Audio Settings")]
-    public AudioSource audioSource;
+    [Header("Footstep Settings")]
+    public AudioSource footstepAudioSource;
     public AudioClip[] carpetFootsteps;
     public AudioClip[] woodFootsteps;
     public AudioClip[] tileFootsteps;
-    public float footstepDelay = 0.5f; // Fördröjning mellan fotstegsljud
+    public float footstepInterval = 0.5f; // Minimum time between footsteps
     private float footstepTimer = 0f;
-
-    [Header("Torch Settings")]
-    public Light torchLight; // Tilldela denna i Inspektorn
-
-    [Header("Mouse Look Settings")]
-    public float mouseSensitivity = 100f; // Musens känslighet
-    private float xRotation = 0f;
+    private bool wasMovingLastFrame = false;
 
     [Header("References")]
     private CharacterController controller;
-    public Transform cameraTransform; // Tilldela spelarens kamera här
+    public Transform cameraTransform;
 
-    public delegate void PlayerDeathHandler();
-    public static event PlayerDeathHandler OnPlayerDeath;
-
-    public bool isDead = false;
+    public static event Action OnPlayerDeath;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
 
-        // Göm och lås muspekaren
+        // Lock and hide the cursor
         Cursor.lockState = CursorLockMode.Locked;
 
-        // Återställ rotationen så att spelaren tittar rakt fram
+        // Initialize rotation
         xRotation = 0f;
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.rotation = Quaternion.Euler(0f, 0f, 0f); // Återställ spelarens rotation
     }
 
     private void Update()
     {
         HandleMovement();
-        HandleMouseLook();
-        HandleRaycasting();
-        HandleTorch();
-
-        // Lägg till kontroll för spelarens död vid tryck på "R"
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Die();
-        }
-
-        // Aktiverera kompassen vid tryck på "F"
-        // Skicka ut ett event som andra klasser kan prenumerera på
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            EventManager.TriggerCompassEvent();
-        }
+        //HandleMouseLook();
     }
 
-    public void HandleMovement()
+    private void HandleMovement()
     {
-        if (isDead) { return; }
-        // Kontrollera om spelaren är på marken
+        // Ground check
         isGrounded = controller.isGrounded;
 
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocityY < 0)
         {
-            velocity.y = -1f; // Håll spelaren på marken
+            velocityY = -2f; // Slight negative value to keep grounded
         }
 
-        // Hämta inmatning från tangentbordet
-        float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? sneakSpeed : walkSpeed;
+        // Get input
+        var speed = Input.GetKey(KeyCode.LeftShift) ? sneakSpeed : walkSpeed;
         isSneaking = Input.GetKey(KeyCode.LeftShift);
-        float moveX = Input.GetAxisRaw("Horizontal"); // Omedelbar inmatning för responsivitet
-        float moveZ = Input.GetAxisRaw("Vertical");
+        var moveX = Input.GetAxisRaw("Horizontal");
+        var moveZ = Input.GetAxisRaw("Vertical");
 
-        // Beräkna önskad rörelseriktning i lokalt rumskoordinatsystem
-        Vector3 desiredMove = transform.right * moveX + transform.forward * moveZ;
-        desiredMove = desiredMove.normalized * targetSpeed;
+        // Calculate desired move direction
+        desiredMoveDirection = (transform.forward * moveZ + transform.right * moveX).normalized * speed;
 
-        // Smidigt accelerera mot önskad hastighet
-        moveDirection = Vector3.Lerp(moveDirection, desiredMove, acceleration * Time.deltaTime);
-
-        // Applicera rörelse
-        controller.Move(moveDirection * Time.deltaTime);
-
-        // Applicera gravitation
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-
-        // Spela fotstegsljud
-        if (isGrounded && moveDirection.magnitude > 0.1f)
+        // If there's no input, reset moveDirection to zero
+        if (moveX == 0 && moveZ == 0)
         {
-            footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0f)
-            {
-                PlayFootsteps();
-                footstepTimer = footstepDelay / (targetSpeed / walkSpeed); // Justera fördröjning baserat på hastighet
-            }
+            moveDirection = Vector3.zero;
         }
         else
         {
-            footstepTimer = 0f; // Återställ timer när spelaren inte rör sig
+            // Smoothly interpolate moveDirection
+            moveDirection = Vector3.Lerp(moveDirection, desiredMoveDirection, acceleration * Time.deltaTime);
         }
+
+        // Apply movement
+        var velocity = moveDirection;
+
+        // Apply gravity
+        velocityY += gravity * Time.deltaTime;
+        velocity.y = velocityY;
+
+        controller.Move(velocity * Time.deltaTime);
+
+        // Reset vertical velocity if grounded
+        if (isGrounded && velocityY < 0)
+        {
+            velocityY = -2f;
+        }
+
+        // Handle footstep sounds
+        HandleFootsteps();
     }
 
     private void HandleMouseLook()
     {
-        // Hämta musens rörelse
+        // Get mouse input
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // Justera rotationen i X-led (upp och ner)
+        // Adjust vertical rotation
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Rotera kameran upp och ner
-        //cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-        // Rotera spelaren i Y-led (vänster och höger)
+        // Apply rotations
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    private RaycastHit HandleRaycasting()
+    private void HandleFootsteps()
     {
-        // Skjut en raycast från kameran i blickriktningen
-        RaycastHit hit;
-        Vector3 rayDirection = cameraTransform.forward;
-        if (Physics.Raycast(cameraTransform.position, rayDirection, out hit, rayDistance))
+        isMoving = controller.velocity.magnitude > 0.2f && isGrounded;
+
+        if (isMoving)
         {
-            return hit;
+            footstepTimer -= Time.deltaTime;
+
+            // If the player just started moving, play a footstep sound immediately
+            if (!wasMovingLastFrame)
+            {
+                PlayFootstepSound();
+                footstepTimer = footstepInterval; // Reset the timer
+            }
+            else if (footstepTimer <= 0f)
+            {
+                PlayFootstepSound();
+                footstepTimer = footstepInterval;
+            }
+        }
+        else
+        {
+            // Reset the footstep timer when the player stops moving
+            footstepTimer = footstepInterval;
         }
 
-        return hit;
-
-        // Visa raycasten för debugging
-        Debug.DrawRay(cameraTransform.position, rayDirection * rayDistance, Color.red);
+        wasMovingLastFrame = isMoving;
     }
 
-    public RaycastHit GetRaycasting()
+    private void PlayFootstepSound()
     {
-        return HandleRaycasting();
+        var groundTag = GetGroundTag();
+
+        if (groundTag == null) return;
+
+        var selectedFootsteps = groundTag switch
+        {
+            "Wood" => woodFootsteps,
+            "Tile" => tileFootsteps,
+            "Carpet" => carpetFootsteps,
+            _ => carpetFootsteps
+        };
+
+        if (selectedFootsteps.Length == 0) return;
+
+        // Play a random footstep sound
+        var clipIndex = Random.Range(0, selectedFootsteps.Length);
+        footstepAudioSource.pitch = isSneaking ? 0.9f : 1f;
+        footstepAudioSource.PlayOneShot(selectedFootsteps[clipIndex]);
     }
+
     public string GetGroundTag()
     {
-        // Raycast nedåt för att kontrollera underlaget
-        RaycastHit groundHit;
-        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f; // Starta rayen strax ovanför spelarens fötter
-
-        // Skapa en LayerMask som exkluderar "Player"-lagret
-        int layerMask = ~LayerMask.GetMask("Player"); // Invertera masken för att exkludera "Player"-lagret
-
-        if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, 2f, layerMask))
+        RaycastHit hit;
+        var origin = transform.position + Vector3.up * 0.1f;
+        if (Physics.Raycast(origin, Vector3.down, out hit, 2f))
         {
-            return groundHit.collider.tag;
+            return hit.collider.tag;
         }
-        else
-        {
-            Debug.LogWarning("Inget underlag detekterades under spelaren!");
-            return null;
-        }
-    }
-
-    private void HandleTorch()
-    {
-        string groundTag = GetGroundTag();
-
-        if (groundTag == "Carpet")
-        {
-            if (!torchLight.enabled)
-            {
-                torchLight.enabled = true;
-                Debug.Log("Fackla aktiverad");
-            }
-        }
-        else
-        {
-            if (torchLight.enabled)
-            {
-                torchLight.enabled = false;
-                Debug.Log("Fackla deaktiverad");
-            }
-        }
-    }
-
-    private void PlayFootsteps()
-    {
-        if (!audioSource.isPlaying)
-        {
-            string groundTag = GetGroundTag();
-
-            if (groundTag != null)
-            {
-                //Debug.Log("Underlag: " + groundTag);
-
-                // Välj lämpliga fotstegsljud baserat på underlagets tagg
-                AudioClip[] selectedFootsteps = carpetFootsteps; // Standardfotsteg
-
-                if (groundTag == "Wood")
-                {
-                    selectedFootsteps = woodFootsteps;
-                }
-                else if (groundTag == "Tile")
-                {
-                    selectedFootsteps = tileFootsteps;
-                }
-                else if (groundTag == "Carpet")
-                {
-                    selectedFootsteps = carpetFootsteps;
-                }
-
-                // Spela det valda fotstegsljudet
-                int clipIndex = Random.Range(0, selectedFootsteps.Length);
-                audioSource.clip = selectedFootsteps[clipIndex];
-
-                // Justera tonhöjd för smygläge
-                audioSource.pitch = isSneaking ? 0.9f : 1f;
-                audioSource.Play();
-            }
-        }
+        return null;
     }
 
     public void Die()
     {
-        // Hantera spelarens död och återupplivning
-        Debug.Log("Spelaren har dött.");
-        OnPlayerDeath?.Invoke(); // Skicka ut ett event om att spelaren har dött
-        isDead = true;
-        // Implementera återupplivningslogik här
+        OnPlayerDeath?.Invoke();
     }
 }
