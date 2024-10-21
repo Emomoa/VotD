@@ -160,6 +160,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crossroad_RL
       objectReference: {fileID: 0}
+    - target: {fileID: 7650125793702172539, guid: 69c1e02985cac5e4fb253c3f434e9ea3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d35deb03cfcbe5341acaebbcc0fa9ead, type: 3}
     - target: {fileID: 8528285653009371948, guid: 69c1e02985cac5e4fb253c3f434e9ea3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.06563
@@ -200,6 +204,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8954587109708918365, guid: 69c1e02985cac5e4fb253c3f434e9ea3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9291362dbdce18743b59d1eed5e148f1, type: 3}
+    - target: {fileID: 9056953707759325916, guid: 69c1e02985cac5e4fb253c3f434e9ea3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d0b47164ef9e78341a6a81549f0ffb84, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -534,6 +546,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crossroad_SL
       objectReference: {fileID: 0}
+    - target: {fileID: 762309514151581536, guid: 7319b4d7f99ab944da0b6c4b903d4e71, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d35deb03cfcbe5341acaebbcc0fa9ead, type: 3}
+    - target: {fileID: 4978198042613083870, guid: 7319b4d7f99ab944da0b6c4b903d4e71, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d866b14a0fa18224d80ff7d758be20e7, type: 3}
     - target: {fileID: 5975661726982403633, guid: 7319b4d7f99ab944da0b6c4b903d4e71, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.7748213
@@ -574,6 +594,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7363483799303330046, guid: 7319b4d7f99ab944da0b6c4b903d4e71, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d0b47164ef9e78341a6a81549f0ffb84, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -592,6 +616,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5920226881325203774}
     m_Modifications:
+    - target: {fileID: 1131883160913575362, guid: 5ac2542483b7b4449833e0cb9b521bd3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9291362dbdce18743b59d1eed5e148f1, type: 3}
     - target: {fileID: 1487968688661679396, guid: 5ac2542483b7b4449833e0cb9b521bd3, type: 3}
       propertyPath: m_Name
       value: Crossroad_Turn
@@ -636,6 +664,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6038419253049745884, guid: 5ac2542483b7b4449833e0cb9b521bd3, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d0b47164ef9e78341a6a81549f0ffb84, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
