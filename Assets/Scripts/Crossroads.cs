@@ -23,19 +23,19 @@ public class Crossroads : MonoBehaviour
         if (!RightSourceBool)
         {
             RightSource.enabled = false;
-        }
+        } else { RightSource.enabled = true; }
         if (!LeftSourceBool)
         {
             LeftSource.enabled = false;
-        }
+        } else {  LeftSource.enabled = true; }
         if (!StraightSourceBool)
         {
             StraightSource.enabled = false;
-        }
+        } else {  StraightSource.enabled = true; }
         if (!BackSourceBool) 
         { 
             BackSource.enabled = false; 
-        }
+        } else {  BackSource.enabled = true; }
 
 
     }
