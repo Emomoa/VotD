@@ -93,6 +93,9 @@ public class Wall : MonoBehaviour
                 Debug.Log("Hit sound played.");
             }
 
+            float randomStartTime = Random.Range(0f, scrape.clip.length);
+            scrape.time = randomStartTime;
+
             // Set colliding state
             isColliding = true;
 
@@ -106,6 +109,7 @@ public class Wall : MonoBehaviour
             {
                 Debug.Log("PlayerMovement component assigned.");
             }
+
         }
     }
 
