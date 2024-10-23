@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Crossroads : MonoBehaviour
@@ -41,7 +42,10 @@ public class Crossroads : MonoBehaviour
     void Start()
     {
         MainSource = GetComponent<AudioSource>();
-        MainSource.Play();
+        if(MainSource!=null)
+        {
+            MainSource.Play();
+        } 
         TestIfBeaconsShouldChangeRotation();
     }
     public float tempRotation;
@@ -66,17 +70,21 @@ public class Crossroads : MonoBehaviour
         bool tempLeftSourceBool = LeftSourceBool;
         if(changeClockwise)
         {   // norr blir öst, öst, blir south, south blir west, west blir north
-            RightSourceBool = tempStraightSourceBool;
-            BackSourceBool = tempRightSourceBool;
-            LeftSourceBool = tempBackSourceBool;
-            StraightSourceBool = tempLeftSourceBool; 
-        }
-        else
-        {
+            
             LeftSourceBool = tempStraightSourceBool;
             BackSourceBool = tempLeftSourceBool;
             RightSourceBool = tempBackSourceBool;
             StraightSourceBool = tempRightSourceBool;
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x,transform.eulerAngles.y+90,transform.eulerAngles.z);
+        }
+        else
+        {
+            RightSourceBool = tempStraightSourceBool;
+            BackSourceBool = tempRightSourceBool;
+            LeftSourceBool = tempBackSourceBool;
+            StraightSourceBool = tempLeftSourceBool; 
+            
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x,transform.eulerAngles.y-90,transform.eulerAngles.z);
         }
 
     }
@@ -142,6 +150,10 @@ public class Crossroads : MonoBehaviour
     void Update()
     {
         CheckBools();
+        if(MainSource == null)
+        {
+            return;
+        }
         if (!MainSource.isPlaying)
         {
             MainSource.Play();
