@@ -37,12 +37,48 @@ public class Crossroads : MonoBehaviour
             BackSource.enabled = false; 
         } else {  BackSource.enabled = true; }
 
-
     }
     void Start()
     {
         MainSource = GetComponent<AudioSource>();
         MainSource.Play();
+        TestIfBeaconsShouldChangeRotation();
+    }
+    public float tempRotation;
+    void TestIfBeaconsShouldChangeRotation()
+    {
+        tempRotation = transform.eulerAngles.y;
+        if(transform.eulerAngles.y>1)
+        {
+            UpdateCrossroadCompass(false);
+        }
+        else if( transform.eulerAngles.y<-1)
+        {
+            UpdateCrossroadCompass(true);
+        }
+
+    }
+    void UpdateCrossroadCompass(bool changeClockwise)
+    {
+        bool tempStraightSourceBool = StraightSourceBool;
+        bool tempRightSourceBool = RightSourceBool;
+        bool tempBackSourceBool = BackSourceBool;
+        bool tempLeftSourceBool = LeftSourceBool;
+        if(changeClockwise)
+        {   // norr blir öst, öst, blir south, south blir west, west blir north
+            RightSourceBool = tempStraightSourceBool;
+            BackSourceBool = tempRightSourceBool;
+            LeftSourceBool = tempBackSourceBool;
+            StraightSourceBool = tempLeftSourceBool; 
+        }
+        else
+        {
+            LeftSourceBool = tempStraightSourceBool;
+            BackSourceBool = tempLeftSourceBool;
+            RightSourceBool = tempBackSourceBool;
+            StraightSourceBool = tempRightSourceBool;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
