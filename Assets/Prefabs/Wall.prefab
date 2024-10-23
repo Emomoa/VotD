@@ -164,7 +164,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -216,8 +216,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8122f4217145c943884e1f969286be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hit: {fileID: 0}
-  scrape: {fileID: 0}
+  hit: {fileID: 1430207226407652858}
+  scrape: {fileID: 2441656524549321744}
+  n: 0
+  e: 0
+  s: 0
+  w: 0
 --- !u!82 &1430207226407652858
 AudioSource:
   m_ObjectHideFlags: 0
