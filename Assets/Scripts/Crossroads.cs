@@ -7,14 +7,78 @@ public class Crossroads : MonoBehaviour
     public AudioSource RightSource;
     public AudioSource LeftSource;
     public AudioSource StraightSource;
+    public AudioSource BackSource;
+
+    public bool RightSourceBool;
+    public bool LeftSourceBool;
+    public bool StraightSourceBool;
+    public bool BackSourceBool;
 
     private Coroutine soundCoroutine; // To keep track of the coroutine
     private bool playerInTrigger = false; // Flag to check if player is in the trigger
 
+
+    void CheckBools()
+    {
+        if (!RightSourceBool)
+        {
+            RightSource.enabled = false;
+        } else { RightSource.enabled = true; }
+        if (!LeftSourceBool)
+        {
+            LeftSource.enabled = false;
+        } else {  LeftSource.enabled = true; }
+        if (!StraightSourceBool)
+        {
+            StraightSource.enabled = false;
+        } else {  StraightSource.enabled = true; }
+        if (!BackSourceBool) 
+        { 
+            BackSource.enabled = false; 
+        } else {  BackSource.enabled = true; }
+
+    }
     void Start()
     {
         MainSource = GetComponent<AudioSource>();
         MainSource.Play();
+        TestIfBeaconsShouldChangeRotation();
+    }
+    public float tempRotation;
+    void TestIfBeaconsShouldChangeRotation()
+    {
+        tempRotation = transform.eulerAngles.y;
+        if(transform.eulerAngles.y>1)
+        {
+            UpdateCrossroadCompass(false);
+        }
+        else if( transform.eulerAngles.y<-1)
+        {
+            UpdateCrossroadCompass(true);
+        }
+
+    }
+    void UpdateCrossroadCompass(bool changeClockwise)
+    {
+        bool tempStraightSourceBool = StraightSourceBool;
+        bool tempRightSourceBool = RightSourceBool;
+        bool tempBackSourceBool = BackSourceBool;
+        bool tempLeftSourceBool = LeftSourceBool;
+        if(changeClockwise)
+        {   // norr blir öst, öst, blir south, south blir west, west blir north
+            RightSourceBool = tempStraightSourceBool;
+            BackSourceBool = tempRightSourceBool;
+            LeftSourceBool = tempBackSourceBool;
+            StraightSourceBool = tempLeftSourceBool; 
+        }
+        else
+        {
+            LeftSourceBool = tempStraightSourceBool;
+            BackSourceBool = tempLeftSourceBool;
+            RightSourceBool = tempBackSourceBool;
+            StraightSourceBool = tempRightSourceBool;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,7 +113,7 @@ public class Crossroads : MonoBehaviour
                 RightSource.Play();
             }
 
-            yield return new WaitForSeconds(1f); // Wait for 1 second
+            yield return new WaitForSeconds(1.2f); // Wait for 1 second
 
             if (StraightSource != null)
             {
@@ -65,11 +129,19 @@ public class Crossroads : MonoBehaviour
 
             yield return new WaitForSeconds(1f); // Wait for 1 second
 
+            if (BackSource != null)
+            {
+                BackSource.Play();
+            }
+
+            yield return new WaitForSeconds(1f);
+
         }
     }
 
     void Update()
     {
+        CheckBools();
         if (!MainSource.isPlaying)
         {
             MainSource.Play();

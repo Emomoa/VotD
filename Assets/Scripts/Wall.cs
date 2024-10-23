@@ -4,56 +4,122 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    //private AudioSource audioSource;
     private bool isColliding;
     private PlayerMovement playerMovement;
+
     [SerializeField]
     private AudioSource hit;
     [SerializeField]
     private AudioSource scrape;
 
+    [SerializeField] private float n;
+    [SerializeField] private float e;
+    [SerializeField] private float s;
+    [SerializeField] private float w;
+
     // Start is called before the first frame update
     void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
+        n = transform.position.x + (transform.lossyScale.x / 2);
+        e = transform.position.z + (transform.lossyScale.z / 2);
+        s = transform.position.x - (transform.lossyScale.x / 2);
+        w = transform.position.z - (transform.lossyScale.z / 2);
+
+        // Configure AudioSources
+        if (scrape != null)
+        {
+            scrape.loop = true;
+            scrape.playOnAwake = false;
+        }
+
+        if (hit != null)
+        {
+            hit.playOnAwake = false;
+            hit.loop = false;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isColliding && playerMovement.moveDirection.magnitude > 0.1f)
+        if (isColliding && playerMovement != null && playerMovement.isMoving)
         {
+            Debug.Log("Player is moving and colliding: " + playerMovement.isMoving);
             if (!scrape.isPlaying)
             {
                 Debug.Log("Scraping");
-                //audioSource.pitch = playerMovement.moveDirection.magnitude/5;
                 scrape.Play();
             }
-        } /*else
+        }
+        else
         {
-            scrape.Stop();
-        }*/
+            if (scrape.isPlaying)
+            {
+                scrape.Stop();
+                Debug.Log("Scrape sound stopped.");
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision");
+        Debug.Log("Collision with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Player"))
         {
-            //audioSource.Play();
-            Debug.Log("Player collision");
-            hit.Play();
+            // Determine panning based on position
+            if (collision.gameObject.transform.position.x > n || collision.gameObject.transform.position.x < s)
+            {
+                hit.panStereo = 0;
+                scrape.panStereo = 0;
+            }
+            else
+            {
+                if (collision.gameObject.transform.position.z > e)
+                {
+                    hit.panStereo = 1;
+                    scrape.panStereo = 1;
+                }
+                else
+                {
+                    hit.panStereo = -1;
+                    scrape.panStereo = -1;
+                }
+            }
+
+            // Play hit sound once
+            if (hit != null)
+            {
+                hit.Play();
+                Debug.Log("Hit sound played.");
+            }
+
+            float randomStartTime = Random.Range(0f, scrape.clip.length);
+            scrape.time = randomStartTime;
+
+            // Set colliding state
             isColliding = true;
+
+            // Assign playerMovement dynamically
             playerMovement = collision.transform.GetComponent<PlayerMovement>();
+            if (playerMovement == null)
+            {
+                Debug.LogWarning("PlayerMovement component not found on the Player.");
+            }
+            else
+            {
+                Debug.Log("PlayerMovement component assigned.");
+            }
+
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log("No Collision");
+        Debug.Log("Collision ended with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Player"))
         {
             isColliding = false;
+            playerMovement = null; // Clear reference
         }
     }
 }
