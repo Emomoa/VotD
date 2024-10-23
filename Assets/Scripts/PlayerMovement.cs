@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Play a random footstep sound
         var clipIndex = Random.Range(0, selectedFootsteps.Length);
-        footstepAudioSource.pitch = isSneaking ? 0.9f : 1f;
+        footstepAudioSource.pitch = isSneaking ? 0.9f : 1f; 
         footstepAudioSource.PlayOneShot(selectedFootsteps[clipIndex]);
     }
 
