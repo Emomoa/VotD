@@ -9,7 +9,7 @@ public class PuzzleController : MonoBehaviour
 
 
 
-    private int currentActivationIndex = 0;
+    public int currentActivationIndex = 0;
     private bool puzzleSolved = false;
     [SerializeField]
     private AudioClip[] correctActivationSound;
@@ -31,6 +31,7 @@ public class PuzzleController : MonoBehaviour
 
     void Start()
     {
+        SetCurrentPriority(activationSequence[currentActivationIndex]);
         puzzleSolvedSource = GetComponent<AudioSource>();
         // Initialize activation objects and assign this controller
         foreach (var obj in activationSequence)
@@ -54,6 +55,11 @@ public class PuzzleController : MonoBehaviour
             {
                 puzzleSolvedSource.Stop();
                 puzzleSolvedSource.PlayOneShot(correctActivationSound[Random.Range(0, correctActivationSound.Length - 1)]);
+                if (currentActivationIndex >= activationSequence.Count - 1)
+                {
+                    SetCurrentPriority(activationSequence[currentActivationIndex]); 
+                }
+                
             }
             
             activatedObject.GetComponent<AudioSource>().Stop();
@@ -90,6 +96,7 @@ public class PuzzleController : MonoBehaviour
     public void ResetPuzzle()
     {
         currentActivationIndex = 0;
+        SetCurrentPriority(activationSequence[currentActivationIndex]);
         foreach (var obj in activationSequence)
         {
             obj.ResetActivation();
@@ -101,5 +108,13 @@ public class PuzzleController : MonoBehaviour
     {
         puzzleSolvedSource.clip = interactExplain;
         puzzleSolvedSource.Play();
+    }
+
+    public void SetCurrentPriority(ActivationObject currentPrio)
+    {
+        var currentAudioSource = currentPrio.GetComponent<AudioSource>();
+        currentAudioSource.priority = 50;
+        currentAudioSource.volume = 1f;
+
     }
 }

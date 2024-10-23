@@ -15,31 +15,32 @@ public class PuzzleRoomTrigger : MonoBehaviour
     [SerializeField]
     private AudioClip emmaTutorial;
 
-    private bool emmaBool = false;
-    private bool emmaBool2 = false;
+    [SerializeField] private PuzzleController puzzleController;
+    [SerializeField] private AudioClip[] clues;
+
+    private bool _emmaBool = false;
+    private bool _emmaBool2 = false;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         AudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && SceneManager.GetActiveScene().name == "PuzzleRoomElements" && emmaBool && !AudioSource.isPlaying)
+        if (Input.GetKeyDown(KeyCode.F) && SceneManager.GetActiveScene().name == "PuzzleRoomElements" && _emmaBool && !AudioSource.isPlaying)
         {
-            AudioSource.clip = audioClip;
+            AudioSource.clip = clues[puzzleController.currentActivationIndex];
             AudioSource.Play();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player" && !emmaBool2)
-        {
-            emmaBool2 = true;
-            StartCoroutine(PuzzleRoomRiddle());
-        }
+        if (!other.gameObject.CompareTag("Player") || _emmaBool2) return;
+        _emmaBool2 = true;
+        StartCoroutine(PuzzleRoomRiddle());
     }
 
     private IEnumerator PuzzleRoomRiddle ()
@@ -56,6 +57,6 @@ public class PuzzleRoomTrigger : MonoBehaviour
         AudioSource.clip = emmaTutorial;
         AudioSource.Play();
         yield return new WaitForSeconds(AudioSource.clip.length);
-        emmaBool = true;
+        _emmaBool = true;
     }
 }
