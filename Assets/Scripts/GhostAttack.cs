@@ -30,10 +30,10 @@ public class GhostAttack : MonoBehaviour
     [SerializeField] private float attackInterval = 5f;
     public bool canAttack = true;
 
-    public bool isRight = false;
-    public bool isLeft = false;
-    public bool isFront = false;
-    public bool isBehind = false;
+    public bool isRightOfPlayer = false;
+    public bool isLeftOfPlayer = false;
+    public bool isFrontOfPlayer = false;
+    public bool isBackOfPlayer = false;
 
 
     private bool shouldQTE = false;
@@ -41,8 +41,6 @@ public class GhostAttack : MonoBehaviour
 
     private bool gotDeflected;
     
-
-
     // For testing
     private float timer = 0f;
 
@@ -57,7 +55,8 @@ public class GhostAttack : MonoBehaviour
     {
         PlayerMovement.OnPlayerDeath -= ResetAttack;
     }
-
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +68,8 @@ public class GhostAttack : MonoBehaviour
         playerMovement = player.GetComponent<PlayerMovement>();
 
     }
+    
+
 
     // Update is called once per frame
     void Update()
@@ -161,7 +162,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
-            isRight = true;
+            isRightOfPlayer = true;
         }
         else
         {
@@ -177,7 +178,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition - player.transform.right * offset;
             transform.position = newPosition;
-            isLeft = true;
+            isLeftOfPlayer = true;
         }
         else
         {
@@ -194,7 +195,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition + player.transform.forward * offset;
             transform.position = newPosition;
-            isFront = true;
+            isFrontOfPlayer = true;
         }
         else
         {
@@ -209,7 +210,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition - player.transform.forward * offset;
             transform.position = newPosition;
-            isBehind = true;
+            isBackOfPlayer = true;
         }
         else
         {
@@ -223,10 +224,10 @@ public class GhostAttack : MonoBehaviour
         timer = 0f;
         attackInterval = Random.Range(20, 31);
         // Reset where the ghost is compared to the player.
-        isFront = false;
-        isBehind = false;
-        isLeft = false;
-        isRight = false;
+        isFrontOfPlayer = false;
+        isBackOfPlayer = false;
+        isLeftOfPlayer = false;
+        isRightOfPlayer = false;
     }
 
     void RandomlySelectWhereToTeleport(bool playSound)

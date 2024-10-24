@@ -11,6 +11,8 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip heartbeat;
     public AudioSource audioSource;
 
+    public bool canDeflect = false;
+
     [Header("Variables")]
     [SerializeField] private float deflectWindowTime = 10f;
     private float deflectWindowTimer = 0f;
@@ -19,7 +21,10 @@ public class PlayerAttack : MonoBehaviour
     private Torch torch;
     private GhostAttack ghostAttack;
 
-    public bool canDeflect = false;
+    private bool isFront;
+    private bool isBack;
+    private bool isLeft;
+    private bool isRight;
 
     // Start is called before the first frame update
     void Start()
@@ -41,19 +46,20 @@ public class PlayerAttack : MonoBehaviour
         }
 
     }
+
     bool HandleInput(){
-        if(ghostAttack.isFront && Input.GetKey(KeyCode.UpArrow))
+        if(isFront && Input.GetKey(KeyCode.UpArrow))
         {
             return true;
         }
-        else if(ghostAttack.isBehind && Input.GetKey(KeyCode.DownArrow)){
+        else if(isBack && Input.GetKey(KeyCode.DownArrow)){
             return true;
         }
-        else if(ghostAttack.isLeft && Input.GetKey(KeyCode.LeftArrow))
+        else if(isLeft && Input.GetKey(KeyCode.LeftArrow))
         {
             return true;
         }
-        else if (ghostAttack.isRight && Input.GetKey(KeyCode.RightArrow))
+        else if (isRight && Input.GetKey(KeyCode.RightArrow))
         {
             return true;
         }
@@ -98,6 +104,32 @@ public class PlayerAttack : MonoBehaviour
         deflectWindowTimer = 0f;            // Reset the timer
         ghostAttack.SetShouldQTE(false);          // End QTE.
         ghostAttack.GetComponent<CapsuleCollider>().enabled = false;
+        ResetDirection();
+
     }
 
+    void ResetDirection(){
+        isFront = false;
+        isBack = false; 
+        isLeft = false;
+        isRight = false;
+    }
+    public void SetIsFront(bool value){
+        isFront = value;
+    }
+
+    public void SetIsBack(bool value)
+    {
+        isBack = value;
+    }
+
+    public void SetIsLeft(bool value)
+    {
+        isLeft = value;
+    }
+
+    public void SetIsRight(bool value)
+    {
+        isRight = value;
+    }
 }

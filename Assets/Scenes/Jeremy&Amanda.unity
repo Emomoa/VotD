@@ -3764,10 +3764,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
-    - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
-      propertyPath: attackInterval
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.83257866
