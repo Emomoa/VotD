@@ -17,7 +17,8 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private Torch torch;
-    private GhostAttack ghost;
+    private GameObject ghost;
+    private GhostAttack ghostAttack;
 
     public bool canDeflect = false;
 
@@ -26,7 +27,8 @@ public class PlayerAttack : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
-        ghost = FindObjectOfType<GhostAttack>();
+        ghostAttack = FindObjectOfType<GhostAttack>();
+        ghost = GameObject.FindGameObjectWithTag("Ghost");
         //ghostDeflectedSound = ghost.deflectedSound;
 
     }
@@ -34,29 +36,41 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ghost.GetShouldQTE())
+        if (ghostAttack.GetShouldQTE())
         {
             canDeflect = true;
             HandleQTE();
         }
-        // Check if player is looking at ghost.
 
-        // check if ghost should activate QTE.
+        // Calculate the vector from the player to the ghost
+        Vector3 playerToGhost = ghost.transform.position - transform.position;
+
+        // Normalize the direction
+        playerToGhost.Normalize();
+
+        // Get the player's forward and right directions
+        Vector3 playerForward = transform.forward;
+        Vector3 playerRight = transform.right;
+
+        // Calculate the dot products
+        float dotForward = Vector3.Dot(playerForward, playerToGhost);  // How much in front or behind
+        float dotRight = Vector3.Dot(playerRight, playerToGhost);      // How much to the right or left
+
 
     }
     bool HandleInput(){
-        if(ghost.isFront && Input.GetKey(KeyCode.UpArrow))
+        if(ghostAttack.isFront && Input.GetKey(KeyCode.UpArrow))
         {
             return true;
         }
-        else if(ghost.isBehind && Input.GetKey(KeyCode.DownArrow)){
+        else if(ghostAttack.isBehind && Input.GetKey(KeyCode.DownArrow)){
             return true;
         }
-        else if(ghost.isLeft && Input.GetKey(KeyCode.LeftArrow))
+        else if(ghostAttack.isLeft && Input.GetKey(KeyCode.LeftArrow))
         {
             return true;
         }
-        else if (ghost.isRight && Input.GetKey(KeyCode.RightArrow))
+        else if (ghostAttack.isRight && Input.GetKey(KeyCode.RightArrow))
         {
             return true;
         }
@@ -79,10 +93,10 @@ public class PlayerAttack : MonoBehaviour
             audioSource.Stop();
             audioSource.PlayOneShot(swingTorch);
             await Task.Delay(100);
-            ghost.SetGotDeflected(true);
+            ghostAttack.SetGotDeflected(true);
             
             //torch.ToggleIsLit(true);
-            ghost.ResetAttack();
+            ghostAttack.ResetAttack();
 
         }
         else if (deflectWindowTimer >= deflectWindowTime)
@@ -90,7 +104,7 @@ public class PlayerAttack : MonoBehaviour
             // Time is up, end the deflect window
             Debug.Log("Deflect window expired!");
             EndDeflectWindow();
-            ghost.ResetAttack();
+            ghostAttack.ResetAttack();
             playerMovement.Die();
         }
     }
@@ -99,8 +113,8 @@ public class PlayerAttack : MonoBehaviour
     {
         canDeflect = false;                 // End the deflect
         deflectWindowTimer = 0f;            // Reset the timer
-        ghost.SetShouldQTE(false);          // End QTE.
-        ghost.GetComponent<CapsuleCollider>().enabled = false;
+        ghostAttack.SetShouldQTE(false);          // End QTE.
+        ghostAttack.GetComponent<CapsuleCollider>().enabled = false;
     }
 
 }

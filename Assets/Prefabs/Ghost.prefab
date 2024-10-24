@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2750504665444060378}
   m_Layer: 0
   m_Name: Ghost
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -315,10 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f29b127d9d846b42eeb9b1df448c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartbeatAudioSource: {fileID: 4440798938901046592}
   audioSource: {fileID: 2968552715016372509}
   runningSound: {fileID: 8300000, guid: 16580a43972cdde43af00d96bd7d92a7, type: 3}
-  initializeAttack: {fileID: 8300000, guid: 37febc802c2b58a4b83edc3d10722892, type: 3}
   quickTimeEventQue: {fileID: 8300000, guid: b3fdc1fb7e8a61e459c7a53dcd154184, type: 3}
   deflectedSound: {fileID: 8300000, guid: 18d86ed5b0a8e0c45a294bf8e2d1e8d2, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
@@ -327,6 +325,10 @@ MonoBehaviour:
   offset: 15
   attackInterval: 15
   canAttack: 1
+  isRight: 0
+  isLeft: 0
+  isFront: 0
+  isBehind: 0
 --- !u!1001 &7102145887165004769
 PrefabInstance:
   m_ObjectHideFlags: 0
