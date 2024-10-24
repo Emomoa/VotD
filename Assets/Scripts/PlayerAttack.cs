@@ -17,7 +17,6 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private Torch torch;
-    private GameObject ghost;
     private GhostAttack ghostAttack;
 
     public bool canDeflect = false;
@@ -28,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
         ghostAttack = FindObjectOfType<GhostAttack>();
-        ghost = GameObject.FindGameObjectWithTag("Ghost");
         //ghostDeflectedSound = ghost.deflectedSound;
 
     }
@@ -41,21 +39,6 @@ public class PlayerAttack : MonoBehaviour
             canDeflect = true;
             HandleQTE();
         }
-
-        // Calculate the vector from the player to the ghost
-        Vector3 playerToGhost = ghost.transform.position - transform.position;
-
-        // Normalize the direction
-        playerToGhost.Normalize();
-
-        // Get the player's forward and right directions
-        Vector3 playerForward = transform.forward;
-        Vector3 playerRight = transform.right;
-
-        // Calculate the dot products
-        float dotForward = Vector3.Dot(playerForward, playerToGhost);  // How much in front or behind
-        float dotRight = Vector3.Dot(playerRight, playerToGhost);      // How much to the right or left
-
 
     }
     bool HandleInput(){
