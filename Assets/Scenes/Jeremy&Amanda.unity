@@ -453,6 +453,12 @@ MonoBehaviour:
   RightSource: {fileID: 0}
   LeftSource: {fileID: 0}
   StraightSource: {fileID: 0}
+  BackSource: {fileID: 0}
+  RightSourceBool: 0
+  LeftSourceBool: 0
+  StraightSourceBool: 0
+  BackSourceBool: 0
+  tempRotation: 0
 --- !u!65 &225877924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -839,6 +845,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!82 &637812598 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 3484382652727263501, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+  m_PrefabInstance: {fileID: 1586478431}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &726868621
 GameObject:
   m_ObjectHideFlags: 0
@@ -2424,6 +2435,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: heartbeat
+      value: 
+      objectReference: {fileID: 8300000, guid: 42db0d23c3722c54fbf3dab1a7550170, type: 3}
+    - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: swingTorch
+      value: 
+      objectReference: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+    - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: ghostDeflected
+      value: 
+      objectReference: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
     - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: walkSpeed
       value: 3
@@ -2436,6 +2459,10 @@ PrefabInstance:
       propertyPath: mouseSensitivity
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: footstepAudioSource
+      value: 
+      objectReference: {fileID: 637812598}
     - target: {fileID: 3499944618624240050, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_Volume
       value: 1
@@ -2913,6 +2940,12 @@ MonoBehaviour:
   RightSource: {fileID: 0}
   LeftSource: {fileID: 0}
   StraightSource: {fileID: 0}
+  BackSource: {fileID: 0}
+  RightSourceBool: 0
+  LeftSourceBool: 0
+  StraightSourceBool: 0
+  BackSourceBool: 0
+  tempRotation: 0
 --- !u!65 &1737332317
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3624,6 +3657,12 @@ MonoBehaviour:
   RightSource: {fileID: 0}
   LeftSource: {fileID: 0}
   StraightSource: {fileID: 0}
+  BackSource: {fileID: 0}
+  RightSourceBool: 0
+  LeftSourceBool: 0
+  StraightSourceBool: 0
+  BackSourceBool: 0
+  tempRotation: 0
 --- !u!65 &1877636984
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3727,7 +3766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: attackInterval
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x
