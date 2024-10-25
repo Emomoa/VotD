@@ -330,7 +330,7 @@ MonoBehaviour:
   isSneaking: 0
   isMoving: 0
   mouseSensitivity: 150
-  footstepAudioSource: {fileID: 0}
+  footstepAudioSource: {fileID: 3484382652727263501}
   carpetFootsteps:
   - {fileID: 8300000, guid: 381d23e30d81d5447a7dbcfcdda832b3, type: 3}
   - {fileID: 8300000, guid: ed774962733dc78429f1918d2f6ef5f6, type: 3}
@@ -598,6 +598,12 @@ MonoBehaviour:
   swingTorch: {fileID: 0}
   heartbeat: {fileID: 0}
   audioSource: {fileID: 3484382652727263501}
+  hitSuccess:
+  - {fileID: 8300000, guid: bc99ae27f6aef9041b429022213f49c9, type: 3}
+  - {fileID: 8300000, guid: f4dac39bc1bff3a4d8372d20d56d2434, type: 3}
+  - {fileID: 8300000, guid: 31522ca821027054db6355d6d2a1d0e3, type: 3}
+  - {fileID: 8300000, guid: a18a538f2df0eab4892c2ddf92c56c77, type: 3}
+  - {fileID: 8300000, guid: e32c49379aa376d4683e210193175336, type: 3}
   canDeflect: 0
   deflectWindowTime: 1.5
 --- !u!54 &6962288357658172737
