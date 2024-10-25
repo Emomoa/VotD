@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -12,9 +10,9 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip swingTorch;
     public AudioClip heartbeat;
     public AudioSource audioSource;
-    public AudioClip[] hitSuccess;
 
     public bool canDeflect = false;
+    public bool deflected = false;
 
     [Header("Variables")]
     [SerializeField] private float deflectWindowTime = 10f;
@@ -77,16 +75,17 @@ public class PlayerAttack : MonoBehaviour
         //await Task.Delay(250);
 
         // Player deflected
-        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect && !playerMovement.isSneaking)
+        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect )
         {
             Debug.Log("Deflected ghost!");
             EndDeflectWindow();
             //torch.ToggleIsLit(false);
             audioSource.Stop();
             audioSource.PlayOneShot(swingTorch);
+            deflected = true;
             await Task.Delay(100);
             ghostAttack.SetGotDeflected(true);
-            audioSource.PlayOneShot(hitSuccess[Random.Range(0,4)]);
+            deflected = false;
             //torch.ToggleIsLit(true);
             ghostAttack.ResetAttack();
 
