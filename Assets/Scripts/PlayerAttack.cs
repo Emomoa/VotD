@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     public AudioSource audioSource;
 
     public bool canDeflect = false;
+    public bool deflected = false;
 
     [Header("Variables")]
     [SerializeField] private float deflectWindowTime = 10f;
@@ -74,16 +75,17 @@ public class PlayerAttack : MonoBehaviour
         //await Task.Delay(250);
 
         // Player deflected
-        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect && !playerMovement.isSneaking)
+        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect )
         {
             Debug.Log("Deflected ghost!");
             EndDeflectWindow();
             //torch.ToggleIsLit(false);
             audioSource.Stop();
             audioSource.PlayOneShot(swingTorch);
+            deflected = true;
             await Task.Delay(100);
             ghostAttack.SetGotDeflected(true);
-            
+            deflected = false;
             //torch.ToggleIsLit(true);
             ghostAttack.ResetAttack();
 
