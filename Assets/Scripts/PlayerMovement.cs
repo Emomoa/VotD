@@ -66,11 +66,18 @@ public class PlayerMovement : MonoBehaviour
             velocityY = -2f; // Slight negative value to keep grounded
         }
 
-        // Get input
+        // Get input and determine speed
         var speed = Input.GetKey(KeyCode.LeftShift) ? sneakSpeed : walkSpeed;
         isSneaking = Input.GetKey(KeyCode.LeftShift);
-        var moveX = Input.GetAxisRaw("Horizontal");
-        var moveZ = Input.GetAxisRaw("Vertical");
+
+        // Get movement input only from W, A, S, D keys
+        var moveX = 0f;
+        var moveZ = 0f;
+
+        if (Input.GetKey(KeyCode.W)) moveZ += 1;
+        if (Input.GetKey(KeyCode.S)) moveZ -= 1;
+        if (Input.GetKey(KeyCode.A)) moveX -= 1;
+        if (Input.GetKey(KeyCode.D)) moveX += 1;
 
         // Calculate desired move direction
         desiredMoveDirection = (transform.forward * moveZ + transform.right * moveX).normalized * speed;
@@ -104,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         // Handle footstep sounds
         HandleFootsteps();
     }
+
 
     private void HandleMouseLook()
     {
