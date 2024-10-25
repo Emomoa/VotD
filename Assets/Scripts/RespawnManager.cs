@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RespawnManager : MonoBehaviour
 {
@@ -41,11 +42,16 @@ public class RespawnManager : MonoBehaviour
 
     private void HandleRespawnPlayer()
     {
-        StartCoroutine(RespawnPlayer());
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+        //StartCoroutine(RespawnPlayer());
     }
 
     private IEnumerator RespawnPlayer()
     {
+        
+
+        
         // Vänta på respawn-fördröjningen
         yield return new WaitForSeconds(respawnDelay);
 
@@ -68,5 +74,6 @@ public class RespawnManager : MonoBehaviour
 
         // Eventuellt återställa hälsa eller andra statusvärden
         Debug.Log("Spelaren har respawnat.");
+        
     }
 }
