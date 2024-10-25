@@ -23,6 +23,8 @@ public class PuzzleController : MonoBehaviour
 
     private AudioSource puzzleSolvedSource;
 
+    public GameObject doorToUnlock;
+
     private int counter;
 
     [Header("Events")]
@@ -39,6 +41,7 @@ public class PuzzleController : MonoBehaviour
             obj.puzzleController = this;
             obj.ResetActivation();
         }
+        doorToUnlock.SetActive(false);
         
     }
 
@@ -55,10 +58,13 @@ public class PuzzleController : MonoBehaviour
             {
                 puzzleSolvedSource.Stop();
                 puzzleSolvedSource.PlayOneShot(correctActivationSound[Random.Range(0, correctActivationSound.Length - 1)]);
-                if (currentActivationIndex >= activationSequence.Count - 1)
-                {
-                    SetCurrentPriority(activationSequence[currentActivationIndex]); 
-                }
+                
+                //Kolla över detta!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                // if (currentActivationIndex >= activationSequence.Count - 1)
+                // {
+                //     SetCurrentPriority(activationSequence[currentActivationIndex]); 
+                // }
                 
             }
             
@@ -116,5 +122,10 @@ public class PuzzleController : MonoBehaviour
         currentAudioSource.priority = 50;
         currentAudioSource.volume = 1f;
 
+    }
+
+    public void UnlockDoor()
+    {
+        doorToUnlock.SetActive(true);
     }
 }
