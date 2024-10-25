@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip quickTimeEventQue;
     public AudioClip swingTorch;
     public AudioClip heartbeat;
+    public AudioClip[] hitSuccess;
     public AudioSource audioSource;
 
     public bool canDeflect = false;
@@ -85,6 +86,7 @@ public class PlayerAttack : MonoBehaviour
             deflected = true;
             await Task.Delay(100);
             ghostAttack.SetGotDeflected(true);
+            audioSource.PlayOneShot(hitSuccess[Random.Range(0,4)]);
             deflected = false;
             //torch.ToggleIsLit(true);
             ghostAttack.ResetAttack();
