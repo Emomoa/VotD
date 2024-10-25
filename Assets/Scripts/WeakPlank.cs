@@ -92,17 +92,25 @@ public class WeakPlank : MonoBehaviour
     private IEnumerator BreakPlank()
     {
         yield return new WaitForSeconds(breakTimer);
+        audioSource.loop = false; // Set loop to false before stopping
         audioSource.Stop();
-        audioSource.loop = false;
-        audioSource.clip = plankBreakSound;
+        var clip = audioSource.clip;
+        clip = null;
+        clip = plankBreakSound;
+        audioSource.clip = clip;
         audioSource.Play();
+        yield return new WaitForSeconds(.5f);
+    
         // Break the plank
         isBreaking = false;
         Debug.Log("The plank has broken!");
+    
         // Kill the player
         playerMove.Die();
         OnPlankDestroy?.Invoke();
+        
         // Destroy the plank
         Destroy(parentGO);
     }
+
 }
