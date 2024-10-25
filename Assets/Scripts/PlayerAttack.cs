@@ -74,7 +74,7 @@ public class PlayerAttack : MonoBehaviour
         //await Task.Delay(250);
 
         // Player deflected
-        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect)
+        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect && !playerMovement.isSneaking)
         {
             Debug.Log("Deflected ghost!");
             EndDeflectWindow();
