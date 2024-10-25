@@ -6,10 +6,15 @@ public class WeakPlank : MonoBehaviour
 {
     [SerializeField]
     private PlayerMovement playerMove;
+    
     public AudioSource audioSource;
+    public AudioSource secondarySource;
     public AudioClip creakingSound;
     public AudioClip plankBreakSound;
+    public AudioClip creakPlankDialogue;
     public float breakTimer = 0.5f; // Duration before the plank breaks
+
+    private bool _isFirstTime = true;
 
     [SerializeField]
     private GameObject parentGO;
@@ -29,6 +34,11 @@ public class WeakPlank : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (_isFirstTime)
+            {
+                secondarySource.clip = creakPlankDialogue;
+                secondarySource.Play();
+            }
             isPlayerOnPlank = true;
             if (!playerMove.isSneaking)
             {

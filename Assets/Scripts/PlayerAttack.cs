@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip swingTorch;
     public AudioClip heartbeat;
     public AudioSource audioSource;
+    public AudioClip[] hitSuccess;
 
     public bool canDeflect = false;
 
@@ -83,7 +86,7 @@ public class PlayerAttack : MonoBehaviour
             audioSource.PlayOneShot(swingTorch);
             await Task.Delay(100);
             ghostAttack.SetGotDeflected(true);
-            
+            audioSource.PlayOneShot(hitSuccess[Random.Range(0,4)]);
             //torch.ToggleIsLit(true);
             ghostAttack.ResetAttack();
 
