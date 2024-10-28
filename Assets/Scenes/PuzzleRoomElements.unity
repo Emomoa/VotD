@@ -980,6 +980,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &965501028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965501029}
+  - component: {fileID: 965501030}
+  m_Layer: 0
+  m_Name: DebugLogger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965501029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965501028}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 49.76331, y: -1.9473618, z: -0.4518296}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &965501030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965501028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970140c34d5836f4088f3238b1bda535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &975968782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,8 +1125,8 @@ Transform:
   m_GameObject: {fileID: 975968782}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.1, y: 0, z: 2.57}
-  m_LocalScale: {x: 1, y: 6.4311, z: 1}
+  m_LocalPosition: {x: 10.1, y: 0, z: 2.9783}
+  m_LocalScale: {x: 1, y: 6.4311, z: 2.5883}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1198,8 +1242,12 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: c224bd78e20941e4782804284559405e, type: 3}
   puzzleHintSound: {fileID: 8300000, guid: 09da333fc725a404390a217184a153fe, type: 3}
   emmaTutorial: {fileID: 8300000, guid: 55639d4a3c456b84b8591da4a5dd7e7a, type: 3}
-  puzzleController: {fileID: 0}
-  clues: []
+  puzzleController: {fileID: 1465817969}
+  clues:
+  - {fileID: 8300000, guid: 05261aaa7427e4f4186ab636a0a0017a, type: 3}
+  - {fileID: 8300000, guid: 0569681df71f82148adf9651dc27c0a0, type: 3}
+  - {fileID: 8300000, guid: 9fbe93278bd59724793fe37a337ddc95, type: 3}
+  - {fileID: 8300000, guid: 5084778cce9b0e943a8f9c3223c234b2, type: 3}
 --- !u!1 &1018940852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2781,3 +2829,4 @@ SceneRoots:
   - {fileID: 105370642}
   - {fileID: 1284151422}
   - {fileID: 761077970}
+  - {fileID: 965501029}
