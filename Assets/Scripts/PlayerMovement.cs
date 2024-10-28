@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -207,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
         footstepAudioSource.PlayOneShot(selectedFootsteps[clipIndex]);
     }
 
+
     public string GetGroundTag()
     {
         RaycastHit hit;
@@ -214,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(origin, Vector3.down, out hit, 2f))
         {
             return hit.collider.tag;
+
         }
         return null;
     }
