@@ -332,15 +332,11 @@ MonoBehaviour:
   mouseSensitivity: 150
   footstepAudioSource: {fileID: 3484382652727263501}
   carpetFootsteps:
-  - {fileID: 8300000, guid: 381d23e30d81d5447a7dbcfcdda832b3, type: 3}
-  - {fileID: 8300000, guid: ed774962733dc78429f1918d2f6ef5f6, type: 3}
-  - {fileID: 8300000, guid: a9a6671660b86b04db57796e199cade0, type: 3}
-  - {fileID: 8300000, guid: b08111b45585e0841acdf26a643d2242, type: 3}
-  - {fileID: 8300000, guid: 1bf1c0451885a8c4ca5d1c4ae4f6d4ec, type: 3}
-  - {fileID: 8300000, guid: 183d17561388381488f595a1e9bea598, type: 3}
-  - {fileID: 8300000, guid: 473e00080c32b2846bbca6aa56f59536, type: 3}
-  - {fileID: 8300000, guid: 6a7875c768f0b9345a9465de21f547aa, type: 3}
-  - {fileID: 8300000, guid: f3221872bced3524daac574f7cc13984, type: 3}
+  - {fileID: 8300000, guid: f32da08823b4733429ba13361122b017, type: 3}
+  - {fileID: 8300000, guid: 31ee3bc35cc8658488817aff5fda2acf, type: 3}
+  - {fileID: 8300000, guid: 125f6b9efe979d6409245ffe560f463e, type: 3}
+  - {fileID: 8300000, guid: 815b74022c2df264daf6e15d32be1119, type: 3}
+  - {fileID: 8300000, guid: 494800530d3643d409f14c8833051bde, type: 3}
   woodFootsteps:
   - {fileID: 8300000, guid: 03c3ccd52dfd427469328cf45e4fe5ee, type: 3}
   - {fileID: 8300000, guid: 251388a520eb487469bb569b7760032a, type: 3}
@@ -361,6 +357,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 202fc61f2bf256d40a5234369d2954c4, type: 3}
   - {fileID: 8300000, guid: e8f2f3f69ffd6aa48b98dc817106d9e0, type: 3}
   - {fileID: 8300000, guid: 04d3bca215e95ca45906d133ba22b31a, type: 3}
+  creakyFootsteps:
+  - {fileID: 8300000, guid: b7352b118fd6fd940aa395a19f2dcbb1, type: 3}
+  - {fileID: 8300000, guid: 91a538aa18354874a85a5863a5141f7f, type: 3}
+  - {fileID: 8300000, guid: 42a599f71399ff448a6c16d09c15e4f2, type: 3}
+  - {fileID: 8300000, guid: b67cc72ceba4c8842885aa91d0e81dca, type: 3}
   footstepInterval: 0.5
   cameraTransform: {fileID: 7472546241404300069}
 --- !u!81 &1618498098903913678
@@ -380,7 +381,7 @@ AudioSource:
   m_GameObject: {fileID: 5580772261995091284}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: db5f19fac9017cb4d83179377fa4af6b, type: 2}
+  OutputAudioMixerGroup: {fileID: -1072777867462190233, guid: 7803bb9e54bd6814cbd61c23c2eead3e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.9
@@ -476,7 +477,7 @@ AudioSource:
   m_GameObject: {fileID: 5580772261995091284}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 863972ed63097d044bd4bf990f4abb7f, type: 2}
+  OutputAudioMixerGroup: {fileID: -4086746267868349101, guid: 7803bb9e54bd6814cbd61c23c2eead3e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.5
@@ -597,14 +598,15 @@ MonoBehaviour:
   quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
   swingTorch: {fileID: 0}
   heartbeat: {fileID: 0}
-  audioSource: {fileID: 3484382652727263501}
   hitSuccess:
   - {fileID: 8300000, guid: bc99ae27f6aef9041b429022213f49c9, type: 3}
   - {fileID: 8300000, guid: f4dac39bc1bff3a4d8372d20d56d2434, type: 3}
   - {fileID: 8300000, guid: 31522ca821027054db6355d6d2a1d0e3, type: 3}
   - {fileID: 8300000, guid: a18a538f2df0eab4892c2ddf92c56c77, type: 3}
   - {fileID: 8300000, guid: e32c49379aa376d4683e210193175336, type: 3}
+  audioSource: {fileID: 3484382652727263501}
   canDeflect: 0
+  deflected: 0
   deflectWindowTime: 1.5
 --- !u!54 &6962288357658172737
 Rigidbody:
