@@ -2436,14 +2436,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
-      propertyPath: heartbeat
-      value: 
-      objectReference: {fileID: 8300000, guid: 42db0d23c3722c54fbf3dab1a7550170, type: 3}
-    - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
-      propertyPath: swingTorch
-      value: 
-      objectReference: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
-    - target: {fileID: 641638974193264876, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: ghostDeflected
       value: 
       objectReference: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
