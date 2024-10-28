@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
     
     void OnDestroy()
     {
-        // Unsubscribe from the sceneLoaded event
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
