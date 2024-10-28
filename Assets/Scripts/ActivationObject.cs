@@ -7,6 +7,7 @@ public class ActivationObject : MonoBehaviour
 
     private bool playerInRange = false;
     private bool isActivated = false;
+    private int _totalInteractPresses;
 
     // Reference to the Puzzle Controller
     public PuzzleController puzzleController;
@@ -19,8 +20,6 @@ public class ActivationObject : MonoBehaviour
         {
             playerInRange = true;
             onTriggerEnter.Invoke();
-
-            // Optionally, display UI prompt to press "E"
         }
     }
 
@@ -29,12 +28,16 @@ public class ActivationObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            // Optionally, hide UI prompt
         }
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _totalInteractPresses++;
+            Debug.Log(_totalInteractPresses);
+        }
         if (playerInRange && !isActivated && Input.GetKeyDown(KeyCode.E))
         {
             Activate();
@@ -50,10 +53,8 @@ public class ActivationObject : MonoBehaviour
             puzzleController.ObjectActivated(this);
         }
 
-        // Trigger any additional events
         OnActivated.Invoke();
-
-        // Optionally, change the object's appearance to indicate activation
+        
     }
 
     public void ResetActivation()
