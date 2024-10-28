@@ -18,7 +18,7 @@ public class DoorKey : MonoBehaviour
             gameObject.GetComponent<AudioSource>().loop = false;
             gameObject.GetComponent<AudioSource>().clip = keyTaken;
             gameObject.GetComponent<AudioSource>().Play();
-            door.GetComponent<Door>().Open();
+            //door.GetComponent<Door>().Open();
             isTaken = true;
 
             //gameObject.GetComponent<AudioSource>().Stop();
