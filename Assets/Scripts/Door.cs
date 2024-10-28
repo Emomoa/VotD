@@ -9,24 +9,34 @@ public class Door : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip doorLocked;
     public AudioClip doorOpen;
-    public AudioClip doorCreak;
-
 
     public string nextSceneName; // �ndra fr�n Scene till string
 
     public AudioSource[] pings;
     public int pingAmount = 3;
+
+    float timeTillNextPing = 0;
+    float pingInterval = 10f;
+    int maxPings;
+    int pingsUsed;
+    void Start()
+    {
+        maxPings = pingAmount;
+    }
     void Update()
     {
         if(Input.GetKeyDown("q"))
         {
             PingDoor();
         }
-
-        if (isOpen && !audioSource.isPlaying)
+        if(pingAmount<maxPings)
         {
-            audioSource.clip = doorCreak;
-            audioSource.PlayDelayed(Random.Range(0, 5));
+            timeTillNextPing += Time.deltaTime;
+        }
+        if(timeTillNextPing > pingInterval)
+        {
+            timeTillNextPing = 0;
+            pingAmount++;
         }
     }
 
@@ -35,6 +45,7 @@ public class Door : MonoBehaviour
         int pingToPlay = Random.Range(0,pings.Length);
         if(pingAmount>0)
         {
+            Debug.Log(("Player has pinged: ")+pingsUsed+ (" times"));
             if(pingAmount==1)
             {
                 pings[pingToPlay].pitch *= 2;
@@ -64,10 +75,5 @@ public class Door : MonoBehaviour
                 audioSource.PlayOneShot(doorLocked);
             }
         }
-    }
-
-    public void Open()
-    {
-        audioSource.PlayOneShot(doorCreak);
     }
 }

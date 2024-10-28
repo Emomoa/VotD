@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -55,21 +56,33 @@ public class GhostAttack : MonoBehaviour
     private void OnEnable()
     {
         PlayerMovement.OnPlayerDeath += ResetAttack;
+        SceneManager.sceneLoaded += OnSceneLoaded;   
     }
 
     private void OnDisable()
     {
         PlayerMovement.OnPlayerDeath -= ResetAttack;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LoadParameters();
     }
 
     private void Awake()
+    {
+        LoadParameters();
+    }
+
+    private void LoadParameters()
     {
         parameterLoader = FindObjectOfType<ParameterLoader>();
         if (parameterLoader != null && parameterLoader.parameters != null)
         {
             speed = parameterLoader.parameters.ghostSpeed;
             attackInterval = parameterLoader.parameters.attackInterval;
-        }
+        };
     }
 
 

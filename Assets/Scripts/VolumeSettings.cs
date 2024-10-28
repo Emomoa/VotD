@@ -23,7 +23,7 @@ public class VolumeSettings : MonoBehaviour
         keywords.Add("unmute volume", UnmuteVolume);
         keywords.Add("maximum volume", MaxVolume);
         keywords.Add("minimum volume", MinVolume);
-        keywords.Add("pause", PauseGame);
+        keywords.Add("stop", PauseGame);
         keywords.Add("resume", ResumeGame);
 
 
