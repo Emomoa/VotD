@@ -68,11 +68,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 0}
+  playerAttack: {fileID: 0}
   audioSource: {fileID: 2538784962242224923}
+  secondarySource: {fileID: 0}
   creakingSound: {fileID: 8300000, guid: d164afafd91ea0642a70d947cfa3e6e5, type: 3}
   plankBreakSound: {fileID: 8300000, guid: a42eb43e855614d4597e016ac6244b3e, type: 3}
+  creakyFloorDialogue: {fileID: 0}
   breakTimer: 3
   parentGO: {fileID: 0}
+  weakPlankPrefab: {fileID: 0}
 --- !u!82 &2538784962242224923
 AudioSource:
   m_ObjectHideFlags: 0
@@ -82,7 +86,7 @@ AudioSource:
   m_GameObject: {fileID: 5461438486705286582}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 5904652455354447498, guid: 7803bb9e54bd6814cbd61c23c2eead3e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
