@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private Torch torch;
-    private GhostAttack ghostAttack;
+    public GhostAttack ghostAttack;
 
     private bool isFront;
     private bool isBack;
@@ -36,7 +36,6 @@ public class PlayerAttack : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
-        ghostAttack = FindObjectOfType<GhostAttack>();
         //ghostDeflectedSound = ghost.deflectedSound;
 
     }
@@ -44,10 +43,13 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ghostAttack.GetShouldQTE())
+        if (ghostAttack != null)
         {
-            canDeflect = true;
-            HandleQTE();
+            if (ghostAttack.GetShouldQTE())
+            {
+                canDeflect = true;
+                HandleQTE();
+            }
         }
 
     }

@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcf47c911cab3043a401f8a480816de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameterLoader: {fileID: 0}
   walkSpeed: 5
   sneakSpeed: 2.5
   acceleration: 10
@@ -595,8 +596,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
-  swingTorch: {fileID: 0}
-  heartbeat: {fileID: 0}
+  swingTorch: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  heartbeat: {fileID: 8300000, guid: 42db0d23c3722c54fbf3dab1a7550170, type: 3}
   hitSuccess:
   - {fileID: 8300000, guid: bc99ae27f6aef9041b429022213f49c9, type: 3}
   - {fileID: 8300000, guid: f4dac39bc1bff3a4d8372d20d56d2434, type: 3}
