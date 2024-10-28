@@ -6,7 +6,7 @@ AudioMixerController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TorchMixer
+  m_Name: VoiceMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
@@ -18,7 +18,7 @@ AudioMixerController:
   m_ExposedParameters: []
   m_AudioMixerGroupViews:
   - guids:
-    - e53cc028f25e3854d8ab3dd489083085
+    - bfffd12b2f25ec04cb88c7f5b6bac917
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -30,14 +30,13 @@ AudioMixerGroupController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Master
   m_AudioMixer: {fileID: 24100000}
-  m_GroupID: e53cc028f25e3854d8ab3dd489083085
+  m_GroupID: bfffd12b2f25ec04cb88c7f5b6bac917
   m_Children: []
-  m_Volume: f644daaafd49a424faedf8ecc2db4e59
-  m_Pitch: 94706e23eea2ed64ebd988aba57cbb08
+  m_Volume: 60f3532d034483b4bb994a0c07e477ff
+  m_Pitch: d44c5a1d6e9cdd8438e46bda40f7cc16
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
-  - {fileID: 4233024566570059522}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -49,9 +48,9 @@ AudioMixerEffectController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_EffectID: fa28cf57345dfc5458c0f2098b0d2255
+  m_EffectID: d23b18702e2849f498abdf177ce54210
   m_EffectName: Attenuation
-  m_MixLevel: eee5b0712bd019e4c995dafdefd16a68
+  m_MixLevel: 31338e14df273a8448760ea96431bc59
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
@@ -64,27 +63,6 @@ AudioMixerSnapshotController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
-  m_SnapshotID: 2f7fb181f3de311499be295cb0a89ccc
-  m_FloatValues:
-    f644daaafd49a424faedf8ecc2db4e59: -36.000828
+  m_SnapshotID: be50ce354827ae343940b6da368cfbc7
+  m_FloatValues: {}
   m_TransitionOverrides: {}
---- !u!244 &4233024566570059522
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: d15d901b29554ca4a81d174b8606cf5e
-  m_EffectName: Normalize
-  m_MixLevel: 02764fcec8350f64484ea2124703e629
-  m_Parameters:
-  - m_ParameterName: Fade in time
-    m_GUID: a01407eba0b484a45ad824576f3e1b6a
-  - m_ParameterName: Lowest volume
-    m_GUID: 6d371597f10b80340bd2fea9f5c97a93
-  - m_ParameterName: Maximum amp
-    m_GUID: 3c3ffe63d8894d443a8774f16c48d295
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0

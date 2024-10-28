@@ -380,7 +380,7 @@ AudioSource:
   m_GameObject: {fileID: 5580772261995091284}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: db5f19fac9017cb4d83179377fa4af6b, type: 2}
+  OutputAudioMixerGroup: {fileID: -1072777867462190233, guid: 7803bb9e54bd6814cbd61c23c2eead3e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.9
@@ -476,7 +476,7 @@ AudioSource:
   m_GameObject: {fileID: 5580772261995091284}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 863972ed63097d044bd4bf990f4abb7f, type: 2}
+  OutputAudioMixerGroup: {fileID: -4086746267868349101, guid: 7803bb9e54bd6814cbd61c23c2eead3e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.5
@@ -597,14 +597,15 @@ MonoBehaviour:
   quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
   swingTorch: {fileID: 0}
   heartbeat: {fileID: 0}
-  audioSource: {fileID: 3484382652727263501}
   hitSuccess:
   - {fileID: 8300000, guid: bc99ae27f6aef9041b429022213f49c9, type: 3}
   - {fileID: 8300000, guid: f4dac39bc1bff3a4d8372d20d56d2434, type: 3}
   - {fileID: 8300000, guid: 31522ca821027054db6355d6d2a1d0e3, type: 3}
   - {fileID: 8300000, guid: a18a538f2df0eab4892c2ddf92c56c77, type: 3}
   - {fileID: 8300000, guid: e32c49379aa376d4683e210193175336, type: 3}
+  audioSource: {fileID: 3484382652727263501}
   canDeflect: 0
+  deflected: 0
   deflectWindowTime: 1.5
 --- !u!54 &6962288357658172737
 Rigidbody:
