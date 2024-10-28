@@ -6,24 +6,21 @@ public class DoorKey : MonoBehaviour
 {
 
     [SerializeField] private GameObject door;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private AudioClip ongoing;
+    [SerializeField] private AudioClip keyTaken;
+    private bool isTaken = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") ){
+        if (other.CompareTag("Player") && !isTaken){
             door.GetComponent<Door>().isOpen = true;
             door.GetComponent<Door>().isClosed = false;
-            gameObject.GetComponent<AudioSource>().Stop();
+            gameObject.GetComponent<AudioSource>().loop = false;
+            gameObject.GetComponent<AudioSource>().clip = keyTaken;
+            gameObject.GetComponent<AudioSource>().Play();
+            isTaken = true;
+
+            //gameObject.GetComponent<AudioSource>().Stop();
         }
 
     }
