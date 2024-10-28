@@ -9,6 +9,8 @@ public class Door : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip doorLocked;
     public AudioClip doorOpen;
+    public AudioClip doorCreak;
+
 
     public string nextSceneName; // �ndra fr�n Scene till string
 
@@ -19,6 +21,12 @@ public class Door : MonoBehaviour
         if(Input.GetKeyDown("q"))
         {
             PingDoor();
+        }
+
+        if (isOpen && !audioSource.isPlaying)
+        {
+            audioSource.clip = doorCreak;
+            audioSource.PlayDelayed(Random.Range(0, 5));
         }
     }
 
@@ -56,5 +64,10 @@ public class Door : MonoBehaviour
                 audioSource.PlayOneShot(doorLocked);
             }
         }
+    }
+
+    public void Open()
+    {
+        audioSource.PlayOneShot(doorCreak);
     }
 }
