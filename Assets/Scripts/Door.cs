@@ -9,6 +9,7 @@ public class Door : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip doorLocked;
     public AudioClip doorOpen;
+    [SerializeField] private AudioClip creak;
 
     public string nextSceneName; // �ndra fr�n Scene till string
 
@@ -37,6 +38,11 @@ public class Door : MonoBehaviour
         {
             timeTillNextPing = 0;
             pingAmount++;
+        }
+        if (isOpen && !audioSource.isPlaying)
+        {
+            audioSource.clip = creak;
+            audioSource.PlayDelayed(Random.Range(1f,4f));
         }
     }
 
@@ -75,5 +81,10 @@ public class Door : MonoBehaviour
                 audioSource.PlayOneShot(doorLocked);
             }
         }
+    }
+
+    public void Open()
+    {
+        audioSource.PlayOneShot(creak);
     }
 }
