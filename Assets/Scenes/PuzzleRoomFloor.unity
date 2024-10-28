@@ -131,6 +131,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
+      propertyPath: creak
+      value: 
+      objectReference: {fileID: 8300000, guid: cf1b085414cf10f448b36dba2ce0534a, type: 3}
+    - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: isOpen
       value: 0
       objectReference: {fileID: 0}
@@ -456,6 +460,10 @@ PrefabInstance:
     - target: {fileID: 2170497307171643357, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_Name
       value: Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 2170497307171643357, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5157039900680928350, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_LocalPosition.x
