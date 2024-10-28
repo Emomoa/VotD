@@ -321,6 +321,34 @@ PrefabInstance:
       propertyPath: footstepAudioSource
       value: 
       objectReference: {fileID: 1186742837}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: f32da08823b4733429ba13361122b017, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 31ee3bc35cc8658488817aff5fda2acf, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 125f6b9efe979d6409245ffe560f463e, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 815b74022c2df264daf6e15d32be1119, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: carpetFootsteps.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 494800530d3643d409f14c8833051bde, type: 3}
+    - target: {fileID: 3484382652727263501, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5302442507716862080, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.32
