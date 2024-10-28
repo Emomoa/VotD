@@ -41,6 +41,7 @@ public class PuzzleRoomTrigger : MonoBehaviour
         if (!other.gameObject.CompareTag("Player") || _emmaBool2) return;
         _emmaBool2 = true;
         StartCoroutine(PuzzleRoomRiddle());
+        Debug.Log("Player entered the puzzle room");
     }
 
     private IEnumerator PuzzleRoomRiddle ()
