@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
@@ -47,33 +48,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        // Find and reference ParameterLoader in the scene
-        parameterLoader = FindObjectOfType<ParameterLoader>();
-        if (parameterLoader != null && parameterLoader.parameters != null)
-        {
-            // Update walkSpeed, sneakSpeed, and acceleration based on JSON
-            walkSpeed = parameterLoader.parameters.walkSpeed;
-            sneakSpeed = parameterLoader.parameters.sneakSpeed;
-            acceleration = parameterLoader.parameters.acceleration;
-        }
-        else
-        {
-            Debug.LogError("ParameterLoader or parameters not found");
-        }
+        LoadParameters();
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
         controller = GetComponent<CharacterController>();
-
-        // Lock and hide the cursor
+        
         Cursor.lockState = CursorLockMode.Locked;
-
-        // Initialize rotation
+        
         xRotation = 0f;
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+    
+    void OnDestroy()
+    {
+        // Unsubscribe from the sceneLoaded event
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LoadParameters();
     }
 
     private void Update()
     {
         HandleMovement();
-        //HandleMouseLook();
     }
 
     private void HandleMovement()
@@ -222,6 +221,21 @@ public class PlayerMovement : MonoBehaviour
     {
         OnPlayerDeath?.Invoke();
     }
+    
+    public void LoadParameters()
+    {
+        parameterLoader = FindObjectOfType<ParameterLoader>();
+        if (parameterLoader != null && parameterLoader.parameters != null)
+        {
+            walkSpeed = parameterLoader.parameters.walkSpeed;
+            sneakSpeed = parameterLoader.parameters.sneakSpeed;
+            acceleration = parameterLoader.parameters.acceleration;
+        }
+        else
+        {
+            Debug.LogError("ParameterLoader or parameters not found");
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -238,5 +252,6 @@ public class PlayerMovement : MonoBehaviour
             onWeakPlank = false;
         }
     }
+    
 
 }
