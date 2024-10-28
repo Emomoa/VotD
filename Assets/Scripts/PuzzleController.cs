@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class PuzzleController : MonoBehaviour
 {
     [Header("Activation Sequence")]
-    public List<ActivationObject> activationSequence; // The correct sequence of activation objects
+    public List<ActivationObject> activationSequence;
 
 
 
     public int currentActivationIndex = 0;
-    private bool puzzleSolved = false;
+    private bool _puzzleSolved = false;
     [SerializeField]
     private AudioClip[] correctActivationSound;
     [SerializeField]
@@ -25,7 +25,8 @@ public class PuzzleController : MonoBehaviour
 
     public GameObject doorToUnlock;
 
-    private int counter;
+    private int _counter;
+    private int _resetCounter;
 
     [Header("Events")]
     public UnityEvent OnPuzzleSolved;
@@ -42,12 +43,12 @@ public class PuzzleController : MonoBehaviour
             obj.ResetActivation();
         }
         doorToUnlock.SetActive(false);
-        
+        Debug.Log("Puzzle Room Engaged");
     }
 
     public void ObjectActivated(ActivationObject activatedObject)
     {
-        if (puzzleSolved)
+        if (_puzzleSolved)
             return;
 
         if (activationSequence[currentActivationIndex] == activatedObject)
@@ -74,7 +75,7 @@ public class PuzzleController : MonoBehaviour
             if (currentActivationIndex >= activationSequence.Count)
             {
                 // Puzzle solved
-                puzzleSolved = true;
+                _puzzleSolved = true;
                 OnPuzzleSolved.Invoke();
                 puzzleSolvedSource.PlayOneShot(puzzleSolvedSound);
                 Debug.Log("Puzzle Solved!");
@@ -87,12 +88,12 @@ public class PuzzleController : MonoBehaviour
             if (puzzleSolvedSource.isPlaying) 
             {
                 puzzleSolvedSource.Stop();
-                puzzleSolvedSource?.PlayOneShot(incorrectActivationSound[counter]);
+                puzzleSolvedSource?.PlayOneShot(incorrectActivationSound[_counter]);
             }
             
-            if (counter < incorrectActivationSound.Length - 1)
+            if (_counter < incorrectActivationSound.Length - 1)
             {
-                counter += 1;
+                _counter += 1;
             }
             Debug.Log("Incorrect activation. Resetting puzzle.");
             ResetPuzzle();
@@ -107,6 +108,8 @@ public class PuzzleController : MonoBehaviour
         {
             obj.ResetActivation();
             obj.GetComponent<AudioSource>().Play();
+            _resetCounter++;
+            Debug.Log("Reset counter: " + _resetCounter);
         }
     }
 
