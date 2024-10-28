@@ -118,7 +118,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2170497307171643357}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 62dff81efa3e3c74c890e40aa69db00b, type: 2}
   m_audioClip: {fileID: 8300000, guid: 42db0d23c3722c54fbf3dab1a7550170, type: 3}
@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f29b127d9d846b42eeb9b1df448c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameterLoader: {fileID: 0}
   audioSource: {fileID: 2968552715016372509}
   runningSound: {fileID: 8300000, guid: 16580a43972cdde43af00d96bd7d92a7, type: 3}
   quickTimeEventQue: {fileID: 8300000, guid: b3fdc1fb7e8a61e459c7a53dcd154184, type: 3}
@@ -323,7 +324,7 @@ MonoBehaviour:
   speed: 2
   stopDistance: 2.5
   offset: 15
-  attackInterval: 1
+  attackInterval: 15
   canAttack: 1
   isRightOfPlayer: 0
   isLeftOfPlayer: 0

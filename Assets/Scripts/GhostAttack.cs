@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,8 @@ public class GhostAttack : MonoBehaviour
     public AudioClip swingTorchSound;
 
     private GameObject player;
+
+    private int attackCounter = 0;
     
 
     [Header("Variables")]
@@ -53,21 +56,33 @@ public class GhostAttack : MonoBehaviour
     private void OnEnable()
     {
         PlayerMovement.OnPlayerDeath += ResetAttack;
+        SceneManager.sceneLoaded += OnSceneLoaded;   
     }
 
     private void OnDisable()
     {
         PlayerMovement.OnPlayerDeath -= ResetAttack;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        LoadParameters();
     }
 
     private void Awake()
+    {
+        LoadParameters();
+    }
+
+    private void LoadParameters()
     {
         parameterLoader = FindObjectOfType<ParameterLoader>();
         if (parameterLoader != null && parameterLoader.parameters != null)
         {
             speed = parameterLoader.parameters.ghostSpeed;
             attackInterval = parameterLoader.parameters.attackInterval;
-        }
+        };
     }
 
 
@@ -154,6 +169,10 @@ public class GhostAttack : MonoBehaviour
     }
     async void StartAttack()
     {
+        // For testing (count ghost attacks)
+        attackCounter++;
+        Debug.Log("Ghost starts attack. Counter: " + attackCounter);
+
         // Activate collision
         GetComponent<CapsuleCollider>().enabled = true;
 
@@ -236,7 +255,7 @@ public class GhostAttack : MonoBehaviour
     {
         canAttack = true;
         timer = 0f;
-        attackInterval = Random.Range(20, 31);
+        attackInterval = Random.Range(attackInterval, attackInterval+10);
         // Reset where the ghost is compared to the player.
         isFrontOfPlayer = false;
         isBackOfPlayer = false;

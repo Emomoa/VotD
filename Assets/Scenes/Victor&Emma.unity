@@ -380,11 +380,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 1770586797}
+  playerAttack: {fileID: 0}
   audioSource: {fileID: 161648259}
   secondarySource: {fileID: 0}
   creakingSound: {fileID: 8300000, guid: d164afafd91ea0642a70d947cfa3e6e5, type: 3}
   plankBreakSound: {fileID: 8300000, guid: a42eb43e855614d4597e016ac6244b3e, type: 3}
-  creakPlankDialogue: {fileID: 0}
+  creakyFloorDialogue: {fileID: 0}
   breakTimer: 3
   parentGO: {fileID: 935391225}
   weakPlankPrefab: {fileID: 0}
@@ -671,6 +672,7 @@ MonoBehaviour:
   - {fileID: 0}
   puzzleSolvedSound: {fileID: 8300000, guid: 439a40667b6b0d14ebba7f6232246409, type: 3}
   interactExplain: {fileID: 0}
+  doorToUnlock: {fileID: 0}
   OnPuzzleSolved:
     m_PersistentCalls:
       m_Calls:
@@ -1520,53 +1522,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1304908884
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1304908885}
-  - component: {fileID: 1304908886}
-  m_Layer: 0
-  m_Name: SpeechRecognizer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1304908885
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304908884}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.909188, y: 1.5827358, z: 8.478646}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1304908886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304908884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a207a48ad988243a7f82b5a759c630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volume: 0.5
-  volumeStep: 0.1
-  mutedVolume: 0
 --- !u!1001 &1345620205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2970,6 +2925,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccbeb19c17fb8d942a86d00b413cb789, type: 3}
+--- !u!1001 &2866249850530234348
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.909188
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5827358
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.478646
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194398089956430587, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038833360276868887, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
+      propertyPath: m_Name
+      value: SpeechRecognizer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9c9c254384339447aee60ab56e323b8, type: 3}
 --- !u!1001 &4508961768646234274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3041,7 +3053,7 @@ SceneRoots:
   - {fileID: 1651273420586820883}
   - {fileID: 4508961768646234274}
   - {fileID: 935391224}
-  - {fileID: 1304908885}
+  - {fileID: 2866249850530234348}
   - {fileID: 1468347052}
   - {fileID: 1999852556}
   - {fileID: 649882646}
