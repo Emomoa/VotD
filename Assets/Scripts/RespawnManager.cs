@@ -36,7 +36,7 @@ public class RespawnManager : MonoBehaviour
     {
         if (respawnPoint == null)
         {
-            Debug.LogError("RespawnPoint är inte tilldelad i Inspektorn.");
+            Debug.LogError("RespawnPoint ï¿½r inte tilldelad i Inspektorn.");
         }
     }
 
@@ -44,35 +44,22 @@ public class RespawnManager : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-        //StartCoroutine(RespawnPlayer());
     }
 
     private IEnumerator RespawnPlayer()
     {
         
-
-        
-        // Vänta på respawn-fördröjningen
         yield return new WaitForSeconds(respawnDelay);
-
-        // Aktivera spelaren först
+        
         player.gameObject.SetActive(true);
-
-        // Inaktivera PlayerMovement och CharacterController temporärt
-        playerMovement.enabled = false;
-        characterController.enabled = false;
-
-        // Återställ spelarens position och rotation
+        
         player.transform.position = respawnPoint.position;
         player.transform.rotation = respawnPoint.rotation;
 
-        // Återaktivera CharacterController och PlayerMovement
-        characterController.enabled = true;
-        playerMovement.enabled = true;
 
         playerMovement.isDead = false;
-
-        // Eventuellt återställa hälsa eller andra statusvärden
+        playerMovement.LoadParameters();
+        
         Debug.Log("Spelaren har respawnat.");
         
     }
