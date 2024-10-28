@@ -16,6 +16,15 @@ public class Door : MonoBehaviour
 
     public AudioSource[] pings;
     public int pingAmount = 3;
+
+    float timeTillNextPing = 0;
+    float pingInterval = 10f;
+    int maxPings;
+    int pingsUsed;
+    void Start()
+    {
+        maxPings = pingAmount;
+    }
     void Update()
     {
         if(Input.GetKeyDown("q"))
@@ -23,18 +32,12 @@ public class Door : MonoBehaviour
             PingDoor();
         }
 
-        if (isOpen && !audioSource.isPlaying)
-        {
-            audioSource.clip = doorCreak;
-            audioSource.PlayDelayed(Random.Range(0, 5));
-        }
-    }
-
     private void PingDoor()
     {
         int pingToPlay = Random.Range(0,pings.Length);
         if(pingAmount>0)
         {
+            Debug.Log(("Player has pinged: ")+pingsUsed+ (" times"));
             if(pingAmount==1)
             {
                 pings[pingToPlay].pitch *= 2;
