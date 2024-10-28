@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,9 +29,11 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip[] carpetFootsteps;
     public AudioClip[] woodFootsteps;
     public AudioClip[] tileFootsteps;
+    public AudioClip[] creakyFootsteps;
     public float footstepInterval = 0.5f; // Minimum time between footsteps
     private float footstepTimer = 0f;
     private bool wasMovingLastFrame = false;
+    private bool onWeakPlank = false;
 
     [Header("References")]
     private CharacterController controller;
@@ -159,7 +162,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayFootstepSound()
     {
+
         var groundTag = GetGroundTag();
+
+        Debug.Log(groundTag);
 
         if (groundTag == null) return;
 
@@ -168,8 +174,14 @@ public class PlayerMovement : MonoBehaviour
             "Wood" => woodFootsteps,
             "Tile" => tileFootsteps,
             "Carpet" => carpetFootsteps,
+           // "WeakPlank" => creakyFootsteps,
             _ => carpetFootsteps
         };
+
+        if (onWeakPlank)
+        {
+            selectedFootsteps = creakyFootsteps;
+        }
 
         if (selectedFootsteps.Length == 0) return;
 
@@ -194,4 +206,21 @@ public class PlayerMovement : MonoBehaviour
     {
         OnPlayerDeath?.Invoke();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "WeakPlank")
+        {
+            onWeakPlank = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "WeakPlank")
+        {
+            onWeakPlank = false;
+        }
+    }
+
 }

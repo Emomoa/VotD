@@ -15,7 +15,7 @@ public class WeakPlank : MonoBehaviour
     public AudioClip creakyFloorDialogue;
     public float breakTimer = 0.5f; // Duration before the plank breaks
 
-    private bool _isFirstTime = true;
+    private static bool _isFirstTime = true;
     [SerializeField]
     private GameObject parentGO;
 

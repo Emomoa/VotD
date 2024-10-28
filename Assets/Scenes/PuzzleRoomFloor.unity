@@ -325,11 +325,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b48d5a1d34857544e888a25122b0578e, type: 3}
---- !u!1 &152583082 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
-  m_PrefabInstance: {fileID: 1966343037}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &170889916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -353,7 +348,7 @@ PrefabInstance:
     - target: {fileID: 4167734385465261816, guid: 971650e08cd9e0843812c02bdd31eeb6, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: ecb0de09ceb08f44eb396cbe3c6014d1, type: 3}
+      objectReference: {fileID: 8300000, guid: 1fbec34f89a517342ad849f428e3cf74, type: 3}
     - target: {fileID: 6732982851186689504, guid: 971650e08cd9e0843812c02bdd31eeb6, type: 3}
       propertyPath: m_Name
       value: WayPoint (2)
@@ -547,6 +542,10 @@ PrefabInstance:
     - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: m_Name
       value: WeakPlankTrigger (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+      propertyPath: m_TagString
+      value: WeakPlank
       objectReference: {fileID: 0}
     - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: parentGO
@@ -1046,6 +1045,26 @@ PrefabInstance:
       propertyPath: footstepAudioSource
       value: 
       objectReference: {fileID: 709011644}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: creakyFootsteps.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: creakyFootsteps.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e3aabead074f04e4ea889aac1eda5b23, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: creakyFootsteps.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 87d8b7c0910d53b46ae16ce3c59ed23d, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: creakyFootsteps.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 88ab9ac7e364ccb46bd9fca5effe961e, type: 3}
+    - target: {fileID: 1861037898080914417, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: creakyFootsteps.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4d1229703783cd74eb5359c688a548e6, type: 3}
     - target: {fileID: 5302442507716862080, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.72
@@ -1212,6 +1231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeakPlankTrigger (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+      propertyPath: m_TagString
+      value: WeakPlank
+      objectReference: {fileID: 0}
     - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: parentGO
       value: 
@@ -1225,6 +1248,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1307222352}
     - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+      propertyPath: secondarySource
+      value: 
+      objectReference: {fileID: 1268999259}
+    - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: weakPlankPrefab
       value: 
       objectReference: {fileID: 1268999254}
@@ -1236,6 +1263,11 @@ PrefabInstance:
 --- !u!1 &1268999254 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+  m_PrefabInstance: {fileID: 1268999253}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1268999259 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8096783618473067251, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
   m_PrefabInstance: {fileID: 1268999253}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1307222350 stripped
@@ -1473,6 +1505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 1333571564}
+  ongoing: {fileID: 8300000, guid: 1fbec34f89a517342ad849f428e3cf74, type: 3}
+  keyTaken: {fileID: 8300000, guid: ecb0de09ceb08f44eb396cbe3c6014d1, type: 3}
 --- !u!1001 &1546253572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1667,10 +1701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeakPlankTrigger
       objectReference: {fileID: 0}
-    - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
-      propertyPath: parentGO
-      value: 
-      objectReference: {fileID: 152583082}
+    - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+      propertyPath: m_TagString
+      value: WeakPlank
+      objectReference: {fileID: 0}
     - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: playerMove
       value: 
@@ -1679,10 +1713,6 @@ PrefabInstance:
       propertyPath: playerAttack
       value: 
       objectReference: {fileID: 1307222352}
-    - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
-      propertyPath: weakPlankPrefab
-      value: 
-      objectReference: {fileID: 152583082}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1747,6 +1777,10 @@ PrefabInstance:
     - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: m_Name
       value: WeakPlankTrigger (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461438486705286582, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
+      propertyPath: m_TagString
+      value: WeakPlank
       objectReference: {fileID: 0}
     - target: {fileID: 6495091752357048119, guid: 2b369c0e139a1bd4aa361b9d43788df8, type: 3}
       propertyPath: parentGO
