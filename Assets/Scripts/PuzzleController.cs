@@ -43,7 +43,6 @@ public class PuzzleController : MonoBehaviour
             obj.ResetActivation();
         }
         doorToUnlock.SetActive(false);
-        Debug.Log("Puzzle Room Engaged");
     }
 
     public void ObjectActivated(ActivationObject activatedObject)
