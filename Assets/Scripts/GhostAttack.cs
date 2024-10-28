@@ -1,20 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class GhostAttack : MonoBehaviour
 {
+    public ParameterLoader parameterLoader;
+    
     [Header("Audio")]
+    public AudioSource audioSource;
     public AudioClip runningSound;
-    public AudioClip initializeAttack;
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
     public AudioClip swingTorchSound;
 
     private GameObject player;
-    private AudioSource audioSource;
+
+    private int attackCounter = 0;
+    
 
     [Header("Variables")]
     [Tooltip("How fast the ghost runs toward the player")]
@@ -29,11 +36,17 @@ public class GhostAttack : MonoBehaviour
     [SerializeField] private float attackInterval = 5f;
     public bool canAttack = true;
 
+    public bool isRightOfPlayer = false;
+    public bool isLeftOfPlayer = false;
+    public bool isFrontOfPlayer = false;
+    public bool isBackOfPlayer = false;
+
+
     private bool shouldQTE = false;
     private bool shouldRunTowardPlayer = false;
+
+    private bool gotDeflected;
     
-
-
     // For testing
     private float timer = 0f;
 
@@ -49,6 +62,17 @@ public class GhostAttack : MonoBehaviour
         PlayerMovement.OnPlayerDeath -= ResetAttack;
     }
 
+    private void Awake()
+    {
+        parameterLoader = FindObjectOfType<ParameterLoader>();
+        if (parameterLoader != null && parameterLoader.parameters != null)
+        {
+            speed = parameterLoader.parameters.ghostSpeed;
+            attackInterval = parameterLoader.parameters.attackInterval;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,27 +81,41 @@ public class GhostAttack : MonoBehaviour
         {
             Debug.LogWarning("Could not find gameobject with tag player.");
         }
-
-        audioSource = GetComponent<AudioSource>();
         playerMovement = player.GetComponent<PlayerMovement>();
 
     }
+    
+
 
     // Update is called once per frame
     void Update()
     {
+        // Handles timer for when the ghost should attack.
+        // Ghost attack every 10 seconds for example.
         timer += Time.deltaTime;
-
         if (canAttack && timer > attackInterval)
         {
             StartAttack();
             canAttack = false;
         }
 
+        // Handles logic for the ghost to run toward player
+        if(shouldRunTowardPlayer){
+            RunTowardPlayer();
+        }
 
-        // Runs toward player
-        if (shouldRunTowardPlayer)
-        {
+        HandleDeflected();
+        
+    }
+
+    void HandleDeflected(){
+        if(gotDeflected){
+            audioSource.Stop();
+            audioSource.PlayOneShot(deflectedSound);
+            gotDeflected = false;
+        }
+    }
+    void RunTowardPlayer(){
             if (player != null)
             {
                 float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -88,8 +126,13 @@ public class GhostAttack : MonoBehaviour
                     // Move our position a step closer to the target.
                     var step = speed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, step);
-                    if(!audioSource.isPlaying)
+                    if (!audioSource.isPlaying)
                     {
+                        /*
+                        audioSource.clip = runningSound;
+                        audioSource.loop = true;
+                        audioSource.Play();
+                        */
                         audioSource.PlayOneShot(runningSound);
                     }
                 }
@@ -106,17 +149,16 @@ public class GhostAttack : MonoBehaviour
 
                     // Handle QTE
                     shouldQTE = true;
+                    
 
                 }
-            }
-
         }
     }
-
     async void StartAttack()
     {
-        //Debug.LogWarning("Attack starting");
-        //CancelInvoke();
+        // For testing (count ghost attacks)
+        attackCounter++;
+        Debug.Log("Ghost starts attack. Counter: " + attackCounter);
 
         // Activate collision
         GetComponent<CapsuleCollider>().enabled = true;
@@ -124,22 +166,12 @@ public class GhostAttack : MonoBehaviour
         // Randomly choose where to teleport around the player.
         RandomlySelectWhereToTeleport(true);
 
-        await Task.Delay(2500);
-
-        //RandomlySelectWhereToTeleport(true);
-
-        // Run toward player after ? seconds.
-        Invoke("RunTowardPlayer", 3f);
-
-    }
-
-    void RunTowardPlayer()
-    {
-        CancelInvoke();
-        //RandomlySelectWhereToTeleport(false);
+        // Wait X seconds then start running toward player.
+        await Task.Delay(3000);
         shouldRunTowardPlayer = true;
 
     }
+
 
     void TeleportToRight(bool playSound)
     {
@@ -150,12 +182,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition + player.transform.right * offset;
             transform.position = newPosition;
-
-            if(playSound)
-            {
-                // Handle sound
-                PlayShortRunSound();
-            }
+            isRightOfPlayer = true;
         }
         else
         {
@@ -171,13 +198,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition - player.transform.right * offset;
             transform.position = newPosition;
-
-            if (playSound)
-            {
-                // Handle sound
-                PlayShortRunSound();
-            }
-
+            isLeftOfPlayer = true;
         }
         else
         {
@@ -194,13 +215,7 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition + player.transform.forward * offset;
             transform.position = newPosition;
-
-            if (playSound)
-            {
-                // Handle sound
-                PlayShortRunSound();
-            }
-
+            isFrontOfPlayer = true;
         }
         else
         {
@@ -215,41 +230,26 @@ public class GhostAttack : MonoBehaviour
             Vector3 playerPosition = player.transform.position;
             Vector3 newPosition = playerPosition - player.transform.forward * offset;
             transform.position = newPosition;
-
-            if (playSound)
-            {
-                // Handle sound
-                PlayShortRunSound();
-            }
+            isBackOfPlayer = true;
         }
         else
         {
             Debug.LogWarning("Player is null");
         }
     }
-
-    void PlayShortRunSound()
-    {
-        audioSource.clip = initializeAttack;
-        audioSource.loop = false;
-        audioSource.Play();
-    }
     
     public void ResetAttack()
     {
         canAttack = true;
         timer = 0f;
-        attackInterval = Random.Range(20, 31);
+        attackInterval = Random.Range(attackInterval, attackInterval+10);
+        // Reset where the ghost is compared to the player.
+        isFrontOfPlayer = false;
+        isBackOfPlayer = false;
+        isLeftOfPlayer = false;
+        isRightOfPlayer = false;
     }
-    /*
-    void EndDeflectWindow()
-    {
-        isDeflecting = false;       // End the deflect window
-        deflectWindowTimer = 0f;    // Reset the timer
-        shouldQTE = false;          // End QTE.
-    }*/
 
-    // Helpmethod
     void RandomlySelectWhereToTeleport(bool playSound)
     {
         //CancelInvoke();
@@ -279,5 +279,13 @@ public class GhostAttack : MonoBehaviour
     public void SetShouldQTE(bool value)
     {
         shouldQTE = value;
+    }
+
+    public bool GetGotDeflected(){
+        return gotDeflected;
+    }
+
+    public void SetGotDeflected(bool value){
+        gotDeflected = value;
     }
 }

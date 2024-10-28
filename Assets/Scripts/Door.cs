@@ -9,6 +9,8 @@ public class Door : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip doorLocked;
     public AudioClip doorOpen;
+    public AudioClip doorCreak;
+
 
     public string nextSceneName; // �ndra fr�n Scene till string
 
@@ -29,16 +31,6 @@ public class Door : MonoBehaviour
         {
             PingDoor();
         }
-        if(pingAmount<maxPings)
-        {
-            timeTillNextPing += Time.deltaTime;
-        }
-        if(timeTillNextPing > pingInterval)
-        {
-            timeTillNextPing = 0;
-            pingAmount++;
-        }
-    }
 
     private void PingDoor()
     {
@@ -75,5 +67,10 @@ public class Door : MonoBehaviour
                 audioSource.PlayOneShot(doorLocked);
             }
         }
+    }
+
+    public void Open()
+    {
+        audioSource.PlayOneShot(doorCreak);
     }
 }

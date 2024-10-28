@@ -6,11 +6,16 @@ public class WeakPlank : MonoBehaviour
 {
     [SerializeField]
     private PlayerMovement playerMove;
+    [SerializeField]
+    private PlayerAttack playerAttack;
     public AudioSource audioSource;
+    public AudioSource secondarySource;
     public AudioClip creakingSound;
     public AudioClip plankBreakSound;
+    public AudioClip creakyFloorDialogue;
     public float breakTimer = 0.5f; // Duration before the plank breaks
 
+    private static bool _isFirstTime = true;
     [SerializeField]
     private GameObject parentGO;
 
@@ -29,6 +34,12 @@ public class WeakPlank : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (_isFirstTime)
+            {
+                secondarySource.clip = creakyFloorDialogue;
+                secondarySource.Play();
+                _isFirstTime = false;
+            }
             isPlayerOnPlank = true;
             if (!playerMove.isSneaking)
             {
@@ -50,6 +61,11 @@ public class WeakPlank : MonoBehaviour
     {
         if (isPlayerOnPlank)
         {
+            if (playerAttack.deflected)
+            {
+                breakCoroutine = StartCoroutine(InstantBreak());
+                return;
+            }
             if (playerMove.isSneaking && isBreaking)
             {
                 // Player started sneaking while on the plank
@@ -92,17 +108,47 @@ public class WeakPlank : MonoBehaviour
     private IEnumerator BreakPlank()
     {
         yield return new WaitForSeconds(breakTimer);
+        audioSource.loop = false; // Set loop to false before stopping
         audioSource.Stop();
-        audioSource.loop = false;
-        audioSource.clip = plankBreakSound;
+        var clip = audioSource.clip;
+        clip = null;
+        clip = plankBreakSound;
+        audioSource.clip = clip;
         audioSource.Play();
+        yield return new WaitForSeconds(clip.length);
+    
         // Break the plank
         isBreaking = false;
         Debug.Log("The plank has broken!");
+    
         // Kill the player
         playerMove.Die();
         OnPlankDestroy?.Invoke();
+        
         // Destroy the plank
-        Destroy(parentGO);
+        // Destroy(parentGO);
+    }
+
+    private IEnumerator InstantBreak()
+    {
+        audioSource.loop = false; // Set loop to false before stopping
+        audioSource.Stop();
+        var clip = audioSource.clip;
+        clip = null;
+        clip = plankBreakSound;
+        audioSource.clip = clip;
+        audioSource.Play();
+        yield return new WaitForSeconds(clip.length);
+
+        // Break the plank
+        isBreaking = false;
+        Debug.Log("The plank has broken!");
+
+        // Kill the player
+        playerMove.Die();
+        OnPlankDestroy?.Invoke();
+
+        // Destroy the plank
+        // Destroy(parentGO);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 using System.Collections.Generic;
-using System.Linq; // Add this namespace for ToArray()
+using System.Linq;
 
 public class VolumeSettings : MonoBehaviour
 {
@@ -11,12 +11,12 @@ public class VolumeSettings : MonoBehaviour
     // Volume settings
     [Range(0f, 1f)]
     public float volume = 0.5f;
-    public float volumeStep = 0.1f; // The amount to increase or decrease the volume
+    public float volumeStep = 0.1f; 
     public float mutedVolume = 0f;
 
     void Start()
     {
-        // Initialize the keywords and their corresponding actions
+        
         keywords.Add("increase volume", IncreaseVolume);
         keywords.Add("lower volume", DecreaseVolume);
         keywords.Add("mute volume", MuteVolume);
@@ -27,7 +27,7 @@ public class VolumeSettings : MonoBehaviour
         keywords.Add("resume", ResumeGame);
 
 
-        // Convert keywords.Keys to an array and create the KeywordRecognizer
+        
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += OnKeywordsRecognized;
         keywordRecognizer.Start();
@@ -38,7 +38,7 @@ public class VolumeSettings : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Clean up the recognizer when the object is destroyed
+        
         if (keywordRecognizer != null && keywordRecognizer.IsRunning)
         {
             keywordRecognizer.OnPhraseRecognized -= OnKeywordsRecognized;
@@ -89,7 +89,7 @@ public class VolumeSettings : MonoBehaviour
     {
         if (volume == 0f)
         {
-            volume = mutedVolume; // Default unmuted volume
+            volume = mutedVolume;
         }
         UpdateVolume();
         Debug.Log("Volume unmuted");

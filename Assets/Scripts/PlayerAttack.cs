@@ -7,9 +7,13 @@ public class PlayerAttack : MonoBehaviour
 {
     [Header("Audio")]
     public AudioClip quickTimeEventQue;
-    public AudioClip swingTorchSound;
+    public AudioClip swingTorch;
+    public AudioClip heartbeat;
+    public AudioClip[] hitSuccess;
     public AudioSource audioSource;
-    private AudioClip ghostDeflectedSound;
+
+    public bool canDeflect = false;
+    public bool deflected = false;
 
     [Header("Variables")]
     [SerializeField] private float deflectWindowTime = 10f;
@@ -17,72 +21,126 @@ public class PlayerAttack : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private Torch torch;
-    private GhostAttack ghost;
+    public GhostAttack ghostAttack;
 
-    private bool isDeflecting = false;
-    private bool isLookingAtGhost = false;
+    private bool isFront;
+    private bool isBack;
+    private bool isLeft;
+    private bool isRight;
+
+    private int deflectedCounter = 0;
+    private int failedDeflectCounter = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
-        ghost = FindObjectOfType<GhostAttack>();
         //ghostDeflectedSound = ghost.deflectedSound;
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Check if player is looking at ghost.
+        if (ghostAttack != null)
+        {
+            if (ghostAttack.GetShouldQTE())
+            {
+                canDeflect = true;
+                HandleQTE();
+            }
+        }
 
-        // check if ghost should activate QTE.
-        
+    }
+
+    bool HandleInput(){
+        if(isFront && Input.GetKey(KeyCode.UpArrow))
+        {
+            return true;
+        }
+        else if(isBack && Input.GetKey(KeyCode.DownArrow)){
+            return true;
+        }
+        else if(isLeft && Input.GetKey(KeyCode.LeftArrow))
+        {
+            return true;
+        }
+        else if (isRight && Input.GetKey(KeyCode.RightArrow))
+        {
+            return true;
+        }
+        else return false;
     }
 
     async void HandleQTE()
     {
-        if (isDeflecting)
+        deflectWindowTimer += Time.deltaTime;
+
+        //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
+        //await Task.Delay(250);
+
+        // Player deflected
+        if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect )
         {
-            deflectWindowTimer += Time.deltaTime;
+            deflectedCounter++;
+            Debug.Log("Deflected ghost! Counter: " + deflectedCounter);
+            EndDeflectWindow();
+            //torch.ToggleIsLit(false);
+            audioSource.Stop();
+            audioSource.PlayOneShot(swingTorch);
+            deflected = true;
+            await Task.Delay(100);
+            ghostAttack.SetGotDeflected(true);
+            audioSource.PlayOneShot(hitSuccess[Random.Range(0,4)]);
+            deflected = false;
+            //torch.ToggleIsLit(true);
+            ghostAttack.ResetAttack();
 
-            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
-            //await Task.Delay(250);
-
-            // Player deflected
-            if (torch.GetIsLit() && isLookingAtGhost && Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log("Deflected ghost!");
-                //torch.ToggleIsLit(false);
-                audioSource.Stop();
-                audioSource.PlayOneShot(swingTorchSound);
-
-                // Play ghost scream sound
-                ghost.GetComponent<AudioSource>().Stop();
-                audioSource.PlayOneShot(ghostDeflectedSound);
-                EndDeflectWindow();
-                //torch.ToggleIsLit(true);
-                ghost.ResetAttack();
-
-            }
-            else if (deflectWindowTimer >= deflectWindowTime)
-            {
-                // Time is up, end the deflect window
-                Debug.Log("Deflect window expired!");
-                EndDeflectWindow();
-                ghost.ResetAttack();
-                playerMovement.Die();
-            }
+        }
+        else if (deflectWindowTimer >= deflectWindowTime)
+        {
+            // Time is up, end the deflect window
+            failedDeflectCounter++;
+            Debug.Log("Deflect window expired! Counter: " + failedDeflectCounter);
+            EndDeflectWindow();
+            ghostAttack.ResetAttack();
+            playerMovement.Die();
         }
     }
 
     void EndDeflectWindow()
     {
-        isDeflecting = false;               // End the deflect window
+        canDeflect = false;                 // End the deflect
         deflectWindowTimer = 0f;            // Reset the timer
-        ghost.SetShouldQTE(false);          // End QTE.
-        ghost.GetComponent<CapsuleCollider>().enabled = false;
+        ghostAttack.SetShouldQTE(false);          // End QTE.
+        ghostAttack.GetComponent<CapsuleCollider>().enabled = false;
+        ResetDirection();
+
     }
 
+    void ResetDirection(){
+        isFront = false;
+        isBack = false; 
+        isLeft = false;
+        isRight = false;
+    }
+    public void SetIsFront(bool value){
+        isFront = value;
+    }
+
+    public void SetIsBack(bool value)
+    {
+        isBack = value;
+    }
+
+    public void SetIsLeft(bool value)
+    {
+        isLeft = value;
+    }
+
+    public void SetIsRight(bool value)
+    {
+        isRight = value;
+    }
 }

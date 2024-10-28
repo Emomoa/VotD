@@ -11,6 +11,7 @@ TagManager:
   - Wall
   - TutSound
   - Tutorial
+  - Ghost
   layers:
   - Default
   - TransparentFX

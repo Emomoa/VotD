@@ -1,14 +1,19 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public ParameterLoader parameterLoader;
+    
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float sneakSpeed = 2.5f;
     public float acceleration = 10f;
+    
+    
     public float gravity = -9.81f;
     public bool isDead = false;
     public bool isSneaking = false;
@@ -28,9 +33,11 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip[] carpetFootsteps;
     public AudioClip[] woodFootsteps;
     public AudioClip[] tileFootsteps;
+    public AudioClip[] creakyFootsteps;
     public float footstepInterval = 0.5f; // Minimum time between footsteps
     private float footstepTimer = 0f;
     private bool wasMovingLastFrame = false;
+    private bool onWeakPlank = false;
 
     [Header("References")]
     private CharacterController controller;
@@ -40,6 +47,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        // Find and reference ParameterLoader in the scene
+        parameterLoader = FindObjectOfType<ParameterLoader>();
+        if (parameterLoader != null && parameterLoader.parameters != null)
+        {
+            // Update walkSpeed, sneakSpeed, and acceleration based on JSON
+            walkSpeed = parameterLoader.parameters.walkSpeed;
+            sneakSpeed = parameterLoader.parameters.sneakSpeed;
+            acceleration = parameterLoader.parameters.acceleration;
+        }
+        else
+        {
+            Debug.LogError("ParameterLoader or parameters not found");
+        }
         controller = GetComponent<CharacterController>();
 
         // Lock and hide the cursor
@@ -66,44 +86,52 @@ public class PlayerMovement : MonoBehaviour
             velocityY = -2f; // Slight negative value to keep grounded
         }
 
-        // Get input
+        // Get input and determine speed
         var speed = Input.GetKey(KeyCode.LeftShift) ? sneakSpeed : walkSpeed;
         isSneaking = Input.GetKey(KeyCode.LeftShift);
-        var moveX = Input.GetAxisRaw("Horizontal");
-        var moveZ = Input.GetAxisRaw("Vertical");
+
+        // Get movement input only from W, A, S, D keys
+        var moveX = 0f;
+        var moveZ = 0f;
+
+        if (Input.GetKey(KeyCode.W)) moveZ += 1;
+        if (Input.GetKey(KeyCode.S)) moveZ -= 1;
+        if (Input.GetKey(KeyCode.A)) moveX -= 1;
+        if (Input.GetKey(KeyCode.D)) moveX += 1;
 
         // Calculate desired move direction
         desiredMoveDirection = (transform.forward * moveZ + transform.right * moveX).normalized * speed;
 
-        // If there's no input, reset moveDirection to zero
+        
         if (moveX == 0 && moveZ == 0)
         {
             moveDirection = Vector3.zero;
         }
         else
         {
-            // Smoothly interpolate moveDirection
+            
             moveDirection = Vector3.Lerp(moveDirection, desiredMoveDirection, acceleration * Time.deltaTime);
         }
 
-        // Apply movement
+        
         var velocity = moveDirection;
 
-        // Apply gravity
+        
         velocityY += gravity * Time.deltaTime;
         velocity.y = velocityY;
 
         controller.Move(velocity * Time.deltaTime);
 
-        // Reset vertical velocity if grounded
+        
         if (isGrounded && velocityY < 0)
         {
             velocityY = -2f;
         }
 
-        // Handle footstep sounds
+        
         HandleFootsteps();
     }
+
 
     private void HandleMouseLook()
     {
@@ -151,7 +179,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayFootstepSound()
     {
+
         var groundTag = GetGroundTag();
+
 
         if (groundTag == null) return;
 
@@ -160,8 +190,14 @@ public class PlayerMovement : MonoBehaviour
             "Wood" => woodFootsteps,
             "Tile" => tileFootsteps,
             "Carpet" => carpetFootsteps,
+           // "WeakPlank" => creakyFootsteps,
             _ => carpetFootsteps
         };
+
+        if (onWeakPlank)
+        {
+            selectedFootsteps = creakyFootsteps;
+        }
 
         if (selectedFootsteps.Length == 0) return;
 
@@ -186,4 +222,21 @@ public class PlayerMovement : MonoBehaviour
     {
         OnPlayerDeath?.Invoke();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "WeakPlank")
+        {
+            onWeakPlank = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.tag == "WeakPlank")
+        {
+            onWeakPlank = false;
+        }
+    }
+
 }

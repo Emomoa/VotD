@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class PuzzleController : MonoBehaviour
 {
     [Header("Activation Sequence")]
-    public List<ActivationObject> activationSequence; // The correct sequence of activation objects
+    public List<ActivationObject> activationSequence;
 
 
 
     public int currentActivationIndex = 0;
-    private bool puzzleSolved = false;
+    private bool _puzzleSolved = false;
     [SerializeField]
     private AudioClip[] correctActivationSound;
     [SerializeField]
@@ -23,7 +23,10 @@ public class PuzzleController : MonoBehaviour
 
     private AudioSource puzzleSolvedSource;
 
-    private int counter;
+    public GameObject doorToUnlock;
+
+    private int _counter;
+    private int _resetCounter;
 
     [Header("Events")]
     public UnityEvent OnPuzzleSolved;
@@ -39,12 +42,13 @@ public class PuzzleController : MonoBehaviour
             obj.puzzleController = this;
             obj.ResetActivation();
         }
-        
+        doorToUnlock.SetActive(false);
+        Debug.Log("Puzzle Room Engaged");
     }
 
     public void ObjectActivated(ActivationObject activatedObject)
     {
-        if (puzzleSolved)
+        if (_puzzleSolved)
             return;
 
         if (activationSequence[currentActivationIndex] == activatedObject)
@@ -55,10 +59,13 @@ public class PuzzleController : MonoBehaviour
             {
                 puzzleSolvedSource.Stop();
                 puzzleSolvedSource.PlayOneShot(correctActivationSound[Random.Range(0, correctActivationSound.Length - 1)]);
-                if (currentActivationIndex >= activationSequence.Count - 1)
-                {
-                    SetCurrentPriority(activationSequence[currentActivationIndex]); 
-                }
+                
+                //Kolla över detta!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+                // if (currentActivationIndex >= activationSequence.Count - 1)
+                // {
+                //     SetCurrentPriority(activationSequence[currentActivationIndex]); 
+                // }
                 
             }
             
@@ -68,7 +75,7 @@ public class PuzzleController : MonoBehaviour
             if (currentActivationIndex >= activationSequence.Count)
             {
                 // Puzzle solved
-                puzzleSolved = true;
+                _puzzleSolved = true;
                 OnPuzzleSolved.Invoke();
                 puzzleSolvedSource.PlayOneShot(puzzleSolvedSound);
                 Debug.Log("Puzzle Solved!");
@@ -81,12 +88,12 @@ public class PuzzleController : MonoBehaviour
             if (puzzleSolvedSource.isPlaying) 
             {
                 puzzleSolvedSource.Stop();
-                puzzleSolvedSource?.PlayOneShot(incorrectActivationSound[counter]);
+                puzzleSolvedSource?.PlayOneShot(incorrectActivationSound[_counter]);
             }
             
-            if (counter < incorrectActivationSound.Length - 1)
+            if (_counter < incorrectActivationSound.Length - 1)
             {
-                counter += 1;
+                _counter += 1;
             }
             Debug.Log("Incorrect activation. Resetting puzzle.");
             ResetPuzzle();
@@ -101,6 +108,8 @@ public class PuzzleController : MonoBehaviour
         {
             obj.ResetActivation();
             obj.GetComponent<AudioSource>().Play();
+            _resetCounter++;
+            Debug.Log("Reset counter: " + _resetCounter);
         }
     }
 
@@ -116,5 +125,10 @@ public class PuzzleController : MonoBehaviour
         currentAudioSource.priority = 50;
         currentAudioSource.volume = 1f;
 
+    }
+
+    public void UnlockDoor()
+    {
+        doorToUnlock.SetActive(true);
     }
 }
