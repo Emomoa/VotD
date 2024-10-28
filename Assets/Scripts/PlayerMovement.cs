@@ -182,7 +182,6 @@ public class PlayerMovement : MonoBehaviour
 
         var groundTag = GetGroundTag();
 
-        Debug.Log(groundTag);
 
         if (groundTag == null) return;
 
