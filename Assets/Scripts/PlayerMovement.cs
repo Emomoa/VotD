@@ -5,10 +5,14 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    public ParameterLoader parameterLoader;
+    
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float sneakSpeed = 2.5f;
     public float acceleration = 10f;
+    
+    
     public float gravity = -9.81f;
     public bool isDead = false;
     public bool isSneaking = false;
@@ -40,6 +44,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        // Find and reference ParameterLoader in the scene
+        parameterLoader = FindObjectOfType<ParameterLoader>();
+        if (parameterLoader != null && parameterLoader.parameters != null)
+        {
+            // Update walkSpeed, sneakSpeed, and acceleration based on JSON
+            walkSpeed = parameterLoader.parameters.walkSpeed;
+            sneakSpeed = parameterLoader.parameters.sneakSpeed;
+            acceleration = parameterLoader.parameters.acceleration;
+        }
+        else
+        {
+            Debug.LogError("ParameterLoader or parameters not found");
+        }
         controller = GetComponent<CharacterController>();
 
         // Lock and hide the cursor
@@ -82,33 +99,33 @@ public class PlayerMovement : MonoBehaviour
         // Calculate desired move direction
         desiredMoveDirection = (transform.forward * moveZ + transform.right * moveX).normalized * speed;
 
-        // If there's no input, reset moveDirection to zero
+        
         if (moveX == 0 && moveZ == 0)
         {
             moveDirection = Vector3.zero;
         }
         else
         {
-            // Smoothly interpolate moveDirection
+            
             moveDirection = Vector3.Lerp(moveDirection, desiredMoveDirection, acceleration * Time.deltaTime);
         }
 
-        // Apply movement
+        
         var velocity = moveDirection;
 
-        // Apply gravity
+        
         velocityY += gravity * Time.deltaTime;
         velocity.y = velocityY;
 
         controller.Move(velocity * Time.deltaTime);
 
-        // Reset vertical velocity if grounded
+        
         if (isGrounded && velocityY < 0)
         {
             velocityY = -2f;
         }
 
-        // Handle footstep sounds
+        
         HandleFootsteps();
     }
 

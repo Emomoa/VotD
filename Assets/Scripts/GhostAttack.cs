@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class GhostAttack : MonoBehaviour
 {
+    public ParameterLoader parameterLoader;
+    
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip runningSound;
@@ -55,8 +59,18 @@ public class GhostAttack : MonoBehaviour
     {
         PlayerMovement.OnPlayerDeath -= ResetAttack;
     }
-    
-    
+
+    private void Awake()
+    {
+        parameterLoader = FindObjectOfType<ParameterLoader>();
+        if (parameterLoader != null && parameterLoader.parameters != null)
+        {
+            speed = parameterLoader.parameters.ghostSpeed;
+            attackInterval = parameterLoader.parameters.attackInterval;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {

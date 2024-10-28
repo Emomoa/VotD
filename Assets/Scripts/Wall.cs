@@ -6,6 +6,7 @@ public class Wall : MonoBehaviour
 {
     private bool isColliding;
     private PlayerMovement playerMovement;
+    private int _hitCount;
 
     [SerializeField]
     private AudioSource hit;
@@ -66,6 +67,8 @@ public class Wall : MonoBehaviour
         Debug.Log("Collision with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Player"))
         {
+            _hitCount++;
+            Debug.Log("Wall hit count: " + _hitCount);
             // Determine panning based on position
             if (collision.gameObject.transform.position.x > n || collision.gameObject.transform.position.x < s)
             {
