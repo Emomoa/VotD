@@ -28,6 +28,9 @@ public class PlayerAttack : MonoBehaviour
     private bool isLeft;
     private bool isRight;
 
+    private int deflectedCounter = 0;
+    private int failedDeflectCounter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,7 +81,8 @@ public class PlayerAttack : MonoBehaviour
         // Player deflected
         if (torch.GetIsLit() && HandleInput() && Input.GetKeyDown(KeyCode.Space) && canDeflect )
         {
-            Debug.Log("Deflected ghost!");
+            deflectedCounter++;
+            Debug.Log("Deflected ghost! Counter: " + deflectedCounter);
             EndDeflectWindow();
             //torch.ToggleIsLit(false);
             audioSource.Stop();
@@ -95,7 +99,8 @@ public class PlayerAttack : MonoBehaviour
         else if (deflectWindowTimer >= deflectWindowTime)
         {
             // Time is up, end the deflect window
-            Debug.Log("Deflect window expired!");
+            failedDeflectCounter++;
+            Debug.Log("Deflect window expired! Counter: " + failedDeflectCounter);
             EndDeflectWindow();
             ghostAttack.ResetAttack();
             playerMovement.Die();
