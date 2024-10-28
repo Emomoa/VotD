@@ -204,6 +204,10 @@ public class PlayerMovement : MonoBehaviour
         var clipIndex = Random.Range(0, selectedFootsteps.Length);
         footstepAudioSource.pitch = isSneaking ? 0.9f : 1f; 
         footstepAudioSource.PlayOneShot(selectedFootsteps[clipIndex]);
+
+        AudioClip temp = selectedFootsteps[0];
+        selectedFootsteps[0] = selectedFootsteps[clipIndex];
+        selectedFootsteps[clipIndex] = temp;
     }
 
 
