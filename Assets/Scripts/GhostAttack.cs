@@ -20,6 +20,8 @@ public class GhostAttack : MonoBehaviour
     public AudioClip swingTorchSound;
 
     private GameObject player;
+
+    private int attackCounter = 0;
     
 
     [Header("Variables")]
@@ -167,6 +169,10 @@ public class GhostAttack : MonoBehaviour
     }
     async void StartAttack()
     {
+        // For testing (count ghost attacks)
+        attackCounter++;
+        Debug.Log("Ghost starts attack. Counter: " + attackCounter);
+
         // Activate collision
         GetComponent<CapsuleCollider>().enabled = true;
 
@@ -249,7 +255,7 @@ public class GhostAttack : MonoBehaviour
     {
         canAttack = true;
         timer = 0f;
-        attackInterval = Random.Range(20, 31);
+        attackInterval = Random.Range(attackInterval, attackInterval+10);
         // Reset where the ghost is compared to the player.
         isFrontOfPlayer = false;
         isBackOfPlayer = false;
