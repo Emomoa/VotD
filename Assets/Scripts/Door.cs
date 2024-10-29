@@ -1,6 +1,8 @@
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 public class Door : MonoBehaviour
 {
     public bool isOpen = false;

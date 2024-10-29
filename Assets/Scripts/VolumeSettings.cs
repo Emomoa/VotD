@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Windows.Speech;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Audio;
 
 public class VolumeSettings : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class VolumeSettings : MonoBehaviour
     public float volumeStep = 0.1f; 
     public float mutedVolume = 0f;
 
+    public AudioMixer sfxMixer;
+    public AudioMixer ambienceMixer;
+
     void Start()
     {
         
@@ -25,6 +29,10 @@ public class VolumeSettings : MonoBehaviour
         keywords.Add("minimum volume", MinVolume);
         keywords.Add("stop", PauseGame);
         keywords.Add("resume", ResumeGame);
+        keywords.Add("increase ambience", IncreaseAmbience);
+        keywords.Add("lower ambience", LowerAmbience);
+        keywords.Add("increase sound effects", IncreaseSfx);
+        keywords.Add("lower sound effects", LowerSfx);
 
 
         
@@ -113,4 +121,41 @@ public class VolumeSettings : MonoBehaviour
     {
         AudioListener.volume = volume;
     }
+
+    private void LowerAmbience()
+    {
+        float currentVolume;
+        if (ambienceMixer.GetFloat("MasterVolume", out currentVolume))
+        {
+            ambienceMixer.SetFloat("MasterVolume", currentVolume - 10f);
+        }
+    }
+
+    private void IncreaseAmbience()
+    {
+        float currentVolume;
+        if (ambienceMixer.GetFloat("MasterVolume", out currentVolume))
+        {
+            ambienceMixer.SetFloat("MasterVolume", currentVolume + 10f);
+        }
+    }
+
+    private void LowerSfx()
+    {
+        float currentVolume;
+        if (sfxMixer.GetFloat("MasterVolume", out currentVolume))
+        {
+            sfxMixer.SetFloat("MasterVolume", currentVolume - 10f);
+        }
+    }
+
+    private void IncreaseSfx()
+    {
+        float currentVolume;
+        if (sfxMixer.GetFloat("MasterVolume", out currentVolume))
+        {
+            sfxMixer.SetFloat("MasterVolume", currentVolume + 10f);
+        }
+    }
+
 }
