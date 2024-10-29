@@ -7,7 +7,7 @@ using UnityEngine;
 public class TutScript : MonoBehaviour
 {
     
-    private AudioSource source;
+    public AudioSource source;
     public int timer;
     private AudioClip clip;
     public AudioClip[] clips;
@@ -17,7 +17,7 @@ public class TutScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        source = GetComponent<AudioSource>();
+
         PlaySounds();
 
     }

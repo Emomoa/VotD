@@ -164,15 +164,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOpen: 1
   isClosed: 0
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 8227011469446273884}
   doorLocked: {fileID: 0}
   doorOpen: {fileID: 0}
-  nextSceneName: PuzzleRoom1
+  creak: {fileID: 0}
+  nextSceneName: PuzzleRoomElements
   pings:
   - {fileID: 8227011469446273884}
   - {fileID: 771174374978573068}
   - {fileID: 3817853006406154850}
-  pingAmount: 5
+  pingAmount: 3
+  sceneToLoadName: PuzzleRoomElements
 --- !u!82 &8227011469446273884
 AudioSource:
   m_ObjectHideFlags: 0

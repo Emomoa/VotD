@@ -154,6 +154,14 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1333571570}
+    - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
+      propertyPath: nextSceneName
+      value: Labyrint1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
+      propertyPath: sceneToLoadName
+      value: Labyrint1
+      objectReference: {fileID: 0}
     - target: {fileID: 6740295245259727107, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: m_LocalScale.y
       value: 5.4446373
@@ -1135,6 +1143,10 @@ PrefabInstance:
       propertyPath: ghostAttack
       value: 
       objectReference: {fileID: 180609020}
+    - target: {fileID: 3484382652727263501, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5302442507716862080, guid: 149ee83fbd5439d40ad1d9fe2b151141, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.72

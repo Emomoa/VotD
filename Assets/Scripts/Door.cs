@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
     {
         timePlayed += Time.deltaTime;
 
-        if(Input.GetKeyDown("q"))
+        if(Input.GetKeyDown("r"))
         {
             PingDoor();
         }
