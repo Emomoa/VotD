@@ -2,6 +2,6 @@
   "walkSpeed": 5.0,
   "sneakSpeed": 2.5,
   "acceleration": 10.0,
-  "ghostSpeed": 10.0,
+  "ghostSpeed": 2.0,
   "attackInterval": 15.0
 }
