@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -146,6 +147,8 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
+    private Dictionary<string, int> groundCount = new Dictionary<string, int>();
+    private string previousGroundTag = null;
     private void HandleFootsteps()
     {
         isMoving = controller.velocity.magnitude > 0.2f && isGrounded;
@@ -173,6 +176,25 @@ public class PlayerMovement : MonoBehaviour
         }
 
         wasMovingLastFrame = isMoving;
+
+        string currentGroundTag = GetGroundTag();
+
+        if (currentGroundTag != previousGroundTag)
+        {
+            if (!groundCount.ContainsKey(currentGroundTag))
+            {
+                groundCount[currentGroundTag] = 0;
+            }
+
+            groundCount[currentGroundTag]++;
+            previousGroundTag = currentGroundTag;
+
+            // Log the ground counts in a readable format
+            foreach (var entry in groundCount)
+            {
+                Debug.Log($"{entry.Key}: {entry.Value}");
+            }
+        }
     }
 
     private void PlayFootstepSound()
@@ -209,6 +231,7 @@ public class PlayerMovement : MonoBehaviour
         selectedFootsteps[clipIndex] = temp;
     }
 
+
     public string GetGroundTag()
     {
         RaycastHit hit;
@@ -216,6 +239,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(origin, Vector3.down, out hit, 2f))
         {
             return hit.collider.tag;
+
         }
         return null;
     }

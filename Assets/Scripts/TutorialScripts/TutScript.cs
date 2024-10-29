@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TutScript : MonoBehaviour
 {
-    private bool isLookingAtTutSound = false;
+    
     private AudioSource source;
     public int timer;
     private AudioClip clip;

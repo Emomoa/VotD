@@ -1,5 +1,4 @@
 using System;
-
 using UnityEngine.SceneManagement;
 using UnityEngine;
 public class Door : MonoBehaviour
@@ -47,7 +46,7 @@ public class Door : MonoBehaviour
         if (isOpen && !audioSource.isPlaying)
         {
             audioSource.clip = creak;
-            audioSource.PlayDelayed(Random.Range(1f,4f));
+            audioSource.PlayDelayed(UnityEngine.Random.Range(1f,4f));
         }
     }
 
