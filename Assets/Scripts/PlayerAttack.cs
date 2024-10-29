@@ -8,7 +8,6 @@ public class PlayerAttack : MonoBehaviour
     [Header("Audio")]
     public AudioClip quickTimeEventQue;
     public AudioClip swingTorch;
-    public AudioClip heartbeat;
     public AudioClip[] hitSuccess;
     public AudioSource audioSource;
 
