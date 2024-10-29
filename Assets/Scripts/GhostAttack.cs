@@ -18,6 +18,7 @@ public class GhostAttack : MonoBehaviour
     public AudioClip quickTimeEventQue;
     public AudioClip deflectedSound;
     public AudioClip swingTorchSound;
+    public AudioClip heartbeat;
 
     private GameObject player;
 
@@ -173,6 +174,9 @@ public class GhostAttack : MonoBehaviour
         attackCounter++;
         Debug.Log("Ghost starts attack. Counter: " + attackCounter);
 
+        // Play heartbeat sound on player
+        player.GetComponent<AudioSource>().PlayOneShot(heartbeat);
+        
         // Activate collision
         GetComponent<CapsuleCollider>().enabled = true;
 
