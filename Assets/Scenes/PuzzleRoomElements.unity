@@ -2183,11 +2183,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: nextSceneName
-      value: Labyrint2
+      value: SebbesTuts
       objectReference: {fileID: 0}
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: sceneToLoadName
-      value: Labyrint2
+      value: SebbesTuts
       objectReference: {fileID: 0}
     - target: {fileID: 6740295245259727107, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: m_LocalScale.y
