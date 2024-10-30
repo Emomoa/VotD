@@ -652,7 +652,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &380037434
 MeshRenderer:
@@ -925,6 +925,10 @@ PrefabInstance:
     - target: {fileID: 2170497307171643357, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: m_Name
       value: Ghost
+      objectReference: {fileID: 0}
+    - target: {fileID: 2170497307171643357, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2750504665444060378, guid: c2055edfde7f4e8499993adab87e8503, type: 3}
       propertyPath: canAttack
@@ -2106,7 +2110,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1243898838
 MeshRenderer:
@@ -2182,12 +2186,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1284151429}
+    - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: nextSceneName
-      value: Labyrint2
+      value: SebbesTuts
       objectReference: {fileID: 0}
     - target: {fileID: 1120252954321399841, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: sceneToLoadName
-      value: Labyrint2
+      value: SebbesTuts
       objectReference: {fileID: 0}
     - target: {fileID: 6740295245259727107, guid: e508fea33a24d564ea794cd78449444d, type: 3}
       propertyPath: m_LocalScale.y
@@ -2535,7 +2543,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1413792416
 MeshRenderer:
@@ -3095,7 +3103,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1835783114
 MeshRenderer:
