@@ -524,11 +524,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc003827be3d714caaf16aa3319f947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickTimeEventQue: {fileID: 8300000, guid: 2b7cd6869dbd70c4eb103aa873409c18, type: 3}
-  deflectedSound: {fileID: 8300000, guid: aaead0768f851ef458d039d846cac8b5, type: 3}
+  quickTimeEventQue: {fileID: 8300000, guid: 2da4e06bcdf6ac94f9692513e6b63e33, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
   audioSource: {fileID: 3484382652727263501}
-  deflectWindowTime: 1.5
+  DeathSound: {fileID: 8300000, guid: 5f26a2481593f5c4383b8a0c882c445a, type: 3}
+  MissedAttackSound: {fileID: 8300000, guid: ddfe85de5c9f4e748ae4f485ad578a8f, type: 3}
+  TimeToDeflect: 1
+  boxHalfExtent: 0.5
+  rayDistance: 3
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  cooldownDuration: 2
 --- !u!54 &6962288357658172737
 Rigidbody:
   m_ObjectHideFlags: 0

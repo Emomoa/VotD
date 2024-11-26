@@ -7,13 +7,11 @@ using UnityEngine;
 public class GhostAttack : MonoBehaviour
 {
     [Header("Audio")]
-    public AudioSource heartbeatAudioSource;
     public AudioSource audioSource;
     public AudioClip runningSound;
     public AudioClip initializeAttack;
-    public AudioClip quickTimeEventQue;
+    public AudioClip KillPlayerSound;
     public AudioClip deflectedSound;
-    public AudioClip swingTorchSound;
 
     private GameObject player;
     
@@ -31,9 +29,9 @@ public class GhostAttack : MonoBehaviour
     [SerializeField] private float attackInterval = 5f;
     public bool canAttack = true;
 
-    private bool shouldQTE = false;
     private bool shouldRunTowardPlayer = false;
     
+    public bool hasReachedPlayer = false;
 
 
     // For testing
@@ -98,26 +96,18 @@ public class GhostAttack : MonoBehaviour
                         audioSource.PlayOneShot(runningSound);
                     }
 
-                    if (!heartbeatAudioSource.isPlaying)
-                    {
-                        heartbeatAudioSource.Play();
-                        //audioSource.PlayOneShot(runningSound);
-                    }
                 }
                 else
                 {
+                    hasReachedPlayer = true;
                     // Has reached the player
-                    heartbeatAudioSource.Stop();
                     audioSource.Stop();
                     audioSource.loop = false;
                     shouldRunTowardPlayer = false;
 
                     // QTE sound
                     audioSource.Stop();
-                    audioSource.PlayOneShot(quickTimeEventQue);
-
-                    // Handle QTE
-                    shouldQTE = true;
+                    //audioSource.PlayOneShot(KillPlayerSound);
 
                 }
             }
@@ -220,26 +210,6 @@ public class GhostAttack : MonoBehaviour
         }
     }
 
-    void TeleportToBehind(bool playSound)
-    {
-        if (player != null)
-        {
-            Vector3 playerPosition = player.transform.position;
-            Vector3 newPosition = playerPosition - player.transform.forward * offset;
-            transform.position = newPosition;
-
-            if (playSound)
-            {
-                // Handle sound
-                PlayShortRunSound();
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Player is null");
-        }
-    }
-
     void PlayShortRunSound()
     {
         audioSource.clip = initializeAttack;
@@ -253,19 +223,12 @@ public class GhostAttack : MonoBehaviour
         timer = 0f;
         attackInterval = Random.Range(20, 31);
     }
-    /*
-    void EndDeflectWindow()
-    {
-        isDeflecting = false;       // End the deflect window
-        deflectWindowTimer = 0f;    // Reset the timer
-        shouldQTE = false;          // End QTE.
-    }*/
 
     // Helpmethod
     void RandomlySelectWhereToTeleport(bool playSound)
     {
         //CancelInvoke();
-        int randomChoice = Random.Range(0, 4);
+        int randomChoice = Random.Range(0, 3);
         switch (randomChoice)
         {
             case 0:
@@ -277,19 +240,6 @@ public class GhostAttack : MonoBehaviour
             case 2:
                 TeleportToFront(playSound);
                 break;
-            case 3:
-                TeleportToBehind(playSound);
-                break;
         }
-    }
-
-    public bool GetShouldQTE()
-    {
-        return shouldQTE;
-    }
-
-    public void SetShouldQTE(bool value)
-    {
-        shouldQTE = value;
     }
 }

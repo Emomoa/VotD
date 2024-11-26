@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
-        HandleMouseLook();
+        //HandleMouseLook();
         HandleRaycasting();
         HandleTorch();
 

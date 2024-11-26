@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -9,91 +10,155 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip quickTimeEventQue;
     public AudioClip swingTorchSound;
     public AudioSource audioSource;
-    private AudioClip ghostDeflectedSound;
+    public AudioClip DeathSound;
+    public AudioClip MissedAttackSound;
 
     [Header("Variables")]
-    [SerializeField] private float deflectWindowTime = 10f;
+    [SerializeField] private float TimeToDeflect = 2f;
     private float deflectWindowTimer = 0f;
 
-    private PlayerMovement playerMovement;
+    [Header("Raycasting")]
+    public float boxHalfExtent = 0.5f;  // Half the size of the box in each dimension
+    public float rayDistance = 10f;
+    public LayerMask layerMask;
+
     private Torch torch;
     private GhostAttack ghost;
 
     private bool isDeflecting = false;
     private bool isLookingAtGhost = false;
+    private bool canAttack = true;
+
+    [SerializeField] private float cooldownDuration = 2f;
+    private float cooldownTime = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
         torch = GetComponent<Torch>();
         ghost = FindObjectOfType<GhostAttack>();
-        ghostDeflectedSound = ghost.deflectedSound;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Check if player is looking at ghost.
-        RaycastHit hit = playerMovement.GetRaycasting();
-        if(hit.collider != null)
-        {
-            if (hit.collider.name == "Ghost")
-            {
-                isLookingAtGhost = true;
-                Debug.Log(isLookingAtGhost);
-            }
-            else
-            {
-                isLookingAtGhost = false;
-            }
-        }
+        HandleInput();
 
         // check if ghost should activate QTE.
         if (ghost != null)
         {
-            if (ghost.GetShouldQTE())
-            {
-                isDeflecting = true;
-                HandleQTE();
-            }
+            HandleQTE();
         }
     }
 
-    void HandleQTE()
+    void Attack()
     {
+        canAttack = false;
+        cooldownTime = cooldownDuration;
+        audioSource.PlayOneShot(swingTorchSound);
+    }
+    async void HandleRaycast(Vector3 rayDirection)
+    {
+        // Perform the raycast
+        if (Physics.BoxCast(transform.position, new Vector3(boxHalfExtent, boxHalfExtent, boxHalfExtent),
+                                rayDirection, out RaycastHit hit, transform.rotation, rayDistance, layerMask))
+        {
+            isLookingAtGhost = true;
+            Debug.Log("Box hit object: " + hit.collider.name);
+        }
+        else
+        {
+            // Log if the raycast hit nothing
+            Debug.Log("No hit detected.");
+            await Task.Delay(500);
+            audioSource.PlayOneShot(MissedAttackSound);
+        }
+        Debug.DrawRay(transform.position, rayDirection * rayDistance, Color.green, 1f);
+    }
+
+    void HandleInput()
+    {
+        // Handle timer stuff
+        if (cooldownTime > 0)
+        {
+            cooldownTime -= Time.deltaTime;
+            //Debug.Log(cooldownTime);
+        }
+
+        if(cooldownTime <= 0f)
+        {
+            canAttack = true;
+        }
+
+        // Can player attack?
+        if (canAttack)
+        {
+            // Hit infront of player
+            if (Input.GetKey(KeyCode.Keypad8))
+            {
+                // spela ljud samt aktivera cooldown.
+                Attack();
+                // Raycast to the left of player
+                HandleRaycast(transform.forward);
+               
+            }
+
+            // Hit to the left of player
+            if (Input.GetKey(KeyCode.Keypad4))
+            {
+                // spela ljud samt aktivera cooldown.
+                Attack();
+                HandleRaycast(-transform.right);
+
+            }
+
+            // Hit to the right of player
+            if (Input.GetKey(KeyCode.Keypad6))
+            {
+                // spela ljud samt aktivera cooldown.
+                Attack();
+                HandleRaycast(transform.right);
+
+            }
+
+        }
+        
+    }
+    async void HandleQTE()
+    {
+        if (ghost.hasReachedPlayer)
+        {
+            isDeflecting = true;
+            audioSource.PlayOneShot(quickTimeEventQue);
+            deflectWindowTimer = TimeToDeflect;
+            ghost.hasReachedPlayer = false;
+        }
+
         if (isDeflecting)
         {
-            deflectWindowTimer += Time.deltaTime;
-
-            //Debug.LogWarning("WINDOW TIMER: " + deflectWindowTimer);
-            //await Task.Delay(250);
+            deflectWindowTimer -= Time.deltaTime;
 
             // Player deflected
-            if (torch.GetIsLit() && isLookingAtGhost && Input.GetKeyDown(KeyCode.Space))
+            if (torch.GetIsLit() && isLookingAtGhost && deflectWindowTimer > 0)
             {
                 Debug.Log("Deflected ghost!");
-                //torch.ToggleIsLit(false);
-                audioSource.Stop();
-                audioSource.PlayOneShot(swingTorchSound);
+                Debug.Log(deflectWindowTimer);
 
                 // Play ghost scream sound
                 ghost.audioSource.Stop();
-                ghost.heartbeatAudioSource.Stop();
-                audioSource.PlayOneShot(ghostDeflectedSound);
+                audioSource.PlayOneShot(ghost.deflectedSound);
                 EndDeflectWindow();
-                //torch.ToggleIsLit(true);
                 ghost.ResetAttack();
 
             }
-            else if (deflectWindowTimer >= deflectWindowTime)
+            if (deflectWindowTimer <= 0)
             {
-                // Time is up, end the deflect window
-                Debug.Log("Deflect window expired!");
                 EndDeflectWindow();
-                ghost.ResetAttack();
-                playerMovement.Die();
+                isDeflecting = false;
+                // Wait before playing death sound
+                await Task.Delay(1000);
+                audioSource.PlayOneShot(DeathSound);
             }
         }
     }
@@ -102,8 +167,11 @@ public class PlayerAttack : MonoBehaviour
     {
         isDeflecting = false;               // End the deflect window
         deflectWindowTimer = 0f;            // Reset the timer
-        ghost.SetShouldQTE(false);          // End QTE.
+        audioSource.PlayOneShot(ghost.KillPlayerSound);
         ghost.GetComponent<CapsuleCollider>().enabled = false;
+        ghost.ResetAttack();
+        
+        
     }
 
 }

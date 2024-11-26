@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 854662823720779614}
   - component: {fileID: 1631783826678150392}
   - component: {fileID: 4805306703707604728}
-  - component: {fileID: 4440798938901046592}
   - component: {fileID: 2968552715016372509}
   - component: {fileID: 2750504665444060378}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,102 +110,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!82 &4440798938901046592
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2170497307171643357}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 62dff81efa3e3c74c890e40aa69db00b, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 42db0d23c3722c54fbf3dab1a7550170, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.7
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 0
-  DopplerLevel: 0
-  MinDistance: 0.5
-  MaxDistance: 50
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!82 &2968552715016372509
 AudioSource:
   m_ObjectHideFlags: 0
@@ -315,11 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68f29b127d9d846b42eeb9b1df448c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartbeatAudioSource: {fileID: 4440798938901046592}
   audioSource: {fileID: 2968552715016372509}
   runningSound: {fileID: 8300000, guid: 16580a43972cdde43af00d96bd7d92a7, type: 3}
   initializeAttack: {fileID: 8300000, guid: 37febc802c2b58a4b83edc3d10722892, type: 3}
-  quickTimeEventQue: {fileID: 8300000, guid: b3fdc1fb7e8a61e459c7a53dcd154184, type: 3}
+  KillPlayerSound: {fileID: 8300000, guid: b3fdc1fb7e8a61e459c7a53dcd154184, type: 3}
   deflectedSound: {fileID: 8300000, guid: 18d86ed5b0a8e0c45a294bf8e2d1e8d2, type: 3}
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
   speed: 2
@@ -327,6 +229,7 @@ MonoBehaviour:
   offset: 15
   attackInterval: 15
   canAttack: 1
+  hasReachedPlayer: 0
 --- !u!1001 &7102145887165004769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,6 +241,10 @@ PrefabInstance:
     - target: {fileID: 522483995765561197, guid: ed023a525d7e4fd4eb4400cbe3a7477f, type: 3}
       propertyPath: m_Name
       value: Ghost_3D-Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 522483995765561197, guid: ed023a525d7e4fd4eb4400cbe3a7477f, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 868047669335854551, guid: ed023a525d7e4fd4eb4400cbe3a7477f, type: 3}
       propertyPath: m_LocalScale.x
