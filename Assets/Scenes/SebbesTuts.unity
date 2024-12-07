@@ -870,6 +870,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: StarterModule1
       objectReference: {fileID: 0}
+    - target: {fileID: 5892517995839361887, guid: 63518e6bb4e48dd4291826d297575119, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
+    - target: {fileID: 5892517995839361887, guid: 63518e6bb4e48dd4291826d297575119, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6179541180455454539, guid: 63518e6bb4e48dd4291826d297575119, type: 3}
       propertyPath: m_LocalScale.x
       value: 23.2036
@@ -918,6 +926,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7922843860743231134, guid: 63518e6bb4e48dd4291826d297575119, type: 3}
+      propertyPath: LeftSourceBool
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -931,6 +943,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 822882566331033776, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
+    - target: {fileID: 1999673575745529528, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
+    - target: {fileID: 2708012611332271216, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: RightSourceBool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4915903138579655662, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
+    - target: {fileID: 4916929678450150735, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
     - target: {fileID: 6467416339474647396, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
       propertyPath: m_LocalPosition.x
       value: -31.26731
@@ -971,9 +1003,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7654324664928259411, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
     - target: {fileID: 8049940678851399313, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
       propertyPath: m_Name
       value: StarterModule2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649589814221260942, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: LeftSourceBool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649589814221260942, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: StraightSourceBool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650639444906520111, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: BackSourceBool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650639444906520111, guid: 488b0046c1ea3994d907104a57a41bfe, type: 3}
+      propertyPath: LeftSourceBool
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1865,12 +1917,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4586145626959390506, guid: a318620cb8313d940bd4c0fad3ef6a4b, type: 3}
       propertyPath: BackSourceBool
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4586145626959390506, guid: a318620cb8313d940bd4c0fad3ef6a4b, type: 3}
       propertyPath: RightSourceBool
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5531276648773018037, guid: a318620cb8313d940bd4c0fad3ef6a4b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
+    - target: {fileID: 8072728183974364681, guid: a318620cb8313d940bd4c0fad3ef6a4b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0474152bd10f0154eadb0d22bdf19c56, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

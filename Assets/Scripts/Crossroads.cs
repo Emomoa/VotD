@@ -121,28 +121,28 @@ public class Crossroads : MonoBehaviour
                 RightSource.Play();
             }
 
-            yield return new WaitForSeconds(1.2f); // Wait for 1 second
+            yield return new WaitForSeconds(1.5f); // Wait for 1 second
 
             if (StraightSource != null)
             {
                 StraightSource.Play();
             }
 
-            yield return new WaitForSeconds(1f); // Wait for 1 second
+            yield return new WaitForSeconds(1.5f); // Wait for 1 second
 
             if (LeftSource != null)
             {
                 LeftSource.Play();
             }
 
-            yield return new WaitForSeconds(1f); // Wait for 1 second
+            yield return new WaitForSeconds(1.5f); // Wait for 1 second
 
             if (BackSource != null)
             {
                 BackSource.Play();
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.5f);
 
         }
     }
