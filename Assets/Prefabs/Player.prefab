@@ -511,6 +511,7 @@ MonoBehaviour:
   lightTorchSound: {fileID: 8300000, guid: 20b8ae3d7c53a414993b34bed3c53cdd, type: 3}
   putOutTorchSound: {fileID: 8300000, guid: e186d3e07d2d9f849a9cbbea5bfb7d4d, type: 3}
   hitSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
+  OhNoSound: {fileID: 8300000, guid: d269d5eea5e81c748903b63ca2a26dfd, type: 3}
   audioSource: {fileID: 3499944618624240050}
 --- !u!114 &641638974193264876
 MonoBehaviour:
@@ -528,8 +529,10 @@ MonoBehaviour:
   swingTorchSound: {fileID: 8300000, guid: 0e335330ea0503548b139d9bd5db5230, type: 3}
   audioSource: {fileID: 3484382652727263501}
   DeathSound: {fileID: 8300000, guid: 5f26a2481593f5c4383b8a0c882c445a, type: 3}
-  MissedAttackSound: {fileID: 8300000, guid: ddfe85de5c9f4e748ae4f485ad578a8f, type: 3}
+  MissedAttackSound: {fileID: 8300000, guid: 2e2e037de7cccd64daf8ae2efd8b25eb, type: 3}
+  ghostGone: {fileID: 8300000, guid: d5dc93523cddb2b48850befce3a61322, type: 3}
   TimeToDeflect: 1
+  playerMovement: {fileID: 1861037898080914417}
   boxHalfExtent: 0.5
   rayDistance: 3
   layerMask:

@@ -64,13 +64,17 @@ public class GhostAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.E)){
+            StartAttack();
+            canAttack = false;
+        }
         timer += Time.deltaTime;
-
+        /*
         if (canAttack && timer > attackInterval)
         {
             StartAttack();
             canAttack = false;
-        }
+        }*/
 
 
         // Runs toward player

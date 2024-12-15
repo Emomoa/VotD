@@ -12,10 +12,12 @@ public class PlayerAttack : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip DeathSound;
     public AudioClip MissedAttackSound;
+    public AudioClip ghostGone;
 
     [Header("Variables")]
     [SerializeField] private float TimeToDeflect = 2f;
     private float deflectWindowTimer = 0f;
+    public PlayerMovement playerMovement;
 
     [Header("Raycasting")]
     public float boxHalfExtent = 0.5f;  // Half the size of the box in each dimension
@@ -71,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
         {
             // Log if the raycast hit nothing
             Debug.Log("No hit detected.");
-            await Task.Delay(500);
+            await Task.Delay(250);
             audioSource.PlayOneShot(MissedAttackSound);
         }
         Debug.DrawRay(transform.position, rayDirection * rayDistance, Color.green, 1f);
@@ -150,15 +152,20 @@ public class PlayerAttack : MonoBehaviour
                 audioSource.PlayOneShot(ghost.deflectedSound);
                 EndDeflectWindow();
                 ghost.ResetAttack();
+                await Task.Delay(1000);
+                audioSource.PlayOneShot(ghostGone);
+
 
             }
             if (deflectWindowTimer <= 0)
             {
-                EndDeflectWindow();
+                //EndDeflectWindow();
                 isDeflecting = false;
+                audioSource.PlayOneShot(ghost.KillPlayerSound);
                 // Wait before playing death sound
                 await Task.Delay(1000);
                 audioSource.PlayOneShot(DeathSound);
+                playerMovement.Die();
             }
         }
     }
@@ -166,10 +173,11 @@ public class PlayerAttack : MonoBehaviour
     void EndDeflectWindow()
     {
         isDeflecting = false;               // End the deflect window
-        deflectWindowTimer = 0f;            // Reset the timer
-        audioSource.PlayOneShot(ghost.KillPlayerSound);
+        deflectWindowTimer = TimeToDeflect;            // Reset the timer
+        
         ghost.GetComponent<CapsuleCollider>().enabled = false;
         ghost.ResetAttack();
+        isLookingAtGhost = false;
         
         
     }

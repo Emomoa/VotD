@@ -6,6 +6,7 @@ public class RespawnManager : MonoBehaviour
     public Transform respawnPoint;
     public GameObject player;
     public float respawnDelay = 0.5f;
+    public AudioClip Respawned;
 
     private PlayerMovement playerMovement;
     private CharacterController characterController;
@@ -68,5 +69,6 @@ public class RespawnManager : MonoBehaviour
 
         // Eventuellt återställa hälsa eller andra statusvärden
         Debug.Log("Spelaren har respawnat.");
+        player.GetComponent<AudioSource>().PlayOneShot(Respawned);
     }
 }

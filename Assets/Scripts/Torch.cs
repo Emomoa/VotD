@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Torch : MonoBehaviour
@@ -11,6 +12,7 @@ public class Torch : MonoBehaviour
     [SerializeField] AudioClip lightTorchSound;
     [SerializeField] AudioClip putOutTorchSound;
     [SerializeField] AudioClip hitSound;
+    public AudioClip OhNoSound;
 
     [SerializeField] AudioSource audioSource;
 
@@ -59,11 +61,13 @@ public class Torch : MonoBehaviour
         return isLit;
     }
 
-    public void ToggleIsLit(bool state) {
+    async public void ToggleIsLit(bool state) {
         isLit = state;
         if(!isLit){
             audioSource.Stop();
             audioSource.PlayOneShot(putOutTorchSound);
+            await Task.Delay(100);
+            audioSource.PlayOneShot(OhNoSound);
         }
         
         if(isLit) {

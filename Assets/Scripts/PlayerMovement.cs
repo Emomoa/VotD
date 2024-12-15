@@ -248,5 +248,6 @@ public class PlayerMovement : MonoBehaviour
         OnPlayerDeath?.Invoke(); // Skicka ut ett event om att spelaren har dött
         isDead = true;
         // Implementera återupplivningslogik här
+
     }
 }
